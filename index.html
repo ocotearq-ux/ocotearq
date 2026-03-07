@@ -10,7 +10,6 @@
       --verde:        #5B9768;
       --verde-oscuro: #4a7f56;
       --verde-claro:  #e8f2ea;
-      --verde-sutil:  #f2f8f4;
       --negro:        #111110;
       --gris-900:     #1a1a18;
       --gris-700:     #4a4a47;
@@ -23,850 +22,175 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--blanco); color: var(--gris-900); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-    body {
-      font-family: var(--font-body);
-      background: var(--blanco);
-      color: var(--gris-900);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
 
-    /* ══════════════════════════════════════
-       UTILIDADES
-    ══════════════════════════════════════ */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
+    .tag { display: inline-block; font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--verde); margin-bottom: 16px; }
 
-    .tag {
-      display: inline-block;
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--verde);
-      margin-bottom: 16px;
-    }
-
-    /* ══════════════════════════════════════
-       BOTÓN FLOTANTE COTIZAR
-    ══════════════════════════════════════ */
-    .btn-flotante {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--verde);
-      color: white;
-      padding: 14px 24px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      box-shadow: 0 4px 20px rgba(91,151,104,0.4);
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    }
-    .btn-flotante:hover {
-      background: var(--verde-oscuro);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(91,151,104,0.5);
-    }
-
-    nav a {
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: var(--gris-700);
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
-    }
-
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gris-300); }
+    .logo { font-family: var(--font-titulo); font-size: 16px; color: var(--negro); text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { display: inline-block; width: 8px; height: 8px; background: var(--verde); margin-left: 6px; vertical-align: middle; margin-bottom: 2px; }
+    nav { display: flex; gap: 32px; align-items: center; }
+    nav a { font-family: var(--font-body); font-size: 13px; color: var(--gris-700); text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s; }
     nav a:hover { color: var(--verde); }
 
+    /* BOTÓN FLOTANTE WHATSAPP */
+    .btn-flotante { position: fixed; bottom: 28px; right: 28px; z-index: 200; display: flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 14px 24px; border-radius: 100px; font-family: var(--font-body); font-size: 14px; font-weight: 500; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
+    .btn-flotante:hover { background: #1ebe5a; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.5); }
 
-
-    /* ══════════════════════════════════════
-       HERO
-    ══════════════════════════════════════ */
-    #inicio {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-      width: 100%;
-    }
-
+    /* HERO */
+    #inicio { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; width: 100%; }
     .hero-left { position: relative; }
-
-    .hero-numero {
-      font-family: var(--font-titulo);
-      font-size: clamp(120px, 20vw, 220px);
-      color: var(--verde-claro);
-      line-height: 1;
-      position: absolute;
-      top: -40px;
-      left: -20px;
-      z-index: 0;
-      user-select: none;
-      letter-spacing: -8px;
-    }
-
+    .hero-numero { font-family: var(--font-titulo); font-size: clamp(120px, 20vw, 220px); color: var(--verde-claro); line-height: 1; position: absolute; top: -40px; left: -20px; z-index: 0; user-select: none; letter-spacing: -8px; }
     .hero-content { position: relative; z-index: 1; }
-
-    .hero-content h1 {
-      font-family: var(--font-titulo);
-      font-size: clamp(36px, 5vw, 58px);
-      font-weight: 400;
-      line-height: 1.1;
-      color: var(--negro);
-      margin-bottom: 24px;
-      letter-spacing: -1.5px;
-    }
-
-    .hero-content h1 em {
-      font-style: normal;
-      color: var(--verde);
-    }
-
-    .hero-content p {
-      font-size: 15px;
-      color: var(--gris-700);
-      line-height: 1.75;
-      max-width: 420px;
-      margin-bottom: 36px;
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-wa {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #25D366;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-wa:hover { background: #1ebe5a; transform: translateY(-1px); }
-
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1.5px solid var(--gris-300);
-      color: var(--gris-700);
-      padding: 12px 24px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s, transform 0.15s;
-    }
+    .hero-content h1 { font-family: var(--font-titulo); font-size: clamp(36px, 5vw, 58px); font-weight: 400; line-height: 1.1; color: var(--negro); margin-bottom: 24px; letter-spacing: -1.5px; }
+    .hero-content h1 em { font-style: normal; color: var(--verde); }
+    .hero-content p { font-size: 15px; color: var(--gris-700); line-height: 1.75; max-width: 420px; margin-bottom: 36px; }
+    .hero-btns { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .btn-outline { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--gris-300); color: var(--gris-700); padding: 12px 24px; border-radius: 100px; font-family: var(--font-body); font-size: 14px; font-weight: 500; text-decoration: none; transition: border-color 0.2s, color 0.2s, transform 0.15s; }
     .btn-outline:hover { border-color: var(--verde); color: var(--verde); transform: translateY(-1px); }
-
-    .hero-right {
-      position: relative;
-    }
-
-    .hero-imagen {
-      width: 100%;
-      aspect-ratio: 4/5;
-      background: var(--verde-claro);
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-imagen img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .hero-imagen-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: var(--verde);
-    }
-
+    .hero-right { position: relative; }
+    .hero-imagen { width: 100%; aspect-ratio: 4/5; background: var(--verde-claro); border-radius: 4px; overflow: hidden; }
+    .hero-imagen-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--verde); }
     .hero-imagen-placeholder svg { opacity: 0.4; }
-    .hero-imagen-placeholder span {
-      font-size: 11px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      opacity: 0.5;
-      font-family: var(--font-body);
-    }
+    .hero-imagen-placeholder span { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.5; font-family: var(--font-body); }
+    .hero-badge { position: absolute; bottom: -20px; left: -20px; background: var(--negro); color: white; padding: 16px 20px; border-radius: 4px; }
+    .hero-badge .num { font-family: var(--font-titulo); font-size: 28px; color: var(--verde); display: block; line-height: 1; }
+    .hero-badge .txt { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px; margin-top: 4px; }
 
-    .hero-badge {
-      position: absolute;
-      bottom: -20px;
-      left: -20px;
-      background: var(--negro);
-      color: white;
-      padding: 16px 20px;
-      border-radius: 4px;
-    }
+    .divisor { height: 1px; background: var(--gris-300); margin: 0 32px; }
 
-    .hero-badge .num {
-      font-family: var(--font-titulo);
-      font-size: 28px;
-      color: var(--verde);
-      display: block;
-      line-height: 1;
-    }
+    /* NOSOTROS */
+    #nosotros { padding: 120px 0; }
+    .nosotros-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+    .nosotros-left h2 { font-family: var(--font-titulo); font-size: clamp(28px, 4vw, 42px); font-weight: 400; line-height: 1.2; letter-spacing: -1px; color: var(--negro); margin-bottom: 32px; }
+    .nosotros-left h2 em { font-style: normal; color: var(--verde); }
+    .nosotros-valores { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
+    .valor { display: flex; gap: 14px; align-items: flex-start; }
+    .valor-icono { width: 36px; height: 36px; background: var(--verde-claro); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-titulo); font-size: 14px; color: var(--verde); }
+    .valor-texto strong { display: block; font-size: 13px; font-weight: 600; color: var(--negro); margin-bottom: 2px; }
+    .valor-texto span { font-size: 13px; color: var(--gris-500); line-height: 1.5; }
+    .nosotros-right p { font-size: 15px; color: var(--gris-700); line-height: 1.85; margin-bottom: 20px; }
+    .nosotros-right p:first-child { font-size: 18px; color: var(--negro); line-height: 1.7; }
+    .nosotros-right blockquote { border-left: 3px solid var(--verde); padding-left: 20px; margin: 32px 0; font-family: var(--font-titulo); font-size: 16px; color: var(--negro); line-height: 1.6; letter-spacing: -0.3px; }
 
-    .hero-badge .txt {
-      font-size: 11px;
-      color: rgba(255,255,255,0.6);
-      letter-spacing: 0.5px;
-      margin-top: 4px;
-    }
-
-    /* ══════════════════════════════════════
-       DIVISOR
-    ══════════════════════════════════════ */
-    .divisor {
-      height: 1px;
-      background: var(--gris-300);
-      margin: 0 32px;
-    }
-
-    /* ══════════════════════════════════════
-       NOSOTROS
-    ══════════════════════════════════════ */
-    #nosotros {
-      padding: 120px 0;
-    }
-
-    .nosotros-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .nosotros-left h2 {
-      font-family: var(--font-titulo);
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 400;
-      line-height: 1.2;
-      letter-spacing: -1px;
-      color: var(--negro);
-      margin-bottom: 32px;
-    }
-
-    .nosotros-left h2 em {
-      font-style: normal;
-      color: var(--verde);
-    }
-
-    .nosotros-valores {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-top: 40px;
-    }
-
-    .valor {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-
-    .valor-icono {
-      width: 36px;
-      height: 36px;
-      background: var(--verde-claro);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-family: var(--font-titulo);
-      font-size: 14px;
-      color: var(--verde);
-    }
-
-    .valor-texto strong {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--negro);
-      margin-bottom: 2px;
-    }
-
-    .valor-texto span {
-      font-size: 13px;
-      color: var(--gris-500);
-      line-height: 1.5;
-    }
-
-    .nosotros-right p {
-      font-size: 15px;
-      color: var(--gris-700);
-      line-height: 1.85;
-      margin-bottom: 20px;
-    }
-
-    .nosotros-right p:first-child {
-      font-size: 18px;
-      color: var(--negro);
-      line-height: 1.7;
-      font-weight: 400;
-    }
-
-    .nosotros-right blockquote {
-      border-left: 3px solid var(--verde);
-      padding-left: 20px;
-      margin: 32px 0;
-      font-family: var(--font-titulo);
-      font-size: 16px;
-      color: var(--negro);
-      line-height: 1.6;
-      letter-spacing: -0.3px;
-    }
-
-    /* ══════════════════════════════════════
-       PROYECTOS
-    ══════════════════════════════════════ */
-    #proyectos {
-      padding: 120px 0;
-      background: var(--gris-100);
-    }
-
-    .proyectos-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 56px;
-    }
-
-    .proyectos-header h2 {
-      font-family: var(--font-titulo);
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 400;
-      letter-spacing: -1px;
-      color: var(--negro);
-    }
-
-    .proyectos-header p {
-      font-size: 13px;
-      color: var(--gris-500);
-      max-width: 280px;
-      text-align: right;
-      line-height: 1.6;
-    }
-
-    .proyectos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .proyecto-card {
-      background: var(--blanco);
-      border-radius: 4px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid var(--gris-300);
-    }
-
-    .proyecto-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    }
-
-    .proyecto-imagen {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: var(--verde-claro);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .proyecto-imagen img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .proyecto-card:hover .proyecto-imagen img {
-      transform: scale(1.05);
-    }
-
-    .proyecto-imagen-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--verde);
-      opacity: 0.4;
-    }
-
-    .proyecto-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex;
-      align-items: flex-end;
-      padding: 20px;
-    }
-
+    /* PROYECTOS */
+    #proyectos { padding: 120px 0; background: var(--gris-100); }
+    .proyectos-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; }
+    .proyectos-header h2 { font-family: var(--font-titulo); font-size: clamp(28px, 4vw, 42px); font-weight: 400; letter-spacing: -1px; color: var(--negro); }
+    .proyectos-header p { font-size: 13px; color: var(--gris-500); max-width: 280px; text-align: right; line-height: 1.6; }
+    .proyectos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .proyecto-card { background: var(--blanco); border-radius: 4px; overflow: hidden; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--gris-300); }
+    .proyecto-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+    .proyecto-imagen { width: 100%; aspect-ratio: 4/3; background: var(--verde-claro); position: relative; overflow: hidden; }
+    .proyecto-imagen-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--verde); opacity: 0.4; }
+    .proyecto-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 20px; }
     .proyecto-card:hover .proyecto-overlay { opacity: 1; }
+    .proyecto-overlay span { color: white; font-size: 12px; font-family: var(--font-body); letter-spacing: 0.5px; }
+    .proyecto-info { padding: 20px; }
+    .proyecto-tipo { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--verde); font-weight: 500; margin-bottom: 6px; }
+    .proyecto-nombre { font-family: var(--font-titulo); font-size: 16px; color: var(--negro); margin-bottom: 8px; letter-spacing: -0.3px; }
+    .proyecto-desc { font-size: 13px; color: var(--gris-500); line-height: 1.6; }
+    .proyecto-meta { display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gris-300); }
+    .proyecto-meta span { font-size: 11px; color: var(--gris-500); }
 
-    .proyecto-overlay span {
-      color: white;
-      font-size: 12px;
-      font-family: var(--font-body);
-      letter-spacing: 0.5px;
-    }
-
-    .proyecto-info {
-      padding: 20px;
-    }
-
-    .proyecto-tipo {
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--verde);
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-
-    .proyecto-nombre {
-      font-family: var(--font-titulo);
-      font-size: 16px;
-      color: var(--negro);
-      margin-bottom: 8px;
-      letter-spacing: -0.3px;
-    }
-
-    .proyecto-desc {
-      font-size: 13px;
-      color: var(--gris-500);
-      line-height: 1.6;
-    }
-
-    .proyecto-meta {
-      display: flex;
-      gap: 16px;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--gris-300);
-    }
-
-    .proyecto-meta span {
-      font-size: 11px;
-      color: var(--gris-500);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* ── Modal de proyecto ── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-overlay.abierto {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal {
-      background: var(--blanco);
-      border-radius: 8px;
-      max-width: 760px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      transform: translateY(20px);
-      transition: transform 0.3s;
-    }
-
-    .modal-overlay.abierto .modal {
-      transform: translateY(0);
-    }
-
-    .modal-imagen {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--verde-claro);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--verde);
-      opacity: 0.5;
-    }
-
-    .modal-body {
-      padding: 32px;
-    }
-
-    .modal-tipo {
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--verde);
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-
-    .modal-titulo {
-      font-family: var(--font-titulo);
-      font-size: 28px;
-      font-weight: 400;
-      color: var(--negro);
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
-    }
-
-    .modal-desc {
-      font-size: 15px;
-      color: var(--gris-700);
-      line-height: 1.8;
-      margin-bottom: 24px;
-    }
-
-    .modal-detalles {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      padding: 20px;
-      background: var(--gris-100);
-      border-radius: 4px;
-      margin-bottom: 24px;
-    }
-
-    .modal-detalle strong {
-      display: block;
-      font-size: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gris-500);
-      margin-bottom: 4px;
-    }
-
-    .modal-detalle span {
-      font-family: var(--font-titulo);
-      font-size: 14px;
-      color: var(--negro);
-    }
-
-    .modal-cerrar {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 36px;
-      height: 36px;
-      background: white;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: var(--gris-700);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      transition: background 0.2s;
-    }
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); }
+    .modal-overlay.abierto { opacity: 1; pointer-events: all; }
+    .modal { background: var(--blanco); border-radius: 8px; max-width: 760px; width: 100%; max-height: 90vh; overflow-y: auto; transform: translateY(20px); transition: transform 0.3s; }
+    .modal-overlay.abierto .modal { transform: translateY(0); }
+    .modal-imagen { width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; color: var(--verde); opacity: 0.5; }
+    .modal-body { padding: 32px; }
+    .modal-tipo { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--verde); font-weight: 500; margin-bottom: 10px; }
+    .modal-titulo { font-family: var(--font-titulo); font-size: 28px; font-weight: 400; color: var(--negro); margin-bottom: 16px; letter-spacing: -0.5px; }
+    .modal-desc { font-size: 15px; color: var(--gris-700); line-height: 1.8; margin-bottom: 24px; }
+    .modal-detalles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; background: var(--gris-100); border-radius: 4px; margin-bottom: 24px; }
+    .modal-detalle strong { display: block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--gris-500); margin-bottom: 4px; }
+    .modal-detalle span { font-family: var(--font-titulo); font-size: 14px; color: var(--negro); }
+    .modal-cerrar { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; background: white; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--gris-700); box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: background 0.2s; }
     .modal-cerrar:hover { background: var(--gris-100); }
-
     .modal-wrapper { position: relative; }
 
-    /* ══════════════════════════════════════
-       CONTACTO
-    ══════════════════════════════════════ */
-    #contacto {
-      padding: 120px 0;
-    }
-
-    .contacto-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .contacto-left h2 {
-      font-family: var(--font-titulo);
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 400;
-      letter-spacing: -1px;
-      color: var(--negro);
-      margin-bottom: 16px;
-    }
-
-    .contacto-left p {
-      font-size: 15px;
-      color: var(--gris-500);
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-
-    .contacto-items {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .contacto-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .contacto-icono {
-      width: 40px;
-      height: 40px;
-      background: var(--verde-claro);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--verde);
-    }
-
-    .contacto-dato strong {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--negro);
-      margin-bottom: 2px;
-      letter-spacing: 0.3px;
-    }
-
-    .contacto-dato a,
-    .contacto-dato span {
-      font-size: 14px;
-      color: var(--gris-700);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    /* CONTACTO */
+    #contacto { padding: 120px 0; }
+    .contacto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contacto-left h2 { font-family: var(--font-titulo); font-size: clamp(28px, 4vw, 42px); font-weight: 400; letter-spacing: -1px; color: var(--negro); margin-bottom: 16px; }
+    .contacto-left p { font-size: 15px; color: var(--gris-500); line-height: 1.7; margin-bottom: 40px; }
+    .contacto-items { display: flex; flex-direction: column; gap: 20px; }
+    .contacto-item { display: flex; gap: 16px; align-items: flex-start; }
+    .contacto-icono { width: 40px; height: 40px; background: var(--verde-claro); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--verde); }
+    .contacto-dato strong { display: block; font-size: 12px; font-weight: 600; color: var(--negro); margin-bottom: 2px; letter-spacing: 0.3px; }
+    .contacto-dato a, .contacto-dato span { font-size: 14px; color: var(--gris-700); text-decoration: none; transition: color 0.2s; }
     .contacto-dato a:hover { color: var(--verde); }
-
-    .contacto-redes {
-      display: flex;
-      gap: 12px;
-      margin-top: 32px;
-    }
-
-    .red-social {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border: 1.5px solid var(--gris-300);
-      border-radius: 100px;
-      font-size: 13px;
-      color: var(--gris-700);
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-      font-family: var(--font-body);
-    }
+    .contacto-redes { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+    .red-social { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1.5px solid var(--gris-300); border-radius: 100px; font-size: 13px; color: var(--gris-700); text-decoration: none; transition: border-color 0.2s, color 0.2s; font-family: var(--font-body); }
     .red-social:hover { border-color: var(--verde); color: var(--verde); }
-
-    .contacto-right {
-      background: var(--verde);
-      border-radius: 8px;
-      padding: 48px 40px;
-      color: white;
-      text-align: center;
-    }
-
-    .contacto-right .icon-wa {
-      width: 64px;
-      height: 64px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
-    }
-
-    .contacto-right h3 {
-      font-family: var(--font-titulo);
-      font-size: 22px;
-      font-weight: 400;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-
-    .contacto-right p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
-    .btn-wa-grande {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: white;
-      color: var(--verde-oscuro);
-      padding: 14px 32px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
+    .contacto-right { background: var(--verde); border-radius: 8px; padding: 48px 40px; color: white; text-align: center; }
+    .contacto-right .icon-wa { width: 64px; height: 64px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+    .contacto-right h3 { font-family: var(--font-titulo); font-size: 22px; font-weight: 400; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .contacto-right p { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 32px; }
+    .btn-wa-grande { display: inline-flex; align-items: center; gap: 10px; background: white; color: var(--verde-oscuro); padding: 14px 32px; border-radius: 100px; font-family: var(--font-body); font-size: 15px; font-weight: 600; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
     .btn-wa-grande:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
 
-    /* ══════════════════════════════════════
-       FOOTER
-    ══════════════════════════════════════ */
-    footer {
-      background: var(--negro);
-      padding: 40px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer-logo {
-      font-family: var(--font-titulo);
-      font-size: 16px;
-      color: white;
-      letter-spacing: -0.5px;
-    }
-
-    .footer-logo span {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: var(--verde);
-      margin-left: 6px;
-      vertical-align: middle;
-      margin-bottom: 2px;
-    }
-
-    footer p {
-      font-size: 12px;
-      color: rgba(255,255,255,0.4);
-    }
-
-    footer nav a {
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      margin-left: 24px;
-      transition: color 0.2s;
-    }
+    /* FOOTER */
+    footer { background: var(--negro); padding: 40px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-family: var(--font-titulo); font-size: 16px; color: white; letter-spacing: -0.5px; }
+    .footer-logo span { display: inline-block; width: 8px; height: 8px; background: var(--verde); margin-left: 6px; vertical-align: middle; margin-bottom: 2px; }
+    footer p { font-size: 12px; color: rgba(255,255,255,0.4); }
+    footer nav a { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; margin-left: 24px; transition: color 0.2s; }
     footer nav a:hover { color: var(--verde); }
 
-    /* ══════════════════════════════════════
-       ANIMACIONES DE ENTRADA
-    ══════════════════════════════════════ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
 
-    /* ══════════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════════ */
+    /* RESPONSIVE */
     @media (max-width: 900px) {
-      .hero-grid,
-      .nosotros-grid,
-      .contacto-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-grid, .nosotros-grid, .contacto-grid { grid-template-columns: 1fr; gap: 48px; }
       .hero-numero { font-size: 100px; }
       .hero-right { display: none; }
       .proyectos-grid { grid-template-columns: 1fr 1fr; }
       .proyectos-header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .proyectos-header p { text-align: left; }
     }
-
     @media (max-width: 600px) {
       .container { padding: 0 20px; }
       header { padding: 16px 20px; }
       nav { display: none; }
       .proyectos-grid { grid-template-columns: 1fr; }
       .modal-detalles { grid-template-columns: 1fr 1fr; }
-      .contacto-redes { flex-wrap: wrap; }
       footer { flex-direction: column; text-align: center; }
       footer nav a { margin: 0 12px; }
+      .btn-flotante { bottom: 20px; right: 20px; padding: 12px 18px; font-size: 13px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══════════ BOTÓN FLOTANTE ══════════ -->
-<a href="formulario.html" class="btn-flotante">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-  Cotizar
+<!-- HEADER -->
+<header>
+  <a href="#inicio" class="logo">ocote<span></span></a>
+  <nav>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<!-- BOTÓN FLOTANTE WHATSAPP -->
+<a href="https://wa.me/525520656904?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20arquitectura" target="_blank" class="btn-flotante">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+  WhatsApp
 </a>
 
-<!-- ══════════ HERO ══════════ -->
+<!-- HERO -->
 <section id="inicio">
   <div class="container">
     <div class="hero-grid">
@@ -877,15 +201,11 @@
           <h1>El escenario<br/>de <em>tu vida</em><br/>merece calidad.</h1>
           <p>Diseñamos espacios accesibles que se adaptan a tus necesidades, ideas y presupuesto. Porque toda persona merece arquitectura de calidad.</p>
           <div class="hero-btns">
-            <a href="https://wa.me/525520656904" target="_blank" class="btn-wa">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-              Hablar por WhatsApp
-            </a>
             <a href="#proyectos" class="btn-outline" onclick="event.preventDefault(); document.getElementById('proyectos').scrollIntoView({behavior:'smooth'})">Ver proyectos →</a>
           </div>
         </div>
       </div>
-      <div class="hero-right reveal reveal-delay-2">
+      <div class="hero-right">
         <div class="hero-imagen">
           <div class="hero-imagen-placeholder">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
@@ -903,7 +223,7 @@
 
 <div class="divisor"></div>
 
-<!-- ══════════ NOSOTROS ══════════ -->
+<!-- NOSOTROS -->
 <section id="nosotros">
   <div class="container">
     <div class="nosotros-grid">
@@ -946,7 +266,7 @@
 
 <div class="divisor"></div>
 
-<!-- ══════════ PROYECTOS ══════════ -->
+<!-- PROYECTOS -->
 <section id="proyectos">
   <div class="container">
     <div class="proyectos-header reveal">
@@ -956,16 +276,13 @@
       </div>
       <p>Una muestra de nuestro trabajo a lo largo de distintos tipos de intervención arquitectónica.</p>
     </div>
-
-    <div class="proyectos-grid" id="proyectos-grid">
-      <!-- Las tarjetas se generan con JS -->
-    </div>
+    <div class="proyectos-grid" id="proyectos-grid"></div>
   </div>
 </section>
 
 <div class="divisor"></div>
 
-<!-- ══════════ CONTACTO ══════════ -->
+<!-- CONTACTO -->
 <section id="contacto">
   <div class="container">
     <div class="contacto-grid">
@@ -973,7 +290,6 @@
         <div class="tag">Contacto</div>
         <h2>Hablemos de<br/>tu proyecto</h2>
         <p>Estamos listos para escucharte. Cuéntanos tu idea y te enviamos una cotización personalizada.</p>
-
         <div class="contacto-items">
           <div class="contacto-item">
             <div class="contacto-icono">
@@ -981,7 +297,7 @@
             </div>
             <div class="contacto-dato">
               <strong>Correo electrónico</strong>
-              <a href="/cdn-cgi/l/email-protection#80efe3eff4e5e1f2f1c0e7ede1e9ecaee3efed"><span class="__cf_email__" data-cfemail="57383438233236252617303a363e3b7934383a">[email&#160;protected]</span></a>
+              <a href="mailto:ocotearq@gmail.com">ocotearq@gmail.com</a>
             </div>
           </div>
           <div class="contacto-item">
@@ -1003,7 +319,6 @@
             </div>
           </div>
         </div>
-
         <div class="contacto-redes">
           <a href="https://instagram.com/ocote.arq" target="_blank" class="red-social">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
@@ -1019,33 +334,33 @@
           </a>
         </div>
       </div>
-
       <div class="contacto-right reveal reveal-delay-1">
         <div class="icon-wa">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
         </div>
-        <h3>¿Listo para comenzar?</h3>
-        <p>Escríbenos directamente por WhatsApp o solicita tu cotización en línea. Respondemos en menos de 24 horas.</p>
-        <a href="https://wa.me/525520656904?text=Hola,%20me%20gustaría%20cotizar%20un%20proyecto%20de%20arquitectura" target="_blank" class="btn-wa-grande">
+        <h3>Listo para comenzar?</h3>
+        <p>Escríbenos directamente por WhatsApp. Respondemos en menos de 24 horas y te enviamos una cotización personalizada.</p>
+        <a href="https://wa.me/525520656904?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20arquitectura" target="_blank" class="btn-wa-grande">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           Escribir por WhatsApp
         </a>
-        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.2);">
-          <p style="font-size:12px; margin:0;">También puedes solicitar tu cotización en línea:</p>
-          <a href="formulario.html" style="color:white; font-size:13px; text-decoration:underline; opacity:0.8;">Ir al formulario de cotización →</a>
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ FOOTER ══════════ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-logo">ocote<span></span></div>
   <p>© 2025 ocote Arquitectos · Tultitlán, Estado de México</p>
+  <nav>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
 </footer>
 
-<!-- ══════════ MODAL ══════════ -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
   <div class="modal-wrapper">
     <div class="modal" id="modal">
@@ -1063,77 +378,21 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // ── Datos de proyectos ──────────────────────────────────────
+<script>
   const proyectos = [
-    {
-      tipo: "Obra nueva",
-      nombre: "Casa Árbol",
-      desc: "Residencia unifamiliar de dos niveles diseñada para una familia joven en Tultitlán. El proyecto integra espacios abiertos y ventilación cruzada para maximizar el confort sin depender del aire acondicionado.",
-      descLarga: "Casa Árbol es una vivienda de 180 m² distribuida en dos niveles, diseñada para una familia de cuatro personas. El concepto parte de la relación entre el espacio interior y el jardín, integrando vegetación en la fachada y generando sombra natural. La propuesta reduce el consumo energético mediante ventilación cruzada y techos con aislamiento térmico. El proceso de diseño fue completamente colaborativo: cada espacio fue discutido y ajustado junto a los clientes hasta lograr un resultado que refleja su estilo de vida.",
-      area: "180 m²",
-      año: "2024",
-      ubicacion: "Tultitlán, Edo. Méx.",
-      color: "#d4e8d8"
-    },
-    {
-      tipo: "Remodelación",
-      nombre: "Local Terraza",
-      desc: "Rediseño integral de un local comercial de 85 m² para una cafetería. La intervención transformó un espacio oscuro y desordenado en un lugar luminoso con identidad propia.",
-      descLarga: "El proyecto consistió en la remodelación completa de un local de 85 m² que funcionaba como abarrotes y fue convertido en una cafetería con terraza interior. Se demolieron muros no estructurales para abrir el espacio, se diseñó mobiliario fijo a medida y se incorporó iluminación natural mediante un tragaluz central. La paleta de materiales combina concreto aparente, madera natural y acero negro. El resultado es un espacio cálido y contemporáneo que incrementó significativamente la afluencia de clientes.",
-      area: "85 m²",
-      año: "2024",
-      ubicacion: "Cuautitlán, Edo. Méx.",
-      color: "#e8d4d4"
-    },
-    {
-      tipo: "Ampliación",
-      nombre: "Departamento Norte",
-      desc: "Ampliación de una vivienda existente con la adición de dos recámaras y un baño completo en planta alta, integrando la nueva construcción con la arquitectura preexistente.",
-      descLarga: "Este proyecto implicó la adición de 60 m² en segundo nivel sobre una vivienda de planta baja existente. El reto principal fue integrar la ampliación con la construcción original de forma que el conjunto pareciera diseñado desde el inicio. Se incorporaron dos recámaras con closet integrado, un baño completo y una sala de estudio. La estructura fue diseñada para permitir una futura ampliación a tercer nivel. El proceso incluyó un estudio de carga de la estructura existente y refuerzos puntuales.",
-      area: "60 m²",
-      año: "2023",
-      ubicacion: "Tultepec, Edo. Méx.",
-      color: "#d4dce8"
-    },
-    {
-      tipo: "Diseño de interiores",
-      nombre: "Estudio Mínimo",
-      desc: "Intervención de interiores para un estudio-habitación de 35 m². El diseño maximiza el espacio mediante mobiliario multifuncional y un sistema de almacenamiento integrado.",
-      descLarga: "Estudio Mínimo es una intervención de interiores para un espacio de 35 m² que funciona simultáneamente como dormitorio, área de trabajo y sala. El diseño se basa en un sistema de mobiliario a medida que integra cama plegable, escritorio extensible y almacenamiento en altura. La paleta monocromática con detalles en madera crea una atmósfera serena y organizada. Este proyecto demostró que los espacios pequeños, bien diseñados, pueden ofrecer la misma calidad de vida que los grandes.",
-      area: "35 m²",
-      año: "2023",
-      ubicacion: "Tlalnepantla, Edo. Méx.",
-      color: "#e8e4d4"
-    },
-    {
-      tipo: "Paisajismo",
-      nombre: "Jardín Seco",
-      desc: "Diseño de jardín de bajo consumo hídrico para una residencia privada. Se incorporaron especies endémicas y un sistema de captación de agua pluvial integrado al diseño.",
-      descLarga: "Jardín Seco es un proyecto de diseño de exteriores para una casa en zona semiárida. El concepto parte de la xeriscape — el diseño de jardines que requieren mínimo riego — incorporando especies endémicas del altiplano mexicano. Se diseñó un sistema de captación de agua pluvial que alimenta un estanque y riega las zonas verdes en temporada de secas. El resultado es un jardín de bajo mantenimiento, ecológicamente responsable y de gran valor estético durante todo el año.",
-      area: "120 m²",
-      año: "2024",
-      ubicacion: "Zumpango, Edo. Méx.",
-      color: "#dce8d4"
-    },
-    {
-      tipo: "Obra nueva",
-      nombre: "Vivienda Mínima",
-      desc: "Casa de 55 m² diseñada para optimizar cada metro cuadrado. El proyecto explora los límites del espacio habitable digno con un presupuesto reducido.",
-      descLarga: "Vivienda Mínima nació de una pregunta: ¿cuál es el espacio mínimo para vivir con dignidad y confort? El resultado es una casa de 55 m² con sala-comedor-cocina integrados, dos recámaras, baño completo y un pequeño patio. El diseño aprovecha dobles alturas y ventanas estratégicamente ubicadas para que el espacio se sienta amplio y luminoso. Este proyecto es un ejemplo del compromiso de ocote con la vivienda accesible.",
-      area: "55 m²",
-      año: "2023",
-      ubicacion: "Tultitlán, Edo. Méx.",
-      color: "#e4d4e8"
-    }
+    { tipo:"Obra nueva", nombre:"Casa Árbol", desc:"Residencia unifamiliar de dos niveles diseñada para una familia joven en Tultitlán. El proyecto integra espacios abiertos y ventilación cruzada para maximizar el confort sin depender del aire acondicionado.", descLarga:"Casa Árbol es una vivienda de 180 m² distribuida en dos niveles, diseñada para una familia de cuatro personas. El concepto parte de la relación entre el espacio interior y el jardín, integrando vegetación en la fachada y generando sombra natural. La propuesta reduce el consumo energético mediante ventilación cruzada y techos con aislamiento térmico. El proceso de diseño fue completamente colaborativo: cada espacio fue discutido y ajustado junto a los clientes hasta lograr un resultado que refleja su estilo de vida.", area:"180 m²", año:"2024", ubicacion:"Tultitlán, Edo. Méx.", color:"#d4e8d8" },
+    { tipo:"Remodelación", nombre:"Local Terraza", desc:"Rediseño integral de un local comercial de 85 m² para una cafetería. La intervención transformó un espacio oscuro y desordenado en un lugar luminoso con identidad propia.", descLarga:"El proyecto consistió en la remodelación completa de un local de 85 m² que funcionaba como abarrotes y fue convertido en una cafetería con terraza interior. Se demolieron muros no estructurales para abrir el espacio, se diseñó mobiliario fijo a medida y se incorporó iluminación natural mediante un tragaluz central. La paleta de materiales combina concreto aparente, madera natural y acero negro.", area:"85 m²", año:"2024", ubicacion:"Cuautitlán, Edo. Méx.", color:"#e8d4d4" },
+    { tipo:"Ampliación", nombre:"Departamento Norte", desc:"Ampliación de una vivienda existente con la adición de dos recámaras y un baño completo en planta alta, integrando la nueva construcción con la arquitectura preexistente.", descLarga:"Este proyecto implicó la adición de 60 m² en segundo nivel sobre una vivienda de planta baja existente. El reto principal fue integrar la ampliación con la construcción original de forma que el conjunto pareciera diseñado desde el inicio. Se incorporaron dos recámaras con closet integrado, un baño completo y una sala de estudio.", area:"60 m²", año:"2023", ubicacion:"Tultepec, Edo. Méx.", color:"#d4dce8" },
+    { tipo:"Diseño de interiores", nombre:"Estudio Mínimo", desc:"Intervención de interiores para un estudio-habitación de 35 m². El diseño maximiza el espacio mediante mobiliario multifuncional y un sistema de almacenamiento integrado.", descLarga:"Estudio Mínimo es una intervención de interiores para un espacio de 35 m² que funciona simultáneamente como dormitorio, área de trabajo y sala. El diseño se basa en un sistema de mobiliario a medida que integra cama plegable, escritorio extensible y almacenamiento en altura. La paleta monocromática con detalles en madera crea una atmósfera serena y organizada.", area:"35 m²", año:"2023", ubicacion:"Tlalnepantla, Edo. Méx.", color:"#e8e4d4" },
+    { tipo:"Paisajismo", nombre:"Jardín Seco", desc:"Diseño de jardín de bajo consumo hídrico para una residencia privada. Se incorporaron especies endémicas y un sistema de captación de agua pluvial integrado al diseño.", descLarga:"Jardín Seco es un proyecto de diseño de exteriores para una casa en zona semiárida. El concepto parte de la xeriscape — el diseño de jardines que requieren mínimo riego — incorporando especies endémicas del altiplano mexicano. Se diseñó un sistema de captación de agua pluvial que alimenta un estanque y riega las zonas verdes en temporada de secas.", area:"120 m²", año:"2024", ubicacion:"Zumpango, Edo. Méx.", color:"#dce8d4" },
+    { tipo:"Obra nueva", nombre:"Vivienda Mínima", desc:"Casa de 55 m² diseñada para optimizar cada metro cuadrado. El proyecto explora los límites del espacio habitable digno con un presupuesto reducido.", descLarga:"Vivienda Mínima nació de una pregunta: ¿cuál es el espacio mínimo para vivir con dignidad y confort? El resultado es una casa de 55 m² con sala-comedor-cocina integrados, dos recámaras, baño completo y un pequeño patio. El diseño aprovecha dobles alturas y ventanas estratégicamente ubicadas para que el espacio se sienta amplio y luminoso.", area:"55 m²", año:"2023", ubicacion:"Tultitlán, Edo. Méx.", color:"#e4d4e8" }
   ];
 
-  // ── Renderiza las tarjetas ──────────────────────────────────
   const grid = document.getElementById('proyectos-grid');
   proyectos.forEach((p, i) => {
     const card = document.createElement('div');
     card.className = 'proyecto-card reveal';
-    card.style.transitionDelay = `${(i % 3) * 0.1}s`;
+    card.style.transitionDelay = (i % 3) * 0.1 + 's';
     card.onclick = () => abrirModal(i);
     card.innerHTML = `
       <div class="proyecto-imagen" style="background:${p.color}">
@@ -1151,39 +410,48 @@
           <span>📅 ${p.año}</span>
           <span>📍 ${p.ubicacion}</span>
         </div>
-      </div>
-    `;
+      </div>`;
     grid.appendChild(card);
   });
 
-  // ── Modal ───────────────────────────────────────────────────
   function abrirModal(i) {
     const p = proyectos[i];
-    document.getElementById('modal-tipo').textContent    = p.tipo;
-    document.getElementById('modal-titulo').textContent  = p.nombre;
-    document.getElementById('modal-desc').textContent    = p.descLarga;
+    document.getElementById('modal-tipo').textContent = p.tipo;
+    document.getElementById('modal-titulo').textContent = p.nombre;
+    document.getElementById('modal-desc').textContent = p.descLarga;
     document.getElementById('modal-imagen').style.background = p.color;
-    document.getElementById('modal-detalles').innerHTML  = `
+    document.getElementById('modal-detalles').innerHTML = `
       <div class="modal-detalle"><strong>Área</strong><span>${p.area}</span></div>
       <div class="modal-detalle"><strong>Año</strong><span>${p.año}</span></div>
-      <div class="modal-detalle"><strong>Ubicación</strong><span>${p.ubicacion}</span></div>
-    `;
+      <div class="modal-detalle"><strong>Ubicación</strong><span>${p.ubicacion}</span></div>`;
     document.getElementById('modal-overlay').classList.add('abierto');
     document.body.style.overflow = 'hidden';
   }
 
   function cerrarModal(e) {
-    if (!e || e.target === document.getElementById('modal-overlay') || e.target.closest('.modal-cerrar')) {
+    if (!e || e.target === document.getElementById('modal-overlay') || (e.target && e.target.closest && e.target.closest('.modal-cerrar'))) {
       document.getElementById('modal-overlay').classList.remove('abierto');
       document.body.style.overflow = '';
     }
   }
 
-  // Cerrar con Escape
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') cerrarModal({ target: document.getElementById('modal-overlay') });
+    if (e.key === 'Escape') { document.getElementById('modal-overlay').classList.remove('abierto'); document.body.style.overflow = ''; }
   });
 
-  // ── Scroll reveal ───────────────────────────────────────────
+  // Scroll reveal
   const observer = new IntersectionObserver(entries => {
-    entries.forEa
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  // Marca todos visibles por si el observer no dispara
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+      // Fallback: si después de 1.5s aún no son visibles, mostrarlos
+      setTimeout(() => el.classList.add('visible'), 1500);
+    });
+  }, 100);
+</script>
+</body>
+</html>
