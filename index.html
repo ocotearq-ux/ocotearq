@@ -55,43 +55,31 @@
     }
 
     /* ══════════════════════════════════════
-       HEADER FIJO
+       BOTÓN FLOTANTE COTIZAR
     ══════════════════════════════════════ */
-    header {
+    .btn-flotante {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      bottom: 28px;
+      right: 28px;
       z-index: 100;
-      padding: 20px 32px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--gris-300);
-    }
-
-    .logo {
-      font-family: var(--font-titulo);
-      font-size: 16px;
-      color: var(--negro);
-      text-decoration: none;
-      letter-spacing: -0.5px;
-    }
-
-    .logo span {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
+      gap: 8px;
       background: var(--verde);
-      margin-left: 6px;
-      vertical-align: middle;
-      margin-bottom: 2px;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(91,151,104,0.4);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
-
-    nav {
-      display: flex;
-      gap: 32px;
-      align-items: center;
+    .btn-flotante:hover {
+      background: var(--verde-oscuro);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(91,151,104,0.5);
     }
 
     nav a {
@@ -105,23 +93,7 @@
 
     nav a:hover { color: var(--verde); }
 
-    .btn-cta {
-      background: var(--verde);
-      color: white;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-cta:hover { background: var(--verde-oscuro); transform: translateY(-1px); }
+
 
     /* ══════════════════════════════════════
        HERO
@@ -130,7 +102,6 @@
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding-top: 80px;
       position: relative;
       overflow: hidden;
     }
@@ -889,19 +860,11 @@
 </head>
 <body>
 
-<!-- ══════════ HEADER ══════════ -->
-<header>
-  <a href="#inicio" class="logo">ocote<span></span></a>
-  <nav>
-    <a href="#nosotros">Nosotros</a>
-    <a href="#proyectos">Proyectos</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-  <a href="https://wa.me/525520656904" target="_blank" class="btn-cta">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-    Cotizar
-  </a>
-</header>
+<!-- ══════════ BOTÓN FLOTANTE ══════════ -->
+<a href="formulario.html" class="btn-flotante">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+  Cotizar
+</a>
 
 <!-- ══════════ HERO ══════════ -->
 <section id="inicio">
@@ -918,7 +881,7 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
               Hablar por WhatsApp
             </a>
-            <a href="#proyectos" class="btn-outline">Ver proyectos →</a>
+            <a href="#proyectos" class="btn-outline" onclick="event.preventDefault(); document.getElementById('proyectos').scrollIntoView({behavior:'smooth'})">Ver proyectos →</a>
           </div>
         </div>
       </div>
@@ -1018,7 +981,7 @@
             </div>
             <div class="contacto-dato">
               <strong>Correo electrónico</strong>
-              <a href="mailto:ocotearq@gmail.com">ocotearq@gmail.com</a>
+              <a href="/cdn-cgi/l/email-protection#80efe3eff4e5e1f2f1c0e7ede1e9ecaee3efed"><span class="__cf_email__" data-cfemail="57383438233236252617303a363e3b7934383a">[email&#160;protected]</span></a>
             </div>
           </div>
           <div class="contacto-item">
@@ -1069,7 +1032,7 @@
         </a>
         <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.2);">
           <p style="font-size:12px; margin:0;">También puedes solicitar tu cotización en línea:</p>
-          <a href="formulario-ocote.html" style="color:white; font-size:13px; text-decoration:underline; opacity:0.8;">Ir al formulario de cotización →</a>
+          <a href="formulario.html" style="color:white; font-size:13px; text-decoration:underline; opacity:0.8;">Ir al formulario de cotización →</a>
         </div>
       </div>
     </div>
@@ -1080,11 +1043,6 @@
 <footer>
   <div class="footer-logo">ocote<span></span></div>
   <p>© 2025 ocote Arquitectos · Tultitlán, Estado de México</p>
-  <nav>
-    <a href="#nosotros">Nosotros</a>
-    <a href="#proyectos">Proyectos</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
 </footer>
 
 <!-- ══════════ MODAL ══════════ -->
@@ -1105,7 +1063,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── Datos de proyectos ──────────────────────────────────────
   const proyectos = [
     {
@@ -1228,15 +1186,4 @@
 
   // ── Scroll reveal ───────────────────────────────────────────
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
-
-</body>
-</html>
+    entries.forEa
