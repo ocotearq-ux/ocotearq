@@ -26,102 +26,77 @@
     body { font-family: var(--font-body); background: var(--blanco); color: var(--gris-900); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
     .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
-    .tag { display: inline-block; font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--verde); margin-bottom: 16px; }
+    .tag { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--verde); margin-bottom: 16px; }
 
     /* HEADER */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 20px 32px;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--gris-300);
-    }
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 32px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gris-300); }
     .logo { font-family: var(--font-titulo); font-size: 16px; color: var(--negro); text-decoration: none; letter-spacing: -0.5px; justify-self: start; }
     .logo span { display: inline-block; width: 8px; height: 8px; background: var(--verde); margin-left: 6px; vertical-align: middle; margin-bottom: 2px; }
     nav { display: flex; gap: 32px; align-items: center; justify-self: center; }
-    nav a { font-family: var(--font-body); font-size: 13px; color: var(--gris-700); text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s; }
+    nav a { font-size: 13px; color: var(--gris-700); text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s; }
     nav a:hover, nav a.activo { color: var(--verde); }
 
     /* BOTÓN FLOTANTE */
-    .btn-flotante { position: fixed; bottom: 28px; right: 28px; z-index: 200; display: flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 14px 24px; border-radius: 100px; font-family: var(--font-body); font-size: 14px; font-weight: 500; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: background 0.2s, transform 0.15s; }
+    .btn-flotante { position: fixed; bottom: 28px; right: 28px; z-index: 200; display: flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 14px 24px; border-radius: 100px; font-size: 14px; font-weight: 500; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: background 0.2s, transform 0.15s; }
     .btn-flotante:hover { background: #1ebe5a; transform: translateY(-2px); }
 
-    /* HERO PROYECTOS */
-    .proyectos-hero {
-      padding: 160px 0 80px;
-      background: var(--gris-100);
-      border-bottom: 1px solid var(--gris-300);
-    }
+    /* HERO */
+    .proyectos-hero { padding: 160px 0 80px; background: var(--gris-100); border-bottom: 1px solid var(--gris-300); }
     .proyectos-hero h1 { font-family: var(--font-titulo); font-size: clamp(36px, 6vw, 64px); font-weight: 400; letter-spacing: -2px; color: var(--negro); margin-bottom: 16px; line-height: 1.05; }
     .proyectos-hero h1 em { font-style: normal; color: var(--verde); }
     .proyectos-hero p { font-size: 15px; color: var(--gris-500); max-width: 500px; line-height: 1.7; }
 
     /* FILTROS */
-    .filtros {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 32px 0;
-      border-bottom: 1px solid var(--gris-300);
-      margin-bottom: 56px;
-    }
-    .filtro {
-      padding: 8px 20px;
-      border-radius: 100px;
-      border: 1.5px solid var(--gris-300);
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: var(--gris-700);
-      cursor: pointer;
-      transition: all 0.2s;
-      background: transparent;
-    }
+    .filtros { display: flex; gap: 10px; flex-wrap: wrap; padding: 32px 0; border-bottom: 1px solid var(--gris-300); margin-bottom: 56px; }
+    .filtro { padding: 8px 20px; border-radius: 100px; border: 1.5px solid var(--gris-300); font-size: 13px; color: var(--gris-700); cursor: pointer; transition: all 0.2s; background: transparent; font-family: var(--font-body); }
     .filtro:hover { border-color: var(--verde); color: var(--verde); }
     .filtro.activo { background: var(--verde); border-color: var(--verde); color: white; }
 
     /* GRID */
     .proyectos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: 120px; }
-
-    .proyecto-card { background: var(--blanco); border-radius: 4px; overflow: hidden; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--gris-300); }
+    .proyecto-card { background: var(--blanco); border-radius: 4px; overflow: hidden; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--gris-300); display: flex; flex-direction: column; }
     .proyecto-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-    .proyecto-card.oculto { display: none; }
-
     .proyecto-imagen { width: 100%; aspect-ratio: 4/3; position: relative; overflow: hidden; }
     .proyecto-imagen-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--verde); opacity: 0.4; }
     .proyecto-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 20px; }
     .proyecto-card:hover .proyecto-overlay { opacity: 1; }
-    .proyecto-overlay span { color: white; font-size: 12px; font-family: var(--font-body); letter-spacing: 0.5px; }
-
-    .proyecto-info { padding: 20px; }
+    .proyecto-overlay span { color: white; font-size: 12px; letter-spacing: 0.5px; }
+    .proyecto-info { padding: 20px 20px 0 20px; display: flex; flex-direction: column; flex: 1; }
     .proyecto-tipo { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--verde); font-weight: 500; margin-bottom: 6px; }
     .proyecto-nombre { font-family: var(--font-titulo); font-size: 16px; color: var(--negro); margin-bottom: 8px; letter-spacing: -0.3px; }
-    .proyecto-desc { font-size: 13px; color: var(--gris-500); line-height: 1.6; }
-    .proyecto-meta { display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gris-300); }
+    .proyecto-desc { font-size: 13px; color: var(--gris-500); line-height: 1.6; flex: 1; min-height: 0; }
+    .proyecto-meta { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gris-300); padding-bottom: 14px; }
     .proyecto-meta span { font-size: 11px; color: var(--gris-500); }
 
     /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 300; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 300; display: flex; align-items: flex-start; justify-content: center; padding: 40px 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); overflow-y: auto; }
     .modal-overlay.abierto { opacity: 1; pointer-events: all; }
-    .modal { background: var(--blanco); border-radius: 8px; max-width: 760px; width: 100%; max-height: 90vh; overflow-y: auto; transform: translateY(20px); transition: transform 0.3s; }
+    .modal-wrapper { position: relative; width: 100%; max-width: 760px; margin: auto; }
+    .modal { background: var(--blanco); border-radius: 8px; width: 100%; overflow: hidden; transform: translateY(20px); transition: transform 0.3s; }
     .modal-overlay.abierto .modal { transform: translateY(0); }
-    .modal-imagen { width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; color: var(--verde); opacity: 0.5; }
+
+    /* Imagen principal del modal */
+    .modal-imagen-principal { width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; color: var(--verde); opacity: 0.5; }
+
     .modal-body { padding: 32px; }
     .modal-tipo { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--verde); font-weight: 500; margin-bottom: 10px; }
     .modal-titulo { font-family: var(--font-titulo); font-size: 28px; font-weight: 400; color: var(--negro); margin-bottom: 16px; letter-spacing: -0.5px; }
     .modal-desc { font-size: 15px; color: var(--gris-700); line-height: 1.8; margin-bottom: 24px; }
-    .modal-detalles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; background: var(--gris-100); border-radius: 4px; }
+    .modal-detalles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; background: var(--gris-100); border-radius: 4px; margin-bottom: 32px; }
     .modal-detalle strong { display: block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--gris-500); margin-bottom: 4px; }
     .modal-detalle span { font-family: var(--font-titulo); font-size: 14px; color: var(--negro); }
-    .modal-cerrar { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; background: white; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--gris-700); box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: background 0.2s; }
+
+    /* Galería extra del modal */
+    .modal-galeria-titulo { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gris-500); font-weight: 500; margin-bottom: 16px; }
+    .modal-galeria { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal-galeria-img { aspect-ratio: 4/3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--verde); opacity: 0.4; }
+
+    .modal-cerrar { position: fixed; top: 16px; right: 16px; width: 36px; height: 36px; background: white; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--gris-700); box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: background 0.2s; z-index: 10; }
     .modal-cerrar:hover { background: var(--gris-100); }
-    .modal-wrapper { position: relative; }
 
     /* FOOTER */
     footer { background: var(--negro); padding: 40px 32px; display: flex; align-items: center; justify-content: center; }
-    footer p { font-size: 12px; color: rgba(255,255,255,0.4); text-align: center; }
+    footer p { font-size: 12px; color: rgba(255,255,255,0.4); }
 
     /* RESPONSIVE */
     @media (max-width: 900px) { .proyectos-grid { grid-template-columns: 1fr 1fr; } }
@@ -131,13 +106,14 @@
       nav { display: none; }
       .proyectos-grid { grid-template-columns: 1fr; }
       .modal-detalles { grid-template-columns: 1fr 1fr; }
+      .modal-galeria { grid-template-columns: 1fr; }
       .btn-flotante { bottom: 20px; right: 20px; padding: 12px 18px; font-size: 13px; }
+      .modal-overlay { padding: 20px 16px; }
     }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <a href="index.html" class="logo">ocote<span></span></a>
   <nav>
@@ -148,13 +124,11 @@
   <div></div>
 </header>
 
-<!-- BOTÓN FLOTANTE -->
 <a href="https://wa.me/525520656904?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20de%20arquitectura" target="_blank" class="btn-flotante">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
   WhatsApp
 </a>
 
-<!-- HERO -->
 <div class="proyectos-hero">
   <div class="container">
     <div class="tag">Portafolio</div>
@@ -163,7 +137,6 @@
   </div>
 </div>
 
-<!-- PROYECTOS -->
 <div style="background: var(--blanco);">
   <div class="container">
     <div class="filtros" id="filtros">
@@ -178,7 +151,6 @@
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <p>© 2025 ocote Arquitectos</p>
 </footer>
@@ -186,29 +158,69 @@
 <!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
   <div class="modal-wrapper">
-    <div class="modal">
-      <div class="modal-imagen" id="modal-imagen">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      </div>
+    <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+    <div class="modal" id="modal">
+      <div class="modal-imagen-principal" id="modal-imagen"></div>
       <div class="modal-body">
         <div class="modal-tipo" id="modal-tipo"></div>
         <h2 class="modal-titulo" id="modal-titulo"></h2>
         <p class="modal-desc" id="modal-desc"></p>
         <div class="modal-detalles" id="modal-detalles"></div>
+        <div id="modal-galeria-contenedor">
+          <div class="modal-galeria-titulo">Más imágenes</div>
+          <div class="modal-galeria" id="modal-galeria"></div>
+        </div>
       </div>
     </div>
-    <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
   </div>
 </div>
 
 <script>
+  const iconoPlaceholder = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`;
+
   const proyectos = [
-    { tipo:"Obra nueva", nombre:"Casa Árbol", desc:"Residencia unifamiliar de dos niveles diseñada para una familia joven en Tultitlán. El proyecto integra espacios abiertos y ventilación cruzada para maximizar el confort.", descLarga:"Casa Árbol es una vivienda de 180 m² distribuida en dos niveles, diseñada para una familia de cuatro personas. El concepto parte de la relación entre el espacio interior y el jardín, integrando vegetación en la fachada y generando sombra natural. La propuesta reduce el consumo energético mediante ventilación cruzada y techos con aislamiento térmico. El proceso de diseño fue completamente colaborativo: cada espacio fue discutido y ajustado junto a los clientes hasta lograr un resultado que refleja su estilo de vida.", area:"180 m²", año:"2024", ubicacion:"Tultitlán, Edo. Méx.", color:"#d4e8d8" },
-    { tipo:"Remodelación", nombre:"Local Terraza", desc:"Rediseño integral de un local comercial de 85 m² para una cafetería. La intervención transformó un espacio oscuro en un lugar luminoso con identidad propia.", descLarga:"El proyecto consistió en la remodelación completa de un local de 85 m² que funcionaba como abarrotes y fue convertido en una cafetería con terraza interior. Se demolieron muros no estructurales para abrir el espacio, se diseñó mobiliario fijo a medida y se incorporó iluminación natural mediante un tragaluz central. La paleta de materiales combina concreto aparente, madera natural y acero negro.", area:"85 m²", año:"2024", ubicacion:"Cuautitlán, Edo. Méx.", color:"#e8d4d4" },
-    { tipo:"Ampliación", nombre:"Departamento Norte", desc:"Ampliación de una vivienda existente con la adición de dos recámaras y un baño completo en planta alta.", descLarga:"Este proyecto implicó la adición de 60 m² en segundo nivel sobre una vivienda de planta baja existente. El reto principal fue integrar la ampliación con la construcción original de forma que el conjunto pareciera diseñado desde el inicio. Se incorporaron dos recámaras con closet integrado, un baño completo y una sala de estudio.", area:"60 m²", año:"2023", ubicacion:"Tultepec, Edo. Méx.", color:"#d4dce8" },
-    { tipo:"Diseño de interiores", nombre:"Estudio Mínimo", desc:"Intervención de interiores para un estudio-habitación de 35 m². El diseño maximiza el espacio mediante mobiliario multifuncional.", descLarga:"Estudio Mínimo es una intervención de interiores para un espacio de 35 m² que funciona simultáneamente como dormitorio, área de trabajo y sala. El diseño se basa en un sistema de mobiliario a medida que integra cama plegable, escritorio extensible y almacenamiento en altura.", area:"35 m²", año:"2023", ubicacion:"Tlalnepantla, Edo. Méx.", color:"#e8e4d4" },
-    { tipo:"Paisajismo", nombre:"Jardín Seco", desc:"Diseño de jardín de bajo consumo hídrico con especies endémicas y sistema de captación de agua pluvial.", descLarga:"Jardín Seco es un proyecto de diseño de exteriores para una casa en zona semiárida. El concepto parte de la xeriscape — el diseño de jardines que requieren mínimo riego — incorporando especies endémicas del altiplano mexicano. Se diseñó un sistema de captación de agua pluvial que alimenta un estanque y riega las zonas verdes en temporada de secas.", area:"120 m²", año:"2024", ubicacion:"Zumpango, Edo. Méx.", color:"#dce8d4" },
-    { tipo:"Obra nueva", nombre:"Vivienda Mínima", desc:"Casa de 55 m² diseñada para optimizar cada metro cuadrado con un presupuesto reducido.", descLarga:"Vivienda Mínima nació de una pregunta: ¿cuál es el espacio mínimo para vivir con dignidad y confort? El resultado es una casa de 55 m² con sala-comedor-cocina integrados, dos recámaras, baño completo y un pequeño patio. El diseño aprovecha dobles alturas y ventanas estratégicamente ubicadas.", area:"55 m²", año:"2023", ubicacion:"Tultitlán, Edo. Méx.", color:"#e4d4e8" }
+    {
+      tipo:"Obra nueva", nombre:"Casa Árbol",
+      desc:"Residencia unifamiliar de dos niveles diseñada para una familia joven en Tultitlán. El proyecto integra espacios abiertos y ventilación cruzada para maximizar el confort.",
+      descLarga:"Casa Árbol es una vivienda de 180 m² distribuida en dos niveles, diseñada para una familia de cuatro personas. El concepto parte de la relación entre el espacio interior y el jardín, integrando vegetación en la fachada y generando sombra natural. La propuesta reduce el consumo energético mediante ventilación cruzada y techos con aislamiento térmico. El proceso de diseño fue completamente colaborativo: cada espacio fue discutido y ajustado junto a los clientes hasta lograr un resultado que refleja su estilo de vida.",
+      area:"180 m²", año:"2024", ubicacion:"Tultitlán, Edo. Méx.", color:"#d4e8d8",
+      galeria:["#c8e0cc","#bcd8c0","#d0e4d4"]
+    },
+    {
+      tipo:"Remodelación", nombre:"Local Terraza",
+      desc:"Rediseño integral de un local comercial de 85 m² para una cafetería. La intervención transformó un espacio oscuro en un lugar luminoso con identidad propia.",
+      descLarga:"El proyecto consistió en la remodelación completa de un local de 85 m² que funcionaba como abarrotes y fue convertido en una cafetería con terraza interior. Se demolieron muros no estructurales para abrir el espacio, se diseñó mobiliario fijo a medida y se incorporó iluminación natural mediante un tragaluz central. La paleta de materiales combina concreto aparente, madera natural y acero negro.",
+      area:"85 m²", año:"2024", ubicacion:"Cuautitlán, Edo. Méx.", color:"#e8d4d4",
+      galeria:["#e0c8c8","#d8bcbc","#e4d0d0"]
+    },
+    {
+      tipo:"Ampliación", nombre:"Departamento Norte",
+      desc:"Ampliación de una vivienda existente con la adición de dos recámaras y un baño completo en planta alta.",
+      descLarga:"Este proyecto implicó la adición de 60 m² en segundo nivel sobre una vivienda de planta baja existente. El reto principal fue integrar la ampliación con la construcción original de forma que el conjunto pareciera diseñado desde el inicio. Se incorporaron dos recámaras con closet integrado, un baño completo y una sala de estudio.",
+      area:"60 m²", año:"2023", ubicacion:"Tultepec, Edo. Méx.", color:"#d4dce8",
+      galeria:["#c8d0e0","#bcc4d8","#d0d8e4"]
+    },
+    {
+      tipo:"Diseño de interiores", nombre:"Estudio Mínimo",
+      desc:"Intervención de interiores para un estudio-habitación de 35 m². El diseño maximiza el espacio mediante mobiliario multifuncional.",
+      descLarga:"Estudio Mínimo es una intervención de interiores para un espacio de 35 m² que funciona simultáneamente como dormitorio, área de trabajo y sala. El diseño se basa en un sistema de mobiliario a medida que integra cama plegable, escritorio extensible y almacenamiento en altura.",
+      area:"35 m²", año:"2023", ubicacion:"Tlalnepantla, Edo. Méx.", color:"#e8e4d4",
+      galeria:["#e0dcc8","#d8d4bc","#e4e0d0"]
+    },
+    {
+      tipo:"Paisajismo", nombre:"Jardín Seco",
+      desc:"Diseño de jardín de bajo consumo hídrico con especies endémicas y sistema de captación de agua pluvial.",
+      descLarga:"Jardín Seco es un proyecto de diseño de exteriores para una casa en zona semiárida. El concepto parte de la xeriscape — el diseño de jardines que requieren mínimo riego — incorporando especies endémicas del altiplano mexicano. Se diseñó un sistema de captación de agua pluvial que alimenta un estanque y riega las zonas verdes en temporada de secas.",
+      area:"120 m²", año:"2024", ubicacion:"Zumpango, Edo. Méx.", color:"#dce8d4",
+      galeria:["#d0e0c8","#c4d8bc","#d4e4d0"]
+    },
+    {
+      tipo:"Obra nueva", nombre:"Vivienda Mínima",
+      desc:"Casa de 55 m² diseñada para optimizar cada metro cuadrado con un presupuesto reducido.",
+      descLarga:"Vivienda Mínima nació de una pregunta: ¿cuál es el espacio mínimo para vivir con dignidad y confort? El resultado es una casa de 55 m² con sala-comedor-cocina integrados, dos recámaras, baño completo y un pequeño patio. El diseño aprovecha dobles alturas y ventanas estratégicamente ubicadas.",
+      area:"55 m²", año:"2023", ubicacion:"Tultitlán, Edo. Méx.", color:"#e4d4e8",
+      galeria:["#dcc8e0","#d4bcd8","#e0d0e4"]
+    }
   ];
 
   const grid = document.getElementById('proyectos-grid');
@@ -222,9 +234,7 @@
       card.onclick = () => abrirModal(i);
       card.innerHTML = `
         <div class="proyecto-imagen" style="background:${p.color}">
-          <div class="proyecto-imagen-placeholder">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          </div>
+          <div class="proyecto-imagen-placeholder">${iconoPlaceholder}</div>
           <div class="proyecto-overlay"><span>Ver proyecto →</span></div>
         </div>
         <div class="proyecto-info">
@@ -232,9 +242,9 @@
           <div class="proyecto-nombre">${p.nombre}</div>
           <div class="proyecto-desc">${p.desc}</div>
           <div class="proyecto-meta">
-            <span>📐 ${p.area}</span>
-            <span>📅 ${p.año}</span>
-            <span>📍 ${p.ubicacion}</span>
+            <span>${p.area}</span>
+            <span>${p.año}</span>
+            <span>${p.ubicacion}</span>
           </div>
         </div>`;
       grid.appendChild(card);
@@ -253,27 +263,50 @@
 
   function abrirModal(i) {
     const p = proyectos[i];
+    const overlay = document.getElementById('modal-overlay');
+
     document.getElementById('modal-tipo').textContent = p.tipo;
     document.getElementById('modal-titulo').textContent = p.nombre;
     document.getElementById('modal-desc').textContent = p.descLarga;
-    document.getElementById('modal-imagen').style.background = p.color;
+
+    const imgPrincipal = document.getElementById('modal-imagen');
+    imgPrincipal.style.background = p.color;
+    imgPrincipal.innerHTML = iconoPlaceholder;
+
     document.getElementById('modal-detalles').innerHTML = `
       <div class="modal-detalle"><strong>Área</strong><span>${p.area}</span></div>
       <div class="modal-detalle"><strong>Año</strong><span>${p.año}</span></div>
       <div class="modal-detalle"><strong>Ubicación</strong><span>${p.ubicacion}</span></div>`;
-    document.getElementById('modal-overlay').classList.add('abierto');
+
+    // Galería extra
+    const galeriaEl = document.getElementById('modal-galeria');
+    galeriaEl.innerHTML = '';
+    (p.galeria || []).forEach(color => {
+      const div = document.createElement('div');
+      div.className = 'modal-galeria-img';
+      div.style.background = color;
+      div.innerHTML = iconoPlaceholder;
+      galeriaEl.appendChild(div);
+    });
+
+    overlay.classList.add('abierto');
+    overlay.scrollTop = 0;
     document.body.style.overflow = 'hidden';
   }
 
   function cerrarModal(e) {
-    if (!e || e.target === document.getElementById('modal-overlay') || (e.target && e.target.closest && e.target.closest('.modal-cerrar'))) {
-      document.getElementById('modal-overlay').classList.remove('abierto');
+    const overlay = document.getElementById('modal-overlay');
+    if (!e || e.target === overlay || (e.target && e.target.closest && e.target.closest('.modal-cerrar'))) {
+      overlay.classList.remove('abierto');
       document.body.style.overflow = '';
     }
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { document.getElementById('modal-overlay').classList.remove('abierto'); document.body.style.overflow = ''; }
+    if (e.key === 'Escape') {
+      document.getElementById('modal-overlay').classList.remove('abierto');
+      document.body.style.overflow = '';
+    }
   });
 </script>
 </body>
