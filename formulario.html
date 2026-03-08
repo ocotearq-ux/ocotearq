@@ -61,27 +61,25 @@
       justify-content: center;
       padding: 40px 24px;
       text-align: center;
-      background: var(--verde);
+      background: var(--blanco);
     }
 
     .logo-wrap {
-      width: 72px;
-      height: 72px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 10px;
+      width: 96px;
+      height: 96px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 20px;
-      font-family: var(--font-titulo);
-      font-size: 22px;
-      color: white;
-      letter-spacing: -1px;
+    }
+    .logo-wrap svg {
+      width: 100%;
+      height: 100%;
     }
 
     #pantalla-inicio h1 {
       font-size: clamp(22px, 5vw, 28px);
-      color: white;
+      color: var(--gris-900);
       margin-bottom: 6px;
       line-height: 1.2;
     }
@@ -91,22 +89,22 @@
       font-size: 11px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.65);
+      color: var(--verde);
       margin-bottom: 24px;
     }
 
     #pantalla-inicio p {
       font-family: var(--font-body);
       font-size: 14px;
-      color: rgba(255,255,255,0.82);
+      color: var(--gris-500);
       line-height: 1.7;
       max-width: 340px;
       margin: 0 auto 36px;
     }
 
     .btn-inicio {
-      background: white;
-      color: var(--verde-oscuro);
+      background: var(--verde);
+      color: white;
       border: none;
       padding: 14px 36px;
       border-radius: 100px;
@@ -114,8 +112,8 @@
       font-size: 15px;
       font-weight: 500;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      transition: transform 0.15s;
+      box-shadow: 0 4px 20px rgba(91,151,104,0.35);
+      transition: transform 0.15s, background 0.2s;
     }
     .btn-inicio:active { transform: scale(0.97); }
 
@@ -295,7 +293,7 @@
 
 <!-- ════════════ INICIO ════════════ -->
 <div id="pantalla-inicio">
-  <div class="logo-wrap">oc</div>
+  <div class="logo-wrap"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000"><defs><style>.cls-1{fill:#5b9668;}.cls-2{fill:#fff;}</style></defs><rect class="cls-1" x="0.3" y="0.26" width="2000" height="2000"/><path class="cls-2" d="M546.76,1342.76v40.65H423.63V1558c0,46,24.5,61.56,69.94,61.56,20.31,0,38.25-1.79,53.19-6v43.64c-19.72,6-39.45,7.17-56.19,7.17-75.91,0-116.55-29.28-116.55-97.43v-183.5H283.76v-40.65H374v-86.07h49.61v86.07Z"/><path class="cls-2" d="M793,1666.73c-94.44,0-142.26-68.73-142.26-164.37,0-104.6,56.79-169.16,143.45-169.16,96.84,0,139.28,72.33,139.28,181.11H702.78c1.8,61.57,31.69,106.4,92.05,106.4,40.65,0,68.15-19.73,81.9-61.57h50.2C916.18,1624.9,866.57,1666.73,793,1666.73Zm-89-193.06H879.71c0-52-32.27-94.44-86.07-94.44C737.45,1379.23,708.16,1421.07,704,1473.67Z"/><rect class="cls-2" x="1433.67" y="333.79" width="283.32" height="333.53"/><path class="cls-2" d="M566.94,500.56c0,95-45.42,166.77-141.65,166.77S283.62,595.6,283.62,500.56s45.44-166.77,141.67-166.77S566.94,405.53,566.94,500.56Zm-231.31,0c0,64,26.29,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.3-120.74-89.65-120.74S335.63,436.61,335.63,500.56Z"/><path class="cls-2" d="M501.8,947.07c-5.38-41.24-32.88-67-76.51-67-64.55,0-89.66,61.57-89.66,123.73s28.09,117.76,90.85,117.76c43.64,0,70.53-24.51,78.9-74.13h50.21c-6.57,75.32-53.2,120.14-130.3,120.14-91.45,0-141.67-71.72-141.67-163.77,0-93.85,49-169.76,142.26-169.76,76.51,0,124.33,46.63,126.13,113Z"/><path class="cls-2" d="M929.19,1000.86c0,95-45.42,166.76-141.66,166.76s-141.66-71.72-141.66-166.76S691.3,834.09,787.53,834.09,929.19,905.83,929.19,1000.86Zm-231.32,0c0,64,26.3,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.29-120.74-89.65-120.74S697.87,936.91,697.87,1000.86Z"/></svg></div>
   <h1>ocote Arquitectos</h1>
   <p class="subtitulo">Solicitud de cotización</p>
   <p>Este formulario nos permitirá conocer tu proyecto y enviarte una cotización personalizada. La información será tratada con total confidencialidad.</p>
@@ -804,7 +802,7 @@
     btn.style.cursor  = 'not-allowed';
 
     // ── Reemplaza con tu URL de Apps Script ──
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1eCExz9GW1uLTNqehbUCYB5VFgG5Jph899buQ-94eqVpikkiLibsfdHBJgalfxyeb/exec";
+    const APPS_SCRIPT_URL = "TU_URL_AQUÍ";
     // ─────────────────────────────────────────
 
     fetch(APPS_SCRIPT_URL, {
