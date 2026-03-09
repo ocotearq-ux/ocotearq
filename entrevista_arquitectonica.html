@@ -740,7 +740,7 @@ async function checkFolio() {
   if (DB_LOCAL[folio]) { cargar(folio, DB_LOCAL[folio]); return; }
 
   // 2. Apps Script (busca por folio en la hoja de cotizaciones)
-  if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== "TU_URL_DE_APPS_SCRIPT_AQUI") {
+  if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbzD-vVEO834K2JIwzfvAn47JeTGHCuBSeFM8Of7sbpNwCXEe9WJeqDJI5Vb-tfOAO6JAA/exec") {
     try {
       const r = await fetch(APPS_SCRIPT_URL + '?buscar=' + encodeURIComponent(folio));
       const d = await r.json();
