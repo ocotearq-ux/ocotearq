@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Entrevista Arquitectónica — ocote</title>
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --verde:#5B9768;--verde-osc:#4a7f56;--verde-claro:#e8f2ea;--verde-dim:rgba(91,151,104,0.12);
+  --amarillo-dim:#fffbec;--amarillo-brd:#e8d86e;
+  --g50:#fafaf9;--g100:#f4f4f2;--g200:#e8e8e5;--g300:#d0d0cc;--g500:#8a8a85;--g700:#4a4a45;--g900:#1a1a16;
+  --blanco:#ffffff;--r:8px;--mono:'Fragment Mono',monospace;--body:'DM Sans',sans-serif;--sw:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:var(--body);background:var(--g100);color:var(--g900);-webkit-font-smoothing:antialiased;}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;z-index:1000;background:var(--g900);display:flex;align-items:center;justify-content:center;}
+.login-box{background:#222220;border:1px solid #333330;border-radius:14px;padding:44px 38px;width:360px;text-align:center;}
+.login-logo{width:52px;height:52px;margin:0 auto 18px;}
+.login-logo svg{width:100%;height:100%;}
+.login-box h2{font-family:var(--mono);font-size:15px;color:#fff;margin-bottom:4px;font-weight:400;}
+.login-sub{font-size:11px;color:var(--g500);margin-bottom:28px;}
+.login-folio-lbl{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--g500);margin-bottom:8px;text-align:left;}
+.login-box input{width:100%;padding:13px 16px;background:#2a2a28;border:1.5px solid #3a3a38;border-radius:var(--r);color:#fff;font-family:var(--mono);font-size:16px;letter-spacing:1px;outline:none;margin-bottom:12px;transition:border-color .2s;text-transform:uppercase;}
+.login-box input:focus{border-color:var(--verde);}
+.login-box input::placeholder{text-transform:none;letter-spacing:0;font-size:13px;color:#555;}
+.btn-login{width:100%;padding:13px;background:var(--verde);color:white;border:none;border-radius:100px;font-family:var(--body);font-size:14px;font-weight:500;cursor:pointer;transition:background .2s;}
+.btn-login:hover{background:var(--verde-osc);}
+.login-err{font-size:12px;color:#e07070;margin-top:10px;display:none;}
+.login-err.on{display:block;}
+.login-hint{font-size:11px;color:#444;margin-top:14px;line-height:1.5;}
+
+/* APP */
+#app{display:none;min-height:100vh;flex-direction:column;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:50;background:var(--blanco);border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:12px;padding:11px 20px;}
+.topbar .lw{width:30px;height:30px;flex-shrink:0;}
+.topbar .lw svg{width:100%;height:100%;}
+.topbar-info{flex:1;min-width:0;}
+.topbar-title{font-family:var(--mono);font-size:12px;color:var(--g900);}
+.topbar-folio{font-size:11px;color:var(--verde);font-family:var(--mono);}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.pt{width:100px;height:3px;background:var(--g200);border-radius:2px;}
+.pf{height:100%;background:var(--verde);border-radius:2px;transition:width .4s ease;width:0%;}
+.pl{font-size:11px;color:var(--g500);font-family:var(--mono);}
+
+/* LAYOUT */
+.main-wrap{display:flex;flex:1;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);background:var(--blanco);border-right:1px solid var(--g200);padding:14px 0;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;flex-shrink:0;}
+@media(max-width:720px){.sidebar{display:none;}}
+.slbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g300);padding:10px 16px 4px;}
+.ni{display:flex;align-items:center;gap:9px;padding:6px 16px;border-radius:6px;cursor:pointer;transition:background .12s;font-size:11.5px;color:var(--g500);border:none;background:none;width:100%;text-align:left;}
+.ni:hover{background:var(--g100);color:var(--g700);}
+.ni.active{background:var(--verde-dim);color:var(--verde-osc);font-weight:500;}
+.nd{width:5px;height:5px;border-radius:50%;background:var(--g300);flex-shrink:0;transition:background .2s;}
+.ni.active .nd{background:var(--verde);}
+.ni.done .nd{background:var(--verde);opacity:.45;}
+.ni.done{color:var(--g700);}
+
+/* CONTENT */
+.content{flex:1;padding:26px 20px 90px;max-width:660px;}
+@media(max-width:720px){.content{padding:18px 12px 90px;}}
+
+/* CARD */
+.card{background:var(--blanco);border:1px solid var(--g200);border-radius:12px;padding:22px 22px 18px;margin-bottom:12px;}
+@media(max-width:720px){.card{padding:16px 13px;}}
+.sh{display:flex;align-items:flex-start;gap:11px;margin-bottom:16px;}
+.sn{font-family:var(--mono);font-size:10px;color:var(--verde);background:var(--verde-dim);padding:3px 7px;border-radius:4px;flex-shrink:0;margin-top:2px;}
+.st{font-family:var(--mono);font-size:13.5px;color:var(--g900);line-height:1.3;}
+.sd{font-size:11px;color:var(--g500);margin-top:3px;line-height:1.5;}
+
+/* FIELDS */
+.f{margin-bottom:15px;}
+.f:last-child{margin-bottom:0;}
+.fl{display:block;font-size:11.5px;font-weight:500;color:var(--g700);margin-bottom:5px;}
+.fh{font-size:11px;color:var(--g500);margin-bottom:5px;line-height:1.5;}
+input[type="text"],input[type="number"],textarea,select{width:100%;padding:9px 12px;font-family:var(--body);font-size:13.5px;color:var(--g900);background:var(--g50);border:1.5px solid var(--g200);border-radius:var(--r);outline:none;transition:border-color .2s;-webkit-appearance:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--verde);background:var(--blanco);}
+textarea{resize:vertical;min-height:70px;line-height:1.6;}
+
+/* DATOS GRID */
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:500px){.dg{grid-template-columns:1fr;}}
+.di{background:var(--g100);border-radius:7px;padding:9px 12px;}
+.dk{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--g500);margin-bottom:2px;}
+.dv{font-size:13px;color:var(--g900);font-weight:500;font-family:var(--mono);}
+
+/* CHIPS */
+.cw{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{padding:5px 12px;border-radius:100px;border:1.5px solid var(--g200);background:var(--blanco);font-size:12px;color:var(--g700);cursor:pointer;transition:all .13s;user-select:none;-webkit-tap-highlight-color:transparent;white-space:nowrap;}
+.chip:hover{border-color:var(--verde);color:var(--verde);}
+.chip.sel{border-color:var(--verde);background:var(--verde-dim);color:var(--verde-osc);font-weight:500;}
+.chip.cc{display:flex;align-items:center;gap:5px;}
+.chip.cc .cdel{font-size:11px;opacity:.6;cursor:pointer;margin-left:2px;}
+.chip.cc .cdel:hover{opacity:1;color:#c0392b;}
+
+/* CHIP INPUT */
+.cir{display:flex;gap:6px;margin-top:8px;align-items:center;}
+.cif{flex:1;padding:5px 11px;font-size:12px;border:1.5px dashed var(--g300);border-radius:100px;background:var(--blanco);color:var(--g900);outline:none;font-family:var(--body);transition:border-color .2s;}
+.cif:focus{border-color:var(--verde);border-style:solid;}
+.cif::placeholder{color:var(--g500);}
+.cab{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--verde);background:var(--verde-dim);color:var(--verde-osc);font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;font-weight:300;}
+.cab:hover{background:var(--verde);color:white;}
+
+/* TOGGLE */
+.tg{display:flex;flex-wrap:wrap;gap:6px;}
+.to{padding:5px 13px;border-radius:100px;border:1.5px solid var(--g200);font-size:12px;cursor:pointer;background:var(--blanco);color:var(--g700);transition:all .13s;user-select:none;}
+.to.sel{border-color:var(--verde);background:var(--verde-dim);color:var(--verde-osc);font-weight:500;}
+
+/* COUNTER */
+.cntw{display:flex;align-items:center;gap:0;width:fit-content;border:1.5px solid var(--g200);border-radius:10px;overflow:hidden;background:var(--blanco);}
+.cntb{width:40px;height:46px;border:none;background:var(--g100);font-size:20px;color:var(--g700);cursor:pointer;transition:background .13s;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cntb:hover{background:var(--verde-dim);color:var(--verde-osc);}
+.cntn{width:60px;text-align:center;font-size:24px;font-family:var(--mono);color:var(--g900);border:none;background:transparent;outline:none;padding:0;-moz-appearance:textfield;}
+.cntn::-webkit-inner-spin-button,.cntn::-webkit-outer-spin-button{-webkit-appearance:none;}
+
+/* PROGRAMA */
+.pt2{width:100%;border-collapse:collapse;font-size:12px;}
+.pt2 th{background:var(--g100);padding:7px 9px;text-align:left;font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--g500);border:1px solid var(--g200);}
+.pt2 td{border:1px solid var(--g200);padding:0;}
+.pt2 td input,.pt2 td select{border:none;border-radius:0;background:transparent;padding:7px 9px;font-size:12px;width:100%;height:100%;}
+.pt2 td input:focus,.pt2 td select:focus{background:var(--verde-dim);outline:none;}
+.pt2 tr:hover td{background:var(--g50);}
+.bar{margin-top:7px;padding:5px 13px;font-size:11px;font-family:var(--body);color:var(--verde);background:var(--verde-dim);border:1.5px dashed var(--verde);border-radius:6px;cursor:pointer;transition:background .13s;}
+.bar:hover{background:#d4eada;}
+.bdr{padding:4px 7px;font-size:11px;color:var(--g500);background:none;border:none;cursor:pointer;}
+.bdr:hover{color:#c0392b;}
+
+/* RELACIONES */
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:500px){.rg{grid-template-columns:1fr;}}
+.rc{border:1.5px solid var(--g200);border-radius:8px;padding:10px 12px;background:var(--g50);}
+.rcl{font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--g500);margin-bottom:7px;}
+.rp{display:flex;align-items:center;gap:5px;margin-bottom:5px;font-size:12px;}
+.rp select{flex:1;padding:4px 7px;font-size:11px;background:var(--blanco);border:1px solid var(--g200);border-radius:5px;}
+.rico{font-size:11px;color:var(--g500);flex-shrink:0;}
+.rdel{font-size:11px;color:var(--g300);cursor:pointer;}
+.rdel:hover{color:#c0392b;}
+.brel{margin-top:4px;font-size:11px;color:var(--verde);background:none;border:none;cursor:pointer;padding:2px 0;}
+
+/* SLIDER */
+.slw{display:flex;align-items:center;gap:10px;}
+.slw input[type="range"]{flex:1;padding:0;height:4px;background:linear-gradient(to right,var(--verde) 0%,var(--verde) var(--pct,50%),var(--g200) var(--pct,50%));border-radius:2px;border:none;cursor:pointer;accent-color:var(--verde);}
+.slv{font-family:var(--mono);font-size:12px;color:var(--verde);min-width:20px;text-align:right;}
+
+/* LUZ */
+.lzprev{border-radius:10px;padding:16px;margin-bottom:10px;transition:background .5s,color .5s;position:relative;overflow:hidden;}
+.lzprev::before{content:'';position:absolute;inset:0;border-radius:10px;background:radial-gradient(ellipse at 50% 0%,var(--lzg,transparent) 0%,transparent 70%);pointer-events:none;transition:background .5s;}
+.lzprev-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;opacity:.6;}
+.lzprev-nm{font-family:var(--mono);font-size:14px;margin-top:4px;}
+.lzprev-tmp{font-size:11px;opacity:.6;margin-top:3px;}
+.lzbtns{display:flex;gap:7px;flex-wrap:wrap;}
+.lzbtn{padding:7px 14px;border-radius:100px;border:2px solid transparent;font-size:12px;cursor:pointer;transition:all .2s;font-family:var(--body);}
+.lzbtn.cal{background:#fff5e0;color:#a06010;border-color:#f0c060;}
+.lzbtn.neu{background:#f0f4f0;color:#405040;border-color:#a0c0a0;}
+.lzbtn.fri{background:#e8f0ff;color:#305090;border-color:#90b0e0;}
+.lzbtn.mix{background:linear-gradient(135deg,#fff5e0 50%,#e8f0ff 50%);color:var(--g700);border-color:var(--g300);}
+.lzbtn.sin{background:var(--g100);color:var(--g500);border-color:var(--g300);}
+.lzbtn.sel{transform:scale(1.04);box-shadow:0 2px 12px rgba(0,0,0,.12);}
+.lzbtn.cal.sel{border-color:#e08000;box-shadow:0 2px 14px rgba(240,160,0,.25);}
+.lzbtn.neu.sel{border-color:#508050;box-shadow:0 2px 14px rgba(80,160,80,.2);}
+.lzbtn.fri.sel{border-color:#4070d0;box-shadow:0 2px 14px rgba(64,112,208,.25);}
+
+/* IMG UPLOAD */
+.iua{border:2px dashed var(--g300);border-radius:8px;padding:18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;background:var(--g50);}
+.iua:hover{border-color:var(--verde);background:var(--verde-dim);}
+.iua.has{border-style:solid;border-color:var(--verde);}
+.iua input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.iuai{font-size:22px;margin-bottom:5px;}
+.iuat{font-size:11px;color:var(--g500);}
+.iuprev{max-width:100%;max-height:150px;border-radius:6px;object-fit:cover;display:none;}
+
+/* COND */
+.cb{background:var(--g50);border:1.5px solid var(--g200);border-radius:8px;padding:14px;margin-top:12px;display:none;}
+.cb.on{display:block;}
+.cblbl{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--g500);margin-bottom:10px;}
+
+/* NOTAS */
+.nb{background:var(--amarillo-dim);border:1.5px solid var(--amarillo-brd);border-radius:8px;padding:13px;}
+.nb textarea{background:transparent;border:none;font-size:13px;min-height:78px;}
+.nb textarea:focus{background:transparent;border:none;}
+.nbico{font-size:11px;color:#a08c10;margin-bottom:5px;font-weight:500;}
+
+/* FOOTER */
+.footer{position:fixed;bottom:0;left:0;right:0;background:var(--blanco);border-top:1px solid var(--g200);padding:11px 20px;display:flex;gap:10px;justify-content:flex-end;align-items:center;z-index:40;}
+.sts{font-size:11px;color:var(--g500);display:flex;align-items:center;gap:6px;}
+.std{width:6px;height:6px;border-radius:50%;background:var(--g300);transition:background .3s;}
+.std.ok{background:var(--verde);}
+.btng{padding:10px 24px;border-radius:100px;border:none;background:var(--verde);color:white;font-family:var(--body);font-size:13.5px;font-weight:500;cursor:pointer;transition:background .2s,transform .1s;}
+.btng:hover{background:var(--verde-osc);}
+.btng:active{transform:scale(.97);}
+.btng:disabled{opacity:.5;cursor:not-allowed;}
+
+/* EXITO */
+#exito{display:none;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:40px 24px;flex-direction:column;background:var(--g100);}
+.cc{width:66px;height:66px;border-radius:50%;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.cc svg{stroke:var(--verde);}
+#exito h2{font-family:var(--mono);font-size:18px;margin-bottom:10px;}
+#exito p{font-size:13px;color:var(--g500);line-height:1.7;max-width:320px;margin:0 auto 20px;}
+.btnn{padding:11px 24px;background:var(--verde);color:white;border:none;border-radius:100px;font-size:13.5px;cursor:pointer;font-family:var(--body);}
+
+/* UTILS */
+.hr{border:none;border-top:1px solid var(--g200);margin:13px 0;}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.r2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000"><defs><style>.l1{fill:#5b9668;}.l2{fill:#fff;}</style></defs><rect class="l1" x=".3" y=".26" width="2000" height="2000"/><path class="l2" d="M546.76,1342.76v40.65H423.63V1558c0,46,24.5,61.56,69.94,61.56,20.31,0,38.25-1.79,53.19-6v43.64c-19.72,6-39.45,7.17-56.19,7.17-75.91,0-116.55-29.28-116.55-97.43v-183.5H283.76v-40.65H374v-86.07h49.61v86.07Z"/><path class="l2" d="M793,1666.73c-94.44,0-142.26-68.73-142.26-164.37,0-104.6,56.79-169.16,143.45-169.16,96.84,0,139.28,72.33,139.28,181.11H702.78c1.8,61.57,31.69,106.4,92.05,106.4,40.65,0,68.15-19.73,81.9-61.57h50.2C916.18,1624.9,866.57,1666.73,793,1666.73Zm-89-193.06H879.71c0-52-32.27-94.44-86.07-94.44C737.45,1379.23,708.16,1421.07,704,1473.67Z"/><rect class="l2" x="1433.67" y="333.79" width="283.32" height="333.53"/><path class="l2" d="M566.94,500.56c0,95-45.42,166.77-141.65,166.77S283.62,595.6,283.62,500.56s45.44-166.77,141.67-166.77S566.94,405.53,566.94,500.56Zm-231.31,0c0,64,26.29,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.3-120.74-89.65-120.74S335.63,436.61,335.63,500.56Z"/><path class="l2" d="M501.8,947.07c-5.38-41.24-32.88-67-76.51-67-64.55,0-89.66,61.57-89.66,123.73s28.09,117.76,90.85,117.76c43.64,0,70.53-24.51,78.9-74.13h50.21c-6.57,75.32-53.2,120.14-130.3,120.14-91.45,0-141.67-71.72-141.67-163.77,0-93.85,49-169.76,142.26-169.76,76.51,0,124.33,46.63,126.13,113Z"/><path class="l2" d="M929.19,1000.86c0,95-45.42,166.76-141.66,166.76s-141.66-71.72-141.66-166.76S691.3,834.09,787.53,834.09,929.19,905.83,929.19,1000.86Zm-231.32,0c0,64,26.3,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.29-120.74-89.65-120.74S697.87,936.91,697.87,1000.86Z"/></svg>
+    </div>
+    <h2>ocote Arquitectos</h2>
+    <p class="login-sub">Entrevista arquitectónica · Anteproyecto</p>
+    <div class="login-folio-lbl">Folio del proyecto</div>
+    <input type="text" id="folio-input" placeholder="Ej. 070326-01-046" autocomplete="off" spellcheck="false"/>
+    <button class="btn-login" onclick="checkFolio()">Cargar proyecto →</button>
+    <p class="login-err" id="login-err">Folio no encontrado. Verifica e intenta de nuevo.</p>
+    <p class="login-hint">El folio aparece en la cotización enviada al cliente.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="lw"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000"><defs><style>.t1{fill:#5b9668;}.t2{fill:#fff;}</style></defs><rect class="t1" x=".3" y=".26" width="2000" height="2000"/><path class="t2" d="M546.76,1342.76v40.65H423.63V1558c0,46,24.5,61.56,69.94,61.56,20.31,0,38.25-1.79,53.19-6v43.64c-19.72,6-39.45,7.17-56.19,7.17-75.91,0-116.55-29.28-116.55-97.43v-183.5H283.76v-40.65H374v-86.07h49.61v86.07Z"/><path class="t2" d="M793,1666.73c-94.44,0-142.26-68.73-142.26-164.37,0-104.6,56.79-169.16,143.45-169.16,96.84,0,139.28,72.33,139.28,181.11H702.78c1.8,61.57,31.69,106.4,92.05,106.4,40.65,0,68.15-19.73,81.9-61.57h50.2C916.18,1624.9,866.57,1666.73,793,1666.73Zm-89-193.06H879.71c0-52-32.27-94.44-86.07-94.44C737.45,1379.23,708.16,1421.07,704,1473.67Z"/><rect class="t2" x="1433.67" y="333.79" width="283.32" height="333.53"/><path class="t2" d="M566.94,500.56c0,95-45.42,166.77-141.65,166.77S283.62,595.6,283.62,500.56s45.44-166.77,141.67-166.77S566.94,405.53,566.94,500.56Zm-231.31,0c0,64,26.29,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.3-120.74-89.65-120.74S335.63,436.61,335.63,500.56Z"/><path class="t2" d="M501.8,947.07c-5.38-41.24-32.88-67-76.51-67-64.55,0-89.66,61.57-89.66,123.73s28.09,117.76,90.85,117.76c43.64,0,70.53-24.51,78.9-74.13h50.21c-6.57,75.32-53.2,120.14-130.3,120.14-91.45,0-141.67-71.72-141.67-163.77,0-93.85,49-169.76,142.26-169.76,76.51,0,124.33,46.63,126.13,113Z"/><path class="t2" d="M929.19,1000.86c0,95-45.42,166.76-141.66,166.76s-141.66-71.72-141.66-166.76S691.3,834.09,787.53,834.09,929.19,905.83,929.19,1000.86Zm-231.32,0c0,64,26.3,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.29-120.74-89.65-120.74S697.87,936.91,697.87,1000.86Z"/></svg></div>
+    <div class="topbar-info">
+      <div class="topbar-title" id="tb-cliente">—</div>
+      <div class="topbar-folio" id="tb-folio">—</div>
+    </div>
+    <div class="topbar-right">
+      <div class="pt"><div class="pf" id="progreso"></div></div>
+      <div class="pl" id="prog-label">0%</div>
+    </div>
+  </div>
+
+  <div class="main-wrap">
+    <nav class="sidebar">
+      <div class="slbl">Secciones</div>
+      <button class="ni active" onclick="goTo('s0')" id="nav-s0"><span class="nd"></span>00 · Datos</button>
+      <button class="ni" onclick="goTo('s1')" id="nav-s1"><span class="nd"></span>01 · Objetivo</button>
+      <button class="ni" onclick="goTo('s2')" id="nav-s2"><span class="nd"></span>02 · Usuarios</button>
+      <button class="ni" onclick="goTo('s3')" id="nav-s3"><span class="nd"></span>03 · Actividades</button>
+      <button class="ni" onclick="goTo('s4')" id="nav-s4"><span class="nd"></span>04 · Programa</button>
+      <button class="ni" onclick="goTo('s5')" id="nav-s5"><span class="nd"></span>05 · Relaciones</button>
+      <button class="ni" onclick="goTo('s6')" id="nav-s6"><span class="nd"></span>06 · Experiencia</button>
+      <button class="ni" onclick="goTo('s7')" id="nav-s7"><span class="nd"></span>07 · Lenguaje</button>
+      <button class="ni" onclick="goTo('s8')" id="nav-s8"><span class="nd"></span>08 · Iluminación</button>
+      <button class="ni" onclick="goTo('s9')" id="nav-s9"><span class="nd"></span>09 · Mobiliario</button>
+      <button class="ni" onclick="goTo('s10')" id="nav-s10"><span class="nd"></span>10 · Sitio</button>
+      <button class="ni" onclick="goTo('s11')" id="nav-s11"><span class="nd"></span>11 · Presupuesto</button>
+      <button class="ni" onclick="goTo('s12')" id="nav-s12"><span class="nd"></span>12 · Crecimiento</button>
+      <button class="ni" onclick="goTo('s13')" id="nav-s13"><span class="nd"></span>13 · Condicionales</button>
+      <button class="ni" onclick="goTo('s14')" id="nav-s14"><span class="nd"></span>14 · Notas</button>
+    </nav>
+
+    <div class="content">
+
+      <!-- S0 -->
+      <div class="card" id="s0">
+        <div class="sh"><span class="sn">00</span><div><div class="st">Datos del proyecto</div><div class="sd">Cargados desde el folio. Editables si es necesario.</div></div></div>
+        <div class="dg" id="datos-grid">
+          <div class="di"><div class="dk">Folio</div><div class="dv" id="d-folio">—</div></div>
+          <div class="di"><div class="dk">Fecha</div><div class="dv" id="d-fecha">—</div></div>
+          <div class="di"><div class="dk">Cliente</div><div class="dv" id="d-cliente">—</div></div>
+          <div class="di"><div class="dk">Contacto</div><div class="dv" id="d-contacto">—</div></div>
+          <div class="di"><div class="dk">Servicio</div><div class="dv" id="d-servicio">—</div></div>
+          <div class="di"><div class="dk">Inmueble</div><div class="dv" id="d-inmueble">—</div></div>
+          <div class="di"><div class="dk">Área aprox.</div><div class="dv" id="d-area">—</div></div>
+          <div class="di"><div class="dk">Ubicación</div><div class="dv" id="d-ubicacion">—</div></div>
+        </div>
+        <div class="hr"></div>
+        <div class="f">
+          <label class="fl">Espacios a intervenir</label>
+          <div class="fh">Se cargan del formulario de cotización. Agrega o quita según la entrevista.</div>
+          <div class="cw" id="chips-espacios"></div>
+          <div class="cir"><input class="cif" id="new-espacio" placeholder="+ Agregar espacio..."/><button class="cab" onclick="addCC('chips-espacios','new-espacio')">+</button></div>
+        </div>
+      </div>
+
+      <!-- S1 -->
+      <div class="card" id="s1">
+        <div class="sh"><span class="sn">01</span><div><div class="st">Objetivo del proyecto</div></div></div>
+        <div class="f">
+          <label class="fl">Objetivo principal</label>
+          <div class="cw" id="chips-obj">
+            <span class="chip" onclick="tC(this)">Optimizar distribución</span><span class="chip" onclick="tC(this)">Mejorar imagen</span><span class="chip" onclick="tC(this)">Ampliar espacio</span><span class="chip" onclick="tC(this)">Modernizar acabados</span><span class="chip" onclick="tC(this)">Crear espacio nuevo</span><span class="chip" onclick="tC(this)">Solucionar problema funcional</span><span class="chip" onclick="tC(this)">Aumentar valor del inmueble</span><span class="chip" onclick="tC(this)">Abrir negocio</span><span class="chip" onclick="tC(this)">Construir vivienda propia</span><span class="chip" onclick="tC(this)">Generar renta</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-obj" placeholder="+ Otro objetivo..."/><button class="cab" onclick="addCC('chips-obj','new-obj')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Problema a resolver</label>
+          <div class="cw" id="chips-prob">
+            <span class="chip" onclick="tC(this)">Espacios pequeños</span><span class="chip" onclick="tC(this)">Mala distribución</span><span class="chip" onclick="tC(this)">Poca luz natural</span><span class="chip" onclick="tC(this)">Humedad / filtraciones</span><span class="chip" onclick="tC(this)">Acabados deteriorados</span><span class="chip" onclick="tC(this)">Falta de privacidad</span><span class="chip" onclick="tC(this)">Sin almacenaje</span><span class="chip" onclick="tC(this)">Accesibilidad</span><span class="chip" onclick="tC(this)">Imagen poco atractiva</span><span class="chip" onclick="tC(this)">No hay espacio definido</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-prob" placeholder="+ Otro problema..."/><button class="cab" onclick="addCC('chips-prob','new-prob')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">¿Qué desea mejorar?</label>
+          <div class="cw" id="chips-mej">
+            <span class="chip" onclick="tC(this)">Circulación y flujos</span><span class="chip" onclick="tC(this)">Iluminación</span><span class="chip" onclick="tC(this)">Ventilación</span><span class="chip" onclick="tC(this)">Almacenamiento</span><span class="chip" onclick="tC(this)">Estética general</span><span class="chip" onclick="tC(this)">Funcionalidad de cocina</span><span class="chip" onclick="tC(this)">Relación interior-exterior</span><span class="chip" onclick="tC(this)">Privacidad</span><span class="chip" onclick="tC(this)">Confort térmico</span><span class="chip" onclick="tC(this)">Conexión entre espacios</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-mej" placeholder="+ Otro aspecto..."/><button class="cab" onclick="addCC('chips-mej','new-mej')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Resultado ideal</label>
+          <div class="cw" id="chips-res">
+            <span class="chip" onclick="tC(this)">Amplio y funcional</span><span class="chip" onclick="tC(this)">Moderno y actual</span><span class="chip" onclick="tC(this)">Cálido y familiar</span><span class="chip" onclick="tC(this)">Profesional y representativo</span><span class="chip" onclick="tC(this)">Integrado al entorno</span><span class="chip" onclick="tC(this)">Fácil de mantener</span><span class="chip" onclick="tC(this)">Flexible y adaptable</span><span class="chip" onclick="tC(this)">Sostenible</span><span class="chip" onclick="tC(this)">Atractivo para renta/venta</span><span class="chip" onclick="tC(this)">Seguro y accesible</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-res" placeholder="+ Otro resultado..."/><button class="cab" onclick="addCC('chips-res','new-res')">+</button></div>
+        </div>
+      </div>
+
+      <!-- S2 -->
+      <div class="card" id="s2">
+        <div class="sh"><span class="sn">02</span><div><div class="st">Usuarios del espacio</div></div></div>
+        <div class="f">
+          <label class="fl">Usuarios principales</label>
+          <div class="cw" id="chips-usr">
+            <span class="chip" onclick="tC(this)">Familia</span><span class="chip" onclick="tC(this)">Pareja</span><span class="chip" onclick="tC(this)">Persona sola</span><span class="chip" onclick="tC(this)">Adultos mayores</span><span class="chip" onclick="tC(this)">Niños</span><span class="chip" onclick="tC(this)">Empleados</span><span class="chip" onclick="tC(this)">Clientes / visitas</span><span class="chip" onclick="tC(this)">Inquilinos</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-usr" placeholder="+ Otro usuario..."/><button class="cab" onclick="addCC('chips-usr','new-usr')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Número de usuarios habituales</label>
+          <div class="cntw">
+            <button class="cntb" onclick="cntChange('s2-num',-1)">−</button>
+            <input class="cntn" type="number" id="s2-num" value="1" min="1" max="999"/>
+            <button class="cntb" onclick="cntChange('s2-num',1)">+</button>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Usuarios ocasionales</label>
+          <div class="cw" id="chips-ocas">
+            <span class="chip" onclick="tC(this)">Visitas familiares</span><span class="chip" onclick="tC(this)">Amigos</span><span class="chip" onclick="tC(this)">Empleados domésticos</span><span class="chip" onclick="tC(this)">Proveedores</span><span class="chip" onclick="tC(this)">Clientes esporádicos</span><span class="chip" onclick="tC(this)">Ninguno</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-ocas" placeholder="+ Otro..."/><button class="cab" onclick="addCC('chips-ocas','new-ocas')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Necesidades especiales</label>
+          <div class="cw" id="chips-nec">
+            <span class="chip" onclick="tC(this)">Movilidad reducida</span><span class="chip" onclick="tC(this)">Personas mayores</span><span class="chip" onclick="tC(this)">Niños pequeños</span><span class="chip" onclick="tC(this)">Mascotas</span><span class="chip" onclick="tC(this)">Ninguna</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3 -->
+      <div class="card" id="s3">
+        <div class="sh"><span class="sn">03</span><div><div class="st">Actividades del espacio</div></div></div>
+        <div class="f">
+          <label class="fl">Actividad principal</label>
+          <div class="cw" id="chips-act-p">
+            <span class="chip" onclick="tCS(this,'chips-act-p')">Habitar</span><span class="chip" onclick="tCS(this,'chips-act-p')">Trabajar / Home office</span><span class="chip" onclick="tCS(this,'chips-act-p')">Vender / Atender clientes</span><span class="chip" onclick="tCS(this,'chips-act-p')">Rentar</span><span class="chip" onclick="tCS(this,'chips-act-p')">Producción / Taller</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Actividades secundarias</label>
+          <div class="cw" id="chips-act-s">
+            <span class="chip" onclick="tC(this)">Cocinar</span><span class="chip" onclick="tC(this)">Estudiar</span><span class="chip" onclick="tC(this)">Home office</span><span class="chip" onclick="tC(this)">Recibir visitas</span><span class="chip" onclick="tC(this)">Actividad física</span><span class="chip" onclick="tC(this)">Hobbies</span><span class="chip" onclick="tC(this)">Almacenaje</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-act-s" placeholder="+ Otra actividad..."/><button class="cab" onclick="addCC('chips-act-s','new-act-s')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Actividades ocasionales</label>
+          <div class="cw" id="chips-act-o">
+            <span class="chip" onclick="tC(this)">Reuniones / eventos</span><span class="chip" onclick="tC(this)">Fiestas</span><span class="chip" onclick="tC(this)">Hospedaje de visitas</span><span class="chip" onclick="tC(this)">Talleres</span><span class="chip" onclick="tC(this)">Ninguna</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-act-o" placeholder="+ Otra..."/><button class="cab" onclick="addCC('chips-act-o','new-act-o')">+</button></div>
+        </div>
+        <div class="r2">
+          <div class="f">
+            <label class="fl">Frecuencia de uso</label>
+            <div class="tg" id="tg-freq">
+              <span class="to" onclick="tO(this,'tg-freq')">Diario</span><span class="to" onclick="tO(this,'tg-freq')">Entre semana</span><span class="to" onclick="tO(this,'tg-freq')">Fin de semana</span><span class="to" onclick="tO(this,'tg-freq')">Temporal</span>
+            </div>
+          </div>
+          <div class="f">
+            <label class="fl">Personas en pico de uso</label>
+            <div class="cntw">
+              <button class="cntb" onclick="cntChange('s3-pico',-1)">−</button>
+              <input class="cntn" type="number" id="s3-pico" value="1" min="1" max="999"/>
+              <button class="cntb" onclick="cntChange('s3-pico',1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S4 -->
+      <div class="card" id="s4">
+        <div class="sh"><span class="sn">04</span><div><div class="st">Programa espacial</div><div class="sd">Los espacios aquí se usarán en la sección de relaciones.</div></div></div>
+        <div style="overflow-x:auto;">
+          <table class="pt2">
+            <thead><tr><th style="width:26%">Espacio</th><th style="width:26%">Actividad</th><th style="width:11%">Usuarios</th><th style="width:16%">Prioridad</th><th style="width:11%">m²</th><th style="width:10%"></th></tr></thead>
+            <tbody id="prog-body"></tbody>
+          </table>
+        </div>
+        <button class="bar" onclick="addRow()">+ Agregar espacio</button>
+      </div>
+
+      <!-- S5 -->
+      <div class="card" id="s5">
+        <div class="sh"><span class="sn">05</span><div><div class="st">Relaciones espaciales</div><div class="sd">Los espacios del programa aparecen aquí automáticamente.</div></div></div>
+        <div class="rg">
+          <div class="rc">
+            <div class="rcl">🔗 Deben conectarse</div>
+            <div id="rel-c"></div>
+            <button class="brel" onclick="addRel('rel-c','↔')">+ Par</button>
+          </div>
+          <div class="rc">
+            <div class="rcl">✂️ Deben separarse</div>
+            <div id="rel-s"></div>
+            <button class="brel" onclick="addRel('rel-s','✂')">+ Par</button>
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div class="r2">
+          <div class="f">
+            <label class="fl">Mayor privacidad</label>
+            <div class="cw" id="chips-priv"><span style="font-size:11px;color:var(--g500)">Se llena desde el programa (04)</span></div>
+          </div>
+          <div class="f">
+            <label class="fl">Mayor visibilidad / representatividad</label>
+            <div class="cw" id="chips-vis"><span style="font-size:11px;color:var(--g500)">Se llena desde el programa (04)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S6 -->
+      <div class="card" id="s6">
+        <div class="sh"><span class="sn">06</span><div><div class="st">Experiencia del espacio</div></div></div>
+        <div class="f">
+          <label class="fl">Sensación principal</label>
+          <div class="cw" id="chips-sens">
+            <span class="chip" onclick="tC(this)">Calma</span><span class="chip" onclick="tC(this)">Energía</span><span class="chip" onclick="tC(this)">Lujo accesible</span><span class="chip" onclick="tC(this)">Calidez familiar</span><span class="chip" onclick="tC(this)">Austeridad</span><span class="chip" onclick="tC(this)">Modernidad</span><span class="chip" onclick="tC(this)">Conexión con naturaleza</span><span class="chip" onclick="tC(this)">Amplitud</span><span class="chip" onclick="tC(this)">Intimidad</span><span class="chip" onclick="tC(this)">Profesionalismo</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-sens" placeholder="+ Otra sensación..."/><button class="cab" onclick="addCC('chips-sens','new-sens')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Nivel de apertura vs privacidad</label>
+          <div class="slw">
+            <span style="font-size:11px;color:var(--g500)">Abierto</span>
+            <input type="range" id="s6-ap" min="1" max="5" value="3" oninput="updSl(this)"/>
+            <span style="font-size:11px;color:var(--g500)">Privado</span>
+            <span class="slv" id="s6-ap-val">3</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Relación con el exterior</label>
+          <div class="tg" id="tg-ext">
+            <span class="to" onclick="tO(this,'tg-ext')">Muy integrado</span><span class="to" onclick="tO(this,'tg-ext')">Moderada</span><span class="to" onclick="tO(this,'tg-ext')">Mínima</span><span class="to" onclick="tO(this,'tg-ext')">Indiferente</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- S7 -->
+      <div class="card" id="s7">
+        <div class="sh"><span class="sn">07</span><div><div class="st">Lenguaje arquitectónico</div></div></div>
+        <div class="f">
+          <label class="fl">Estilo preferido</label>
+          <div class="cw" id="chips-est">
+            <span class="chip" onclick="tC(this)">Minimalista</span><span class="chip" onclick="tC(this)">Contemporáneo</span><span class="chip" onclick="tC(this)">Industrial</span><span class="chip" onclick="tC(this)">Rústico moderno</span><span class="chip" onclick="tC(this)">Tropical / bioclimático</span><span class="chip" onclick="tC(this)">Tradicional mexicano</span><span class="chip" onclick="tC(this)">Mediterráneo</span><span class="chip" onclick="tC(this)">Ecléctico</span><span class="chip" onclick="tC(this)">Sin definir</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-est" placeholder="+ Otro estilo..."/><button class="cab" onclick="addCC('chips-est','new-est')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Materiales preferidos</label>
+          <div class="cw" id="chips-mat">
+            <span class="chip" onclick="tC(this)">Concreto aparente</span><span class="chip" onclick="tC(this)">Madera natural</span><span class="chip" onclick="tC(this)">Acero</span><span class="chip" onclick="tC(this)">Vidrio</span><span class="chip" onclick="tC(this)">Piedra natural</span><span class="chip" onclick="tC(this)">Ladrillo</span><span class="chip" onclick="tC(this)">Cerámica / azulejo</span><span class="chip" onclick="tC(this)">Aplanado liso</span><span class="chip" onclick="tC(this)">Vegetación integrada</span><span class="chip" onclick="tC(this)">Tablaroca</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-mat" placeholder="+ Otro material..."/><button class="cab" onclick="addCC('chips-mat','new-mat')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Materiales a evitar</label>
+          <div class="cw" id="chips-ev">
+            <span class="chip" onclick="tC(this)">Madera oscura</span><span class="chip" onclick="tC(this)">Concreto visto</span><span class="chip" onclick="tC(this)">Azulejo de color</span><span class="chip" onclick="tC(this)">Aluminio natural</span><span class="chip" onclick="tC(this)">Acabados brillantes</span><span class="chip" onclick="tC(this)">Colores saturados</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-ev" placeholder="+ Otro a evitar..."/><button class="cab" onclick="addCC('chips-ev','new-ev')">+</button></div>
+        </div>
+        <div class="f">
+          <label class="fl">Referencias visuales</label>
+          <input type="text" id="s7-ref" placeholder="Links de Pinterest, proyectos o arquitectos de referencia..." style="margin-bottom:8px;"/>
+          <div class="iua" id="iua" onclick="document.getElementById('img-file').click()">
+            <input type="file" id="img-file" accept="image/*" style="display:none" onchange="prevImg(this)"/>
+            <div class="iuai">🖼️</div>
+            <div class="iuat">Toca para cargar imagen de referencia</div>
+            <img class="iuprev" id="iuprev" src="" alt=""/>
+          </div>
+        </div>
+      </div>
+
+      <!-- S8 -->
+      <div class="card" id="s8">
+        <div class="sh"><span class="sn">08</span><div><div class="st">Iluminación y ambiente</div></div></div>
+        <div class="f">
+          <label class="fl">Importancia de la luz natural</label>
+          <div class="slw">
+            <span style="font-size:11px;color:var(--g500)">Poca</span>
+            <input type="range" id="s8-nat" min="1" max="5" value="3" oninput="updSl(this)"/>
+            <span style="font-size:11px;color:var(--g500)">Mucha</span>
+            <span class="slv" id="s8-nat-val">3</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Temperatura de luz artificial</label>
+          <div class="lzprev" id="lzprev">
+            <div class="lzprev-lbl">Vista previa del ambiente</div>
+            <div class="lzprev-nm" id="lz-nm">Sin selección</div>
+            <div class="lzprev-tmp" id="lz-tmp">Selecciona una opción</div>
+          </div>
+          <div class="lzbtns">
+            <button class="lzbtn cal" onclick="selLuz(this,'Cálida · Acogedora','3000 K — Estancias, recámaras, cocinas','#fff8ee','rgba(255,200,80,0.18)')">🌅 Cálida</button>
+            <button class="lzbtn neu" onclick="selLuz(this,'Neutra · Equilibrada','4000 K — Versátil, cocinas, baños, oficinas','#f5f8f5','rgba(160,220,160,0.12)')">☁️ Neutra</button>
+            <button class="lzbtn fri" onclick="selLuz(this,'Fría · Enfocada','6000 K — Locales comerciales, talleres','#f0f4ff','rgba(100,150,255,0.14)')">💡 Fría</button>
+            <button class="lzbtn mix" onclick="selLuz(this,'Mixta por zona','Variable según espacio','#f8f8f0','rgba(200,200,120,0.10)')">🎛️ Mixta</button>
+            <button class="lzbtn sin" onclick="selLuz(this,'Sin preferencia','Se definirá en proyecto','#f4f4f2','transparent')">Sin pref.</button>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Tipo de iluminación</label>
+          <div class="cw" id="chips-tluz">
+            <span class="chip" onclick="tC(this)">General / cenital</span><span class="chip" onclick="tC(this)">Indirecta / oculta</span><span class="chip" onclick="tC(this)">Puntos focales</span><span class="chip" onclick="tC(this)">De tarea</span><span class="chip" onclick="tC(this)">Decorativa</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- S9 -->
+      <div class="card" id="s9">
+        <div class="sh"><span class="sn">09</span><div><div class="st">Equipamiento y mobiliario</div><div class="sd" id="s9-desc">Adaptado al tipo de proyecto.</div></div></div>
+        <div id="s9-ex-block">
+          <div class="f">
+            <label class="fl">Mobiliario existente a conservar</label>
+            <div class="cw" id="chips-mob-ex">
+              <span class="chip" onclick="tC(this)">Cocina integral</span><span class="chip" onclick="tC(this)">Closets</span><span class="chip" onclick="tC(this)">Muebles de baño</span><span class="chip" onclick="tC(this)">Sala / comedor</span><span class="chip" onclick="tC(this)">Nada a conservar</span>
+            </div>
+            <div class="cir"><input class="cif" id="new-mob-ex" placeholder="+ Otro mueble..."/><button class="cab" onclick="addCC('chips-mob-ex','new-mob-ex')">+</button></div>
+          </div>
+          <div class="f">
+            <label class="fl">Mobiliario a diseñar / integrar</label>
+            <div class="cw" id="chips-mob-d">
+              <span class="chip" onclick="tC(this)">Cocina integral</span><span class="chip" onclick="tC(this)">Closets</span><span class="chip" onclick="tC(this)">Libreros</span><span class="chip" onclick="tC(this)">Barra</span><span class="chip" onclick="tC(this)">Mueble de TV</span><span class="chip" onclick="tC(this)">Escritorio empotrado</span>
+            </div>
+            <div class="cir"><input class="cif" id="new-mob-d" placeholder="+ Otro mueble..."/><button class="cab" onclick="addCC('chips-mob-d','new-mob-d')">+</button></div>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Equipamiento especial</label>
+          <div class="cw" id="chips-eq">
+            <span class="chip" onclick="tC(this)">Cocina semiprofesional</span><span class="chip" onclick="tC(this)">Lavandería</span><span class="chip" onclick="tC(this)">Estudio / bodega</span><span class="chip" onclick="tC(this)">Alberca</span><span class="chip" onclick="tC(this)">Jacuzzi / tina</span><span class="chip" onclick="tC(this)">Área de servicio</span><span class="chip" onclick="tC(this)">Cuarto de visitas</span><span class="chip" onclick="tC(this)">Estacionamiento techado</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-eq" placeholder="+ Otro equipamiento..."/><button class="cab" onclick="addCC('chips-eq','new-eq')">+</button></div>
+        </div>
+      </div>
+
+      <!-- S10 -->
+      <div class="card" id="s10">
+        <div class="sh"><span class="sn">10</span><div><div class="st">Condiciones del sitio</div></div></div>
+        <div class="f">
+          <label class="fl">Vistas relevantes</label>
+          <div class="cw" id="chips-vis2">
+            <span class="chip" onclick="tC(this)">Vista exterior destacada</span><span class="chip" onclick="tC(this)">Vista a jardín propio</span><span class="chip" onclick="tC(this)">Vista a calle</span><span class="chip" onclick="tC(this)">Vista a conservar</span><span class="chip" onclick="tC(this)">Vista a ocultar</span><span class="chip" onclick="tC(this)">Sin vistas relevantes</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Ruido del entorno</label>
+          <div class="tg" id="tg-ruido">
+            <span class="to" onclick="tO(this,'tg-ruido')">Zona tranquila</span><span class="to" onclick="tO(this,'tg-ruido')">Ruido moderado</span><span class="to" onclick="tO(this,'tg-ruido')">Zona ruidosa</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Elementos a conservar o considerar</label>
+          <div class="cw" id="chips-cons">
+            <span class="chip" onclick="tC(this)">Vegetación existente</span><span class="chip" onclick="tC(this)">Construcción parcial</span><span class="chip" onclick="tC(this)">Pavimentos</span><span class="chip" onclick="tC(this)">Muro perimetral</span><span class="chip" onclick="tC(this)">Instalaciones existentes</span><span class="chip" onclick="tC(this)">Ninguno</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-cons" placeholder="+ Otro elemento..."/><button class="cab" onclick="addCC('chips-cons','new-cons')">+</button></div>
+        </div>
+      </div>
+
+      <!-- S11 -->
+      <div class="card" id="s11">
+        <div class="sh"><span class="sn">11</span><div><div class="st">Presupuesto y prioridades</div></div></div>
+        <div class="f">
+          <label class="fl">Prioridad si hay que elegir</label>
+          <div class="tg" id="tg-pri">
+            <span class="to" onclick="tO(this,'tg-pri')">Tamaño / m²</span><span class="to" onclick="tO(this,'tg-pri')">Calidad de acabados</span><span class="to" onclick="tO(this,'tg-pri')">Concepto de diseño</span><span class="to" onclick="tO(this,'tg-pri')">Todo equilibrado</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Flexibilidad del presupuesto</label>
+          <div class="tg" id="tg-flex">
+            <span class="to" onclick="tO(this,'tg-flex')">Fijo</span><span class="to" onclick="tO(this,'tg-flex')">Algo de margen</span><span class="to" onclick="tO(this,'tg-flex')">Flexible si se justifica</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Rango estimado para obra (opcional)</label>
+          <input type="text" id="s11-pres" placeholder="Ej. $400K – $700K MXN / Sin definir"/>
+        </div>
+      </div>
+
+      <!-- S12 -->
+      <div class="card" id="s12">
+        <div class="sh"><span class="sn">12</span><div><div class="st">Crecimiento futuro</div></div></div>
+        <div class="f">
+          <label class="fl">¿Se contempla ampliación?</label>
+          <div class="tg" id="tg-amp">
+            <span class="to" onclick="tO(this,'tg-amp')">Sí</span><span class="to" onclick="tO(this,'tg-amp')">Posible</span><span class="to" onclick="tO(this,'tg-amp')">No</span>
+          </div>
+        </div>
+        <div class="f">
+          <label class="fl">Posibles cambios de uso</label>
+          <div class="cw" id="chips-cam">
+            <span class="chip" onclick="tC(this)">Agregar recámara</span><span class="chip" onclick="tC(this)">Uso mixto</span><span class="chip" onclick="tC(this)">Agregar local comercial</span><span class="chip" onclick="tC(this)">Departamento adicional</span><span class="chip" onclick="tC(this)">Ninguno previsto</span>
+          </div>
+          <div class="cir"><input class="cif" id="new-cam" placeholder="+ Otro cambio..."/><button class="cab" onclick="addCC('chips-cam','new-cam')">+</button></div>
+        </div>
+      </div>
+
+      <!-- S13 -->
+      <div class="card" id="s13">
+        <div class="sh"><span class="sn">13</span><div><div class="st">Preguntas por tipo de proyecto</div><div class="sd" id="s13-desc">Aparecen según el tipo de servicio cargado.</div></div></div>
+
+        <div class="cb" id="cb-obra">
+          <div class="cblbl">📐 Obra nueva</div>
+          <div class="f"><label class="fl">Número de niveles</label>
+            <div class="cntw"><button class="cntb" onclick="cntChange('c-niv',-1)">−</button><input class="cntn" type="number" id="c-niv" value="1" min="1" max="10"/><button class="cntb" onclick="cntChange('c-niv',1)">+</button></div>
+          </div>
+          <div class="f"><label class="fl">¿Posibilidad de crecer verticalmente?</label>
+            <div class="tg" id="tg-crecer"><span class="to" onclick="tO(this,'tg-crecer')">Sí</span><span class="to" onclick="tO(this,'tg-crecer')">Posible</span><span class="to" onclick="tO(this,'tg-crecer')">No</span></div>
+          </div>
+          <div class="f"><label class="fl">Área construida deseada (m²)</label><input type="number" id="c-area" placeholder="Ej. 120"/></div>
+          <div class="f"><label class="fl">Relación interior-exterior</label>
+            <div class="cw" id="chips-ie-obra"><span class="chip" onclick="tC(this)">Terraza</span><span class="chip" onclick="tC(this)">Patio interior</span><span class="chip" onclick="tC(this)">Doble altura</span><span class="chip" onclick="tC(this)">Jardín frontal</span><span class="chip" onclick="tC(this)">Jardín trasero</span><span class="chip" onclick="tC(this)">Roof garden</span></div>
+          </div>
+        </div>
+
+        <div class="cb" id="cb-amp">
+          <div class="cblbl">🔧 Ampliación</div>
+          <div class="f"><label class="fl">Relación con lo existente</label>
+            <div class="tg" id="tg-rel-amp"><span class="to" onclick="tO(this,'tg-rel-amp')">Integrado visualmente</span><span class="to" onclick="tO(this,'tg-rel-amp')">Puede contrastar</span><span class="to" onclick="tO(this,'tg-rel-amp')">Independiente</span></div>
+          </div>
+          <div class="f"><label class="fl">Condiciones estructurales conocidas</label>
+            <div class="cw" id="chips-est-amp"><span class="chip" onclick="tC(this)">Tiene planos</span><span class="chip" onclick="tC(this)">Sin planos</span><span class="chip" onclick="tC(this)">Dictamen estructural</span><span class="chip" onclick="tC(this)">Desconoce condiciones</span></div>
+          </div>
+          <div class="f"><label class="fl">Espacios que deben quedar intactos</label>
+            <div class="cw" id="chips-intactos"><span style="font-size:11px;color:var(--g500)">Se cargan del programa (04)</span></div>
+          </div>
+        </div>
+
+        <div class="cb" id="cb-rem">
+          <div class="cblbl">🏠 Remodelación / Interiores</div>
+          <div class="f"><label class="fl">Problemas actuales del espacio</label>
+            <div class="cw" id="chips-prob-rem"><span class="chip" onclick="tC(this)">Humedad</span><span class="chip" onclick="tC(this)">Mala distribución</span><span class="chip" onclick="tC(this)">Poca luz</span><span class="chip" onclick="tC(this)">Acabados deteriorados</span><span class="chip" onclick="tC(this)">Instalaciones obsoletas</span><span class="chip" onclick="tC(this)">Sin almacenaje</span></div>
+          </div>
+          <div class="f"><label class="fl">Elementos existentes a conservar</label>
+            <div class="cw" id="chips-cons-rem"><span class="chip" onclick="tC(this)">Estructura</span><span class="chip" onclick="tC(this)">Pisos</span><span class="chip" onclick="tC(this)">Puertas</span><span class="chip" onclick="tC(this)">Ventanas</span><span class="chip" onclick="tC(this)">Cocina</span><span class="chip" onclick="tC(this)">Baños</span><span class="chip" onclick="tC(this)">Nada</span></div>
+          </div>
+          <div class="f"><label class="fl">¿Cambios en distribución?</label>
+            <div class="tg" id="tg-muros"><span class="to" onclick="tO(this,'tg-muros')">Sí, derribo muros</span><span class="to" onclick="tO(this,'tg-muros')">Solo acabados</span><span class="to" onclick="tO(this,'tg-muros')">Mixto</span></div>
+          </div>
+        </div>
+
+        <div class="cb" id="cb-ext">
+          <div class="cblbl">🌿 Paisajismo / Exteriores / Fachada</div>
+          <div class="f"><label class="fl">Uso principal del exterior</label>
+            <div class="cw" id="chips-uso-ext"><span class="chip" onclick="tC(this)">Convivencia / entretenimiento</span><span class="chip" onclick="tC(this)">Descanso</span><span class="chip" onclick="tC(this)">Juego (niños)</span><span class="chip" onclick="tC(this)">Jardín productivo</span><span class="chip" onclick="tC(this)">Imagen del inmueble</span></div>
+          </div>
+          <div class="f"><label class="fl">Vegetación existente</label>
+            <div class="cw" id="chips-veg"><span class="chip" onclick="tC(this)">Árboles grandes</span><span class="chip" onclick="tC(this)">Setos / arbustos</span><span class="chip" onclick="tC(this)">Macetas</span><span class="chip" onclick="tC(this)">Ninguna</span></div>
+          </div>
+          <div class="f"><label class="fl">Elementos adicionales</label>
+            <div class="cw" id="chips-agua"><span class="chip" onclick="tC(this)">Fuente / espejo de agua</span><span class="chip" onclick="tC(this)">Pérgola</span><span class="chip" onclick="tC(this)">Palapa</span><span class="chip" onclick="tC(this)">Toldos / velas</span><span class="chip" onclick="tC(this)">Fogón / asador</span><span class="chip" onclick="tC(this)">Ninguno</span></div>
+          </div>
+        </div>
+
+        <p id="cond-hint" style="font-size:11px;color:var(--g500);margin-top:10px;">Las preguntas aparecen al cargar el folio con tipo de servicio.</p>
+      </div>
+
+      <!-- S14 -->
+      <div class="card" id="s14">
+        <div class="sh"><span class="sn">14</span><div><div class="st">Notas del arquitecto</div><div class="sd">Uso interno. No se comparte con el cliente.</div></div></div>
+        <div class="f"><div class="nb"><div class="nbico">✏️ Notas de entrevista</div><textarea id="s14-notas" placeholder="Observaciones durante la sesión..."></textarea></div></div>
+        <div class="f"><div class="nb"><div class="nbico">💡 Ideas conceptuales iniciales</div><textarea id="s14-ideas" placeholder="Partido arquitectónico, primeras intuiciones..."></textarea></div></div>
+        <div class="f"><div class="nb"><div class="nbico">⚠️ Restricciones detectadas</div><textarea id="s14-rest" placeholder="Normativas, estructurales, presupuestarias, del cliente..."></textarea></div></div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main-wrap -->
+
+  <div class="footer">
+    <div class="sts"><span class="std" id="sdot"></span><span id="stxt">Sin guardar</span></div>
+    <button class="btng" id="btng" onclick="enviar()">Guardar en Sheets ↑</button>
+  </div>
+</div>
+
+<!-- ÉXITO -->
+<div id="exito">
+  <div class="cc"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <h2>¡Entrevista guardada!</h2>
+  <p>Los datos se registraron en Google Sheets correctamente.</p>
+  <button class="btnn" onclick="location.reload()">Nueva entrevista</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIGURACIÓN
+// ═══════════════════════════════════════
+const APPS_SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT_AQUI";
+
+// DB de prueba local — agrega folios mientras conectas Sheets
+// El Apps Script también puede retornar datos para que se carguen aquí
+const DB_LOCAL = {
+  // "070326-01-046": { cliente:"Prueba Cliente", contacto:"55 0000 0000", servicio:"Obra nueva", inmueble:"Casa habitación", area:"200", ubicacion:"CDMX", espacios:"Sala,Cocina,Recámara principal,Baño" },
+};
+
+// ═══════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════
+let proyecto = null;
+let luzSel = '';
+let espaciosPrograma = [];
+
+// ═══════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════
+document.getElementById('folio-input').addEventListener('keydown', e => { if(e.key==='Enter') checkFolio(); });
+
+async function checkFolio() {
+  const raw = document.getElementById('folio-input').value.trim();
+  const folio = raw.toUpperCase();
+  if (!folio) return;
+
+  // 1. DB local
+  if (DB_LOCAL[folio]) { cargar(folio, DB_LOCAL[folio]); return; }
+
+  // 2. Apps Script (busca por folio en la hoja de cotizaciones)
+  if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== "TU_URL_DE_APPS_SCRIPT_AQUI") {
+    try {
+      const r = await fetch(APPS_SCRIPT_URL + '?buscar=' + encodeURIComponent(folio));
+      const d = await r.json();
+      if (d && d.cliente) { cargar(folio, d); return; }
+    } catch(e) {}
+  }
+
+  // 3. Acceso libre si no hay Sheets conectado aún
+  cargar(folio, { cliente:'', contacto:'', servicio:'', inmueble:'', area:'', ubicacion:'', espacios:'' });
+}
+
+function cargar(folio, d) {
+  proyecto = { folio, ...d };
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  // Topbar
+  document.getElementById('tb-cliente').textContent = d.cliente || 'Nuevo proyecto';
+  document.getElementById('tb-folio').textContent = folio;
+
+  // Sección 0
+  document.getElementById('d-folio').textContent    = folio;
+  document.getElementById('d-fecha').textContent     = new Date().toLocaleDateString('es-MX');
+  document.getElementById('d-cliente').textContent   = d.cliente   || '—';
+  document.getElementById('d-contacto').textContent  = d.contacto  || '—';
+  document.getElementById('d-servicio').textContent  = d.servicio  || '—';
+  document.getElementById('d-inmueble').textContent  = d.inmueble  || '—';
+  document.getElementById('d-area').textContent      = d.area ? d.area + ' m²' : '—';
+  document.getElementById('d-ubicacion').textContent = d.ubicacion || '—';
+
+  // Espacios del formulario de cotización → chips preseleccionados
+  if (d.espacios) {
+    d.espacios.split(',').map(s=>s.trim()).filter(Boolean).forEach(esp => addChip('chips-espacios', esp, true));
+  }
+
+  init(d.servicio || '');
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+function init(servicio) {
+  addRow(); addRow(); addRow();
+  updCondicionales(servicio);
+  updMobiliario(servicio);
+  setupScrollSpy();
+  setupProgress();
+  document.querySelectorAll('input[type="range"]').forEach(updSl);
+  document.getElementById('prog-body').addEventListener('input', e => { if(e.target.tagName==='INPUT') syncEspacios(); });
+}
+
+// ═══════════════════════════════════════
+// CHIPS
+// ═══════════════════════════════════════
+function tC(el) { el.classList.toggle('sel'); updP(); }
+function tCS(el, gid) { document.querySelectorAll('#'+gid+' .chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); updP(); }
+
+function addChip(gid, txt, sel=false) {
+  const w = document.getElementById(gid); if(!w) return;
+  const c = document.createElement('span');
+  c.className = 'chip cc' + (sel?' sel':'');
+  c.innerHTML = txt + ' <span class="cdel" onclick="this.parentElement.remove();updP()">×</span>';
+  c.addEventListener('click', function(e){ if(e.target.classList.contains('cdel')) return; this.classList.toggle('sel'); updP(); });
+  w.appendChild(c);
+}
+
+function addCC(gid, iid) {
+  const inp = document.getElementById(iid);
+  const v = inp.value.trim(); if(!v) return;
+  addChip(gid, v, true);
+  inp.value = ''; inp.focus(); updP();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key==='Enter' && e.target.classList.contains('cif')) {
+    e.preventDefault();
+    const row = e.target.closest('.cir');
+    if (row) row.querySelector('.cab')?.click();
+  }
+});
+
+function gC(gid) {
+  return [...document.querySelectorAll('#'+gid+' .chip.sel')].map(c => {
+    const d = c.querySelector('.cdel');
+    return d ? c.textContent.replace('×','').trim() : c.textContent.trim();
+  }).join(', ');
+}
+
+// ═══════════════════════════════════════
+// TOGGLE
+// ═══════════════════════════════════════
+function tO(el, gid) { document.querySelectorAll('#'+gid+' .to').forEach(o=>o.classList.remove('sel')); el.classList.add('sel'); updP(); }
+function gT(gid) { const e = document.querySelector('#'+gid+' .to.sel'); return e ? e.textContent.trim() : ''; }
+
+// ═══════════════════════════════════════
+// COUNTER
+// ═══════════════════════════════════════
+function cntChange(id, d) { const e=document.getElementById(id); e.value=Math.max(1,(parseInt(e.value)||1)+d); updP(); }
+
+// ═══════════════════════════════════════
+// SLIDER
+// ═══════════════════════════════════════
+function updSl(el) {
+  const p = ((el.value-el.min)/(el.max-el.min))*100;
+  el.style.setProperty('--pct', p+'%');
+  const v = document.getElementById(el.id+'-val'); if(v) v.textContent=el.value;
+}
+
+// ═══════════════════════════════════════
+// LUZ INTERACTIVA
+// ═══════════════════════════════════════
+function selLuz(btn, nm, tmp, bg, glow) {
+  document.querySelectorAll('.lzbtn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel'); luzSel = nm;
+  const p = document.getElementById('lzprev');
+  p.style.background = bg; p.style.setProperty('--lzg', glow);
+  document.getElementById('lz-nm').textContent = nm;
+  document.getElementById('lz-tmp').textContent = tmp;
+  updP();
+}
+
+// ═══════════════════════════════════════
+// IMAGEN
+// ═══════════════════════════════════════
+function prevImg(inp) {
+  if (!inp.files?.[0]) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const p = document.getElementById('iuprev');
+    p.src = e.target.result; p.style.display='block';
+    document.querySelector('.iuai').style.display='none';
+    document.querySelector('.iuat').style.display='none';
+    document.getElementById('iua').classList.add('has');
+  };
+  r.readAsDataURL(inp.files[0]);
+}
+
+// ═══════════════════════════════════════
+// PROGRAMA ESPACIAL
+// ═══════════════════════════════════════
+let rowCnt = 0;
+function addRow() {
+  rowCnt++;
+  const tbody = document.getElementById('prog-body');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><input type="text" placeholder="Espacio ${rowCnt}" oninput="syncEspacios()"/></td><td><input type="text" placeholder="Actividad..."/></td><td><input type="number" placeholder="N°" min="1" style="width:55px"/></td><td><select><option value="">—</option><option>Alta</option><option>Media</option><option>Baja</option></select></td><td><input type="number" placeholder="m²" min="1"/></td><td><button class="bdr" onclick="this.closest('tr').remove();syncEspacios()">✕</button></td>`;
+  tbody.appendChild(tr);
+}
+
+function getPrograma() {
+  return [...document.querySelectorAll('#prog-body tr')].map(tr => {
+    const i = tr.querySelectorAll('input,select');
+    return {espacio:i[0].value,actividad:i[1].value,usuarios:i[2].value,prioridad:i[3].value,m2:i[4].value};
+  }).filter(r=>r.espacio||r.actividad);
+}
+
+function syncEspacios() {
+  espaciosPrograma = [...document.querySelectorAll('#prog-body tr')].map(tr=>tr.querySelector('input')?.value?.trim()).filter(Boolean);
+  refreshRel(); refreshPrivVis(); refreshIntactos();
+}
+
+// ═══════════════════════════════════════
+// RELACIONES
+// ═══════════════════════════════════════
+function eOpts() { return '<option value="">— espacio —</option>' + espaciosPrograma.map(e=>`<option>${e}</option>`).join(''); }
+
+function addRel(lid, ico) {
+  const d = document.createElement('div'); d.className = 'rp';
+  d.innerHTML = `<select onchange="updP()">${eOpts()}</select><span class="rico">${ico}</span><select onchange="updP()">${eOpts()}</select><span class="rdel" onclick="this.parentElement.remove()">✕</span>`;
+  document.getElementById(lid).appendChild(d);
+}
+
+function refreshRel() {
+  ['rel-c','rel-s'].forEach(lid=>{
+    document.querySelectorAll('#'+lid+' .rp select').forEach(sel=>{
+      const cur=sel.value; sel.innerHTML=eOpts(); if(cur) sel.value=cur;
+    });
+  });
+}
+
+function refreshPrivVis() {
+  ['chips-priv','chips-vis'].forEach(gid=>{
+    const w=document.getElementById(gid); if(!w) return;
+    const sel=[...w.querySelectorAll('.chip.sel')].map(c=>c.textContent.trim());
+    w.innerHTML='';
+    if (!espaciosPrograma.length) { w.innerHTML='<span style="font-size:11px;color:var(--g500)">Se llenan desde el programa (04)</span>'; return; }
+    espaciosPrograma.forEach(esp=>{
+      const c=document.createElement('span'); c.className='chip'+(sel.includes(esp)?' sel':'');
+      c.textContent=esp; c.addEventListener('click',function(){this.classList.toggle('sel');updP();});
+      w.appendChild(c);
+    });
+  });
+}
+
+function refreshIntactos() {
+  const w=document.getElementById('chips-intactos'); if(!w) return;
+  const sel=[...w.querySelectorAll('.chip.sel')].map(c=>c.textContent.trim());
+  w.innerHTML='';
+  if (!espaciosPrograma.length) { w.innerHTML='<span style="font-size:11px;color:var(--g500)">Se cargan del programa</span>'; return; }
+  espaciosPrograma.forEach(esp=>{
+    const c=document.createElement('span'); c.className='chip'+(sel.includes(esp)?' sel':'');
+    c.textContent=esp; c.addEventListener('click',function(){this.classList.toggle('sel');updP();});
+    w.appendChild(c);
+  });
+}
+
+function getRel(lid) {
+  return [...document.querySelectorAll('#'+lid+' .rp')].map(d=>{
+    const s=d.querySelectorAll('select'); return (s[0].value&&s[1].value)?s[0].value+' ↔ '+s[1].value:'';
+  }).filter(Boolean).join(' | ');
+}
+
+// ═══════════════════════════════════════
+// CONDICIONALES
+// ═══════════════════════════════════════
+function updCondicionales(v) {
+  v=(v||'').toLowerCase();
+  ['cb-obra','cb-amp','cb-rem','cb-ext'].forEach(id=>document.getElementById(id)?.classList.remove('on'));
+  const hint=document.getElementById('cond-hint');
+  if (v.includes('nueva'))                              { document.getElementById('cb-obra').classList.add('on'); hint.style.display='none'; }
+  else if (v.includes('amplia'))                        { document.getElementById('cb-amp').classList.add('on');  hint.style.display='none'; }
+  else if (v.includes('remo')||v.includes('interior'))  { document.getElementById('cb-rem').classList.add('on');  hint.style.display='none'; }
+  else if (v.includes('paisa')||v.includes('exterior')||v.includes('facha')) { document.getElementById('cb-ext').classList.add('on'); hint.style.display='none'; }
+  else hint.style.display='block';
+}
+
+function updMobiliario(v) {
+  v=(v||'').toLowerCase();
+  const block=document.getElementById('s9-ex-block');
+  const desc=document.getElementById('s9-desc');
+  if (v.includes('nueva')) { block.style.display='none'; desc.textContent='Obra nueva: solo equipamiento especial.'; }
+  else { block.style.display='block'; desc.textContent='Adaptado al tipo de proyecto.'; }
+}
+
+// ═══════════════════════════════════════
+// SCROLL SPY
+// ═══════════════════════════════════════
+const SECS=['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13','s14'];
+function goTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
+function setupScrollSpy(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      const n=document.getElementById('nav-'+e.target.id);
+      if(n&&e.isIntersecting){document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));n.classList.add('active');}
+    });
+  },{threshold:.25,rootMargin:'-50px 0px -60% 0px'});
+  SECS.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el);});
+}
+
+// ═══════════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════════
+function setupProgress(){document.addEventListener('input',updP);}
+function updP(){
+  const inputs=[...document.querySelectorAll('#app input[type="text"],#app input[type="number"],#app textarea')].filter(e=>!e.classList.contains('cif')&&!e.classList.contains('cntn'));
+  const filled=inputs.filter(i=>i.value.trim()).length;
+  const chips=document.querySelectorAll('#app .chip.sel,#app .to.sel,.lzbtn.sel').length;
+  const pct=Math.min(Math.round(((filled+chips*.7)/(inputs.length+25))*100),100);
+  document.getElementById('progreso').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=pct+'%';
+  SECS.forEach(id=>{
+    const s=document.getElementById(id),n=document.getElementById('nav-'+id);if(!s||!n)return;
+    const hd=s.querySelector('.chip.sel,.to.sel,.lzbtn.sel')||[...s.querySelectorAll('input[type="text"],textarea')].some(i=>i.value.trim());
+    n.classList.toggle('done',!!hd);
+  });
+  clearTimeout(window._st);
+  document.getElementById('sdot').classList.remove('ok');
+  document.getElementById('stxt').textContent='Sin guardar';
+  window._st=setTimeout(()=>{document.getElementById('sdot').classList.add('ok');document.getElementById('stxt').textContent='Listo para guardar';},1500);
+}
+
+// ═══════════════════════════════════════
+// ENVIAR
+// ═══════════════════════════════════════
+function enviar(){
+  const btn=document.getElementById('btng');
+  btn.disabled=true; btn.textContent='Guardando...';
+
+  const d={
+    fecha:new Date().toLocaleString('es-MX'),
+    folio:proyecto?.folio||'',
+    cliente:proyecto?.cliente||'', contacto:proyecto?.contacto||'',
+    servicio:proyecto?.servicio||'', inmueble:proyecto?.inmueble||'',
+    area:proyecto?.area||'', ubicacion:proyecto?.ubicacion||'',
+    espacios:gC('chips-espacios'),
+    objetivo:gC('chips-obj'), problema:gC('chips-prob'), mejorar:gC('chips-mej'), resultado:gC('chips-res'),
+    usr_tipo:gC('chips-usr'), usr_num:document.getElementById('s2-num').value,
+    usr_ocas:gC('chips-ocas'), usr_nec:gC('chips-nec'),
+    act_p:gC('chips-act-p'), act_s:gC('chips-act-s'), act_o:gC('chips-act-o'),
+    freq:gT('tg-freq'), pico:document.getElementById('s3-pico').value,
+    programa:JSON.stringify(getPrograma()),
+    rel_c:getRel('rel-c'), rel_s:getRel('rel-s'),
+    privacidad:gC('chips-priv'), visibilidad:gC('chips-vis'),
+    sensacion:gC('chips-sens'), apertura:document.getElementById('s6-ap').value, ext_rel:gT('tg-ext'),
+    estilo:gC('chips-est'), materiales:gC('chips-mat'), mat_evitar:gC('chips-ev'),
+    referencias:document.getElementById('s7-ref').value,
+    luz_nat:document.getElementById('s8-nat').value, luz_art:luzSel, luz_tipo:gC('chips-tluz'),
+    mob_ex:gC('chips-mob-ex'), mob_d:gC('chips-mob-d'), equip:gC('chips-eq'),
+    vistas:gC('chips-vis2'), ruido:gT('tg-ruido'), conservar:gC('chips-cons'),
+    prioridad:gT('tg-pri'), flex_p:gT('tg-flex'), presupuesto:document.getElementById('s11-pres').value,
+    ampliacion:gT('tg-amp'), cambios:gC('chips-cam'),
+    c_niv:document.getElementById('c-niv').value, c_crecer:gT('tg-crecer'),
+    c_area:document.getElementById('c-area').value, c_ie:gC('chips-ie-obra'),
+    c_rel_amp:gT('tg-rel-amp'), c_est:gC('chips-est-amp'), c_int:gC('chips-intactos'),
+    c_prob_rem:gC('chips-prob-rem'), c_cons_rem:gC('chips-cons-rem'), c_muros:gT('tg-muros'),
+    c_ext:gC('chips-uso-ext'), c_veg:gC('chips-veg'), c_agua:gC('chips-agua'),
+    notas:document.getElementById('s14-notas').value,
+    ideas:document.getElementById('s14-ideas').value,
+    rest:document.getElementById('s14-rest').value,
+  };
+
+  const url = APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(d));
+  fetch(url,{method:'GET',mode:'no-cors'}).then(()=>done()).catch(()=>done());
+}
+
+function done(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('exito').style.display='flex';
+}
+</script>
+</body>
+</html>
