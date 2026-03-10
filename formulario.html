@@ -1375,7 +1375,7 @@
   }
 
   function getCheckboxes(name) {
-    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(c => c.value).join(', ');
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(c => c.value).join(',');
   }
 
   function getEspaciosNuevos() {
@@ -1392,7 +1392,7 @@
           return txt ? `Otro: ${txt}` : 'Otro';
         }
         return c.value;
-      }).join(', ');
+      }).join(',');
     }
     // Habitacional / Edificio de departamentos
     const checks = [...document.querySelectorAll('input[name="espacio-nuevo"]:checked')];
@@ -1418,7 +1418,7 @@
         return txt ? `Otro: ${txt}` : 'Otro';
       }
       return c.value;
-    }).join(', ');
+    }).join(',');
   }
 
   // ── Envío ──
@@ -1503,7 +1503,7 @@
       const alto  = document.getElementById('val-fach-alto').value;
       const m2Calc = (ancho && alto) ? (parseFloat(ancho) * parseFloat(alto)).toFixed(1) + ' m² (' + ancho + 'm × ' + alto + 'm)' : '';
       datos.tipo_inmueble   = getRadio('inmueble-fach');
-      datos.espacios        = 'Fachada — Elementos: ' + getCheckboxes('elem-fach');
+      datos.espacios        = getCheckboxes('elem-fach');
       datos.m2              = m2Calc;
       datos.piso_o_niveles  = document.getElementById('val-niveles-fach').value + ' nivel(es)';
       datos.planos          = getRadio('planos-fach');
