@@ -32,12 +32,9 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    h1, h2 {
-      font-family: var(--font-titulo);
-      font-weight: 400;
-    }
+    h1, h2 { font-family: var(--font-titulo); font-weight: 400; }
 
-    /* ── Barra de progreso fija arriba ── */
+    /* ── Barra de progreso ── */
     .progress-bar {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -52,7 +49,7 @@
       width: 0%;
     }
 
-    /* ── Pantalla de bienvenida ── */
+    /* ── Pantalla inicio ── */
     #pantalla-inicio {
       min-height: 100vh;
       display: flex;
@@ -63,113 +60,39 @@
       text-align: center;
       background: var(--blanco);
     }
-
-    .logo-wrap {
-      width: 96px;
-      height: 96px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-    }
-    .logo-wrap svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    #pantalla-inicio h1 {
-      font-size: clamp(22px, 5vw, 28px);
-      color: var(--gris-900);
-      margin-bottom: 6px;
-      line-height: 1.2;
-    }
-
-    #pantalla-inicio .subtitulo {
-      font-family: var(--font-body);
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--verde);
-      margin-bottom: 24px;
-    }
-
-    #pantalla-inicio p {
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: var(--gris-500);
-      line-height: 1.7;
-      max-width: 340px;
-      margin: 0 auto 36px;
-    }
-
-    .btn-inicio {
-      background: var(--verde);
-      color: white;
-      border: none;
-      padding: 14px 36px;
-      border-radius: 100px;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(91,151,104,0.35);
-      transition: transform 0.15s, background 0.2s;
-    }
+    .logo-wrap { width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .logo-wrap svg { width: 100%; height: 100%; }
+    #pantalla-inicio h1 { font-size: clamp(22px, 5vw, 28px); color: var(--gris-900); margin-bottom: 6px; line-height: 1.2; }
+    #pantalla-inicio .subtitulo { font-family: var(--font-body); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--verde); margin-bottom: 24px; }
+    #pantalla-inicio p { font-family: var(--font-body); font-size: 14px; color: var(--gris-500); line-height: 1.7; max-width: 340px; margin: 0 auto 36px; }
+    .btn-inicio { background: var(--verde); color: white; border: none; padding: 14px 36px; border-radius: 100px; font-family: var(--font-body); font-size: 15px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 20px rgba(91,151,104,0.35); transition: transform 0.15s, background 0.2s; }
     .btn-inicio:active { transform: scale(0.97); }
 
     /* ── App ── */
     #app { display: none; min-height: 100vh; }
 
-    /* ── Pregunta individual ── */
+    /* ── Pregunta ── */
     .pregunta {
       display: none;
       min-height: 100vh;
       flex-direction: column;
       justify-content: center;
       padding: 60px 24px 40px;
-      max-width: 540px;
+      max-width: 560px;
       margin: 0 auto;
       animation: entrar 0.3s ease;
     }
     .pregunta.activa { display: flex; }
+    @keyframes entrar { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes entrar {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .etiqueta {
-      font-family: var(--font-body);
-      font-size: 11px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--verde);
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-
-    .pregunta h2 {
-      font-size: clamp(18px, 4.5vw, 24px);
-      line-height: 1.35;
-      color: var(--gris-900);
-      margin-bottom: 8px;
-    }
-
-    .hint {
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: var(--gris-500);
-      margin-bottom: 24px;
-      line-height: 1.5;
-    }
+    .etiqueta { font-family: var(--font-body); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--verde); font-weight: 500; margin-bottom: 10px; }
+    .pregunta h2 { font-size: clamp(17px, 4.2vw, 22px); line-height: 1.35; color: var(--gris-900); margin-bottom: 8px; }
+    .hint { font-family: var(--font-body); font-size: 13px; color: var(--gris-500); margin-bottom: 24px; line-height: 1.5; }
 
     /* ── Opciones ── */
     .opciones { display: flex; flex-direction: column; gap: 9px; }
-
     .opcion {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
+      display: flex; align-items: center; gap: 12px;
       padding: 13px 15px;
       border: 1.5px solid var(--gris-200);
       border-radius: var(--radio);
@@ -178,130 +101,122 @@
       transition: border-color 0.18s, background 0.18s;
       -webkit-tap-highlight-color: transparent;
     }
-
-    .opcion input[type="radio"],
-    .opcion input[type="checkbox"] {
-      margin-top: 2px;
-      accent-color: var(--verde);
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-
+    .opcion input[type="radio"], .opcion input[type="checkbox"] { accent-color: var(--verde); width: 16px; height: 16px; flex-shrink: 0; align-self: center; margin: 0; }
     .opcion-texto { flex: 1; }
     .opcion-label { font-family: var(--font-body); font-size: 14px; color: var(--gris-900); line-height: 1.4; }
-    .opcion-desc  { font-family: var(--font-body); font-size: 12px; color: var(--gris-500); margin-top: 2px; line-height: 1.4; }
+    .opcion-desc { font-family: var(--font-body); font-size: 12px; color: var(--gris-500); margin-top: 3px; line-height: 1.45; }
+    .opcion.seleccionada { border-color: var(--verde); background: var(--verde-claro); }
+    /* Cuando hay contenido expandible debajo, volver a alinear arriba */
+    .opcion:has(.campo-otro.visible),
+    .opcion:has(.opcion-cantidad[style*="flex"]) { align-items: flex-start; }
+    .opcion:has(.campo-otro.visible) input[type="checkbox"],
+    .opcion:has(.opcion-cantidad[style*="flex"]) input[type="checkbox"] { margin-top: 2px; }
 
-    .opcion.seleccionada {
-      border-color: var(--verde);
-      background: var(--verde-claro);
+    /* ── Espacios con cantidades ── */
+    .opcion-cantidad {
+      display: flex; align-items: center; gap: 8px; margin-top: 8px;
     }
+    .opcion-cantidad label { font-size: 12px; color: var(--gris-700); white-space: nowrap; }
+    .input-cantidad {
+      width: 60px; padding: 5px 8px;
+      font-family: var(--font-body); font-size: 13px;
+      border: 1.5px solid var(--gris-300); border-radius: var(--radio);
+      background: var(--blanco); outline: none; color: var(--gris-900);
+      transition: border-color 0.2s;
+    }
+    .input-cantidad:focus { border-color: var(--verde); }
 
     /* ── Campo Otro expandible ── */
-    .campo-otro {
-      display: none;
-      margin-top: 10px;
-    }
+    .campo-otro { display: none; margin-top: 10px; }
     .campo-otro.visible { display: block; }
-    .campo-otro input {
-      width: 100%;
-      padding: 10px 13px;
-      font-family: var(--font-body);
-      font-size: 14px;
-      border: 1.5px solid var(--verde);
+    .campo-otro input { width: 100%; padding: 10px 13px; font-family: var(--font-body); font-size: 14px; border: 1.5px solid var(--verde); border-radius: var(--radio); background: var(--blanco); outline: none; color: var(--gris-900); }
+
+    /* ── Paquetes ── */
+    .paquete {
+      display: flex; flex-direction: column;
+      padding: 16px 18px;
+      border: 1.5px solid var(--gris-200);
       border-radius: var(--radio);
       background: var(--blanco);
-      outline: none;
-      color: var(--gris-900);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      margin-bottom: 10px;
     }
+    .paquete-header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    .paquete-header input[type="radio"] { accent-color: var(--verde); width: 16px; height: 16px; flex-shrink: 0; }
+    .paquete-nombre { font-family: var(--font-titulo); font-size: 14px; color: var(--gris-900); }
+    .paquete-tagline { font-size: 13px; color: var(--gris-700); margin-bottom: 8px; padding-left: 28px; }
+    .paquete-incluye { font-size: 12px; color: var(--gris-500); padding-left: 28px; line-height: 1.55; }
+    .paquete.seleccionado { border-color: var(--verde); background: var(--verde-claro); }
+
+    /* ── Dimensiones fachada ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .campo-dim label { font-family: var(--font-body); font-size: 12px; color: var(--gris-700); display: block; margin-bottom: 5px; }
 
     /* ── Inputs ── */
     .input-grande {
-      width: 100%;
-      padding: 14px 16px;
-      font-family: var(--font-body);
-      font-size: 16px;
-      color: var(--gris-900);
-      background: var(--blanco);
-      border: 1.5px solid var(--gris-200);
-      border-radius: var(--radio);
-      outline: none;
-      transition: border-color 0.2s;
+      width: 100%; padding: 14px 16px;
+      font-family: var(--font-body); font-size: 16px;
+      color: var(--gris-900); background: var(--blanco);
+      border: 1.5px solid var(--gris-200); border-radius: var(--radio);
+      outline: none; transition: border-color 0.2s;
       -webkit-appearance: none;
     }
     .input-grande:focus { border-color: var(--verde); }
     .input-grande.error { border-color: #c0392b; }
-    textarea.input-grande { resize: vertical; min-height: 100px; }
+    textarea.input-grande { resize: vertical; min-height: 90px; }
+
+    select.input-grande {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8a87' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
 
     .msg-error { font-family: var(--font-body); font-size: 12px; color: #c0392b; margin-top: 6px; display: none; }
     .msg-error.visible { display: block; }
 
     /* ── Navegación ── */
     .nav { display: flex; gap: 10px; margin-top: 24px; }
-
-    .btn {
-      padding: 13px 28px;
-      border-radius: 100px;
-      border: none;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .btn { padding: 13px 28px; border-radius: 100px; border: none; font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s, transform 0.1s; -webkit-tap-highlight-color: transparent; }
     .btn:active { transform: scale(0.97); }
-
-    .btn-sig    { background: var(--verde); color: white; flex: 1; }
+    .btn-sig { background: var(--verde); color: white; flex: 1; }
     .btn-sig:hover { background: var(--verde-oscuro); }
-    .btn-ant    { background: var(--gris-200); color: var(--gris-700); padding: 13px 20px; }
+    .btn-ant { background: var(--gris-200); color: var(--gris-700); padding: 13px 20px; }
     .btn-ant:hover { background: var(--gris-300); }
     .btn-enviar { background: var(--verde); color: white; flex: 1; font-size: 15px; }
 
     /* ── Éxito ── */
-    #pantalla-exito {
-      display: none;
-      min-height: 100vh;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 24px;
-    }
-    .check-circulo {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: var(--verde-claro);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-    }
+    #pantalla-exito { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; }
+    .check-circulo { width: 72px; height: 72px; border-radius: 50%; background: var(--verde-claro); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
     .check-circulo svg { stroke: var(--verde); }
-    #pantalla-exito h2 {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-    #pantalla-exito p {
-      font-family: var(--font-body);
-      font-size: 14px; color: var(--gris-500);
-      line-height: 1.7; max-width: 320px; margin: 0 auto;
-    }
+    #pantalla-exito h2 { font-size: 24px; margin-bottom: 12px; }
+    #pantalla-exito p { font-family: var(--font-body); font-size: 14px; color: var(--gris-500); line-height: 1.7; max-width: 320px; margin: 0 auto; }
   </style>
 </head>
 <body>
 
 <div class="progress-bar"><div class="progress-fill" id="progreso"></div></div>
 
-<!-- ════════════ INICIO ════════════ -->
+<!-- ══════ INICIO ══════ -->
 <div id="pantalla-inicio">
-  <div class="logo-wrap"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000"><defs><style>.cls-1{fill:#5b9668;}.cls-2{fill:#fff;}</style></defs><rect class="cls-1" x="0.3" y="0.26" width="2000" height="2000"/><path class="cls-2" d="M546.76,1342.76v40.65H423.63V1558c0,46,24.5,61.56,69.94,61.56,20.31,0,38.25-1.79,53.19-6v43.64c-19.72,6-39.45,7.17-56.19,7.17-75.91,0-116.55-29.28-116.55-97.43v-183.5H283.76v-40.65H374v-86.07h49.61v86.07Z"/><path class="cls-2" d="M793,1666.73c-94.44,0-142.26-68.73-142.26-164.37,0-104.6,56.79-169.16,143.45-169.16,96.84,0,139.28,72.33,139.28,181.11H702.78c1.8,61.57,31.69,106.4,92.05,106.4,40.65,0,68.15-19.73,81.9-61.57h50.2C916.18,1624.9,866.57,1666.73,793,1666.73Zm-89-193.06H879.71c0-52-32.27-94.44-86.07-94.44C737.45,1379.23,708.16,1421.07,704,1473.67Z"/><rect class="cls-2" x="1433.67" y="333.79" width="283.32" height="333.53"/><path class="cls-2" d="M566.94,500.56c0,95-45.42,166.77-141.65,166.77S283.62,595.6,283.62,500.56s45.44-166.77,141.67-166.77S566.94,405.53,566.94,500.56Zm-231.31,0c0,64,26.29,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.3-120.74-89.65-120.74S335.63,436.61,335.63,500.56Z"/><path class="cls-2" d="M501.8,947.07c-5.38-41.24-32.88-67-76.51-67-64.55,0-89.66,61.57-89.66,123.73s28.09,117.76,90.85,117.76c43.64,0,70.53-24.51,78.9-74.13h50.21c-6.57,75.32-53.2,120.14-130.3,120.14-91.45,0-141.67-71.72-141.67-163.77,0-93.85,49-169.76,142.26-169.76,76.51,0,124.33,46.63,126.13,113Z"/><path class="cls-2" d="M929.19,1000.86c0,95-45.42,166.76-141.66,166.76s-141.66-71.72-141.66-166.76S691.3,834.09,787.53,834.09,929.19,905.83,929.19,1000.86Zm-231.32,0c0,64,26.3,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.29-120.74-89.65-120.74S697.87,936.91,697.87,1000.86Z"/></svg></div>
+  <div class="logo-wrap">
+    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000"><defs><style>.cls-1{fill:#5b9668;}.cls-2{fill:#fff;}</style></defs><rect class="cls-1" x="0.3" y="0.26" width="2000" height="2000"/><path class="cls-2" d="M546.76,1342.76v40.65H423.63V1558c0,46,24.5,61.56,69.94,61.56,20.31,0,38.25-1.79,53.19-6v43.64c-19.72,6-39.45,7.17-56.19,7.17-75.91,0-116.55-29.28-116.55-97.43v-183.5H283.76v-40.65H374v-86.07h49.61v86.07Z"/><path class="cls-2" d="M793,1666.73c-94.44,0-142.26-68.73-142.26-164.37,0-104.6,56.79-169.16,143.45-169.16,96.84,0,139.28,72.33,139.28,181.11H702.78c1.8,61.57,31.69,106.4,92.05,106.4,40.65,0,68.15-19.73,81.9-61.57h50.2C916.18,1624.9,866.57,1666.73,793,1666.73Zm-89-193.06H879.71c0-52-32.27-94.44-86.07-94.44C737.45,1379.23,708.16,1421.07,704,1473.67Z"/><rect class="cls-2" x="1433.67" y="333.79" width="283.32" height="333.53"/><path class="cls-2" d="M566.94,500.56c0,95-45.42,166.77-141.65,166.77S283.62,595.6,283.62,500.56s45.44-166.77,141.67-166.77S566.94,405.53,566.94,500.56Zm-231.31,0c0,64,26.29,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.3-120.74-89.65-120.74S335.63,436.61,335.63,500.56Z"/><path class="cls-2" d="M501.8,947.07c-5.38-41.24-32.88-67-76.51-67-64.55,0-89.66,61.57-89.66,123.73s28.09,117.76,90.85,117.76c43.64,0,70.53-24.51,78.9-74.13h50.21c-6.57,75.32-53.2,120.14-130.3,120.14-91.45,0-141.67-71.72-141.67-163.77,0-93.85,49-169.76,142.26-169.76,76.51,0,124.33,46.63,126.13,113Z"/><path class="cls-2" d="M929.19,1000.86c0,95-45.42,166.76-141.66,166.76s-141.66-71.72-141.66-166.76S691.3,834.09,787.53,834.09,929.19,905.83,929.19,1000.86Zm-231.32,0c0,64,26.3,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.29-120.74-89.65-120.74S697.87,936.91,697.87,1000.86Z"/></svg>
+  </div>
   <h1>ocote Arquitectos</h1>
   <p class="subtitulo">Solicitud de cotización</p>
   <p>Este formulario nos permitirá conocer tu proyecto y enviarte una cotización personalizada. La información será tratada con total confidencialidad.</p>
   <button class="btn-inicio" onclick="iniciar()">Comenzar →</button>
 </div>
 
-<!-- ════════════ PREGUNTAS ════════════ -->
+<!-- ══════ PREGUNTAS ══════ -->
 <div id="app">
+
+  <!-- ── Datos generales ── -->
 
   <!-- P1: Nombre -->
   <div class="pregunta" id="p1">
@@ -319,335 +234,816 @@
   <div class="pregunta" id="p2">
     <div class="etiqueta">Datos de contacto</div>
     <h2>¿Cómo podemos contactarte?</h2>
-    <p class="hint">Teléfono, correo electrónico o ambos.</p>
+    <p class="hint">Ingresa un número de teléfono, un correo electrónico o ambos.</p>
     <input class="input-grande" type="text" id="val-contacto" placeholder="Ej. 55 1234 5678 / correo@email.com"/>
-    <p class="msg-error" id="err-contacto">Este campo es obligatorio.</p>
+    <p class="msg-error" id="err-contacto">Ingresa un teléfono válido (10 dígitos) o un correo electrónico válido.</p>
     <div class="nav">
       <button class="btn btn-ant" onclick="irA('p1')">←</button>
-      <button class="btn btn-sig" onclick="validarTexto('val-contacto','err-contacto',irA,'p3')">Continuar →</button>
+      <button class="btn btn-sig" onclick="validarContacto()">Continuar →</button>
     </div>
   </div>
 
-  <!-- P3: Tipo de servicio -->
+  <!-- P3: Ubicación -->
   <div class="pregunta" id="p3">
+    <div class="etiqueta">Datos de contacto</div>
+    <h2>¿En qué estado y municipio se ubica el proyecto?</h2>
+    <select class="input-grande" id="val-estado" onchange="actualizarEstado()">
+      <option value="">Selecciona un estado…</option>
+      <option>Aguascalientes</option><option>Baja California</option><option>Baja California Sur</option>
+      <option>Campeche</option><option>Chiapas</option><option>Chihuahua</option>
+      <option>Ciudad de México</option><option>Coahuila</option><option>Colima</option>
+      <option>Durango</option><option>Estado de México</option><option>Guanajuato</option>
+      <option>Guerrero</option><option>Hidalgo</option><option>Jalisco</option>
+      <option>Michoacán</option><option>Morelos</option><option>Nayarit</option>
+      <option>Nuevo León</option><option>Oaxaca</option><option>Puebla</option>
+      <option>Querétaro</option><option>Quintana Roo</option><option>San Luis Potosí</option>
+      <option>Sinaloa</option><option>Sonora</option><option>Tabasco</option>
+      <option>Tamaulipas</option><option>Tlaxcala</option><option>Veracruz</option>
+      <option>Yucatán</option><option>Zacatecas</option>
+    </select>
+    <p class="msg-error" id="err-estado" style="display:none">Selecciona un estado.</p>
+    <div id="wrap-municipio" style="margin-top:10px; display:none;">
+      <input class="input-grande" type="text" id="val-municipio" placeholder="Escribe el municipio o alcaldía…"/>
+      <p class="msg-error" id="err-municipio">Escribe el municipio.</p>
+    </div>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('p2')">←</button>
+      <button class="btn btn-sig" onclick="validarUbicacion()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- P4: Tipo de servicio -->
+  <div class="pregunta" id="p4">
     <div class="etiqueta">Tipo de servicio</div>
-    <h2>¿Qué tipo de servicio te interesa?</h2>
-    <p class="hint">Selecciona una opción para continuar.</p>
+    <h2>¿Qué tipo de proyecto necesitas?</h2>
+    <p class="hint">Selecciona la opción que mejor describe tu proyecto.</p>
     <div class="opciones">
       <label class="opcion" onclick="elegirServicio('Obra nueva')">
         <input type="radio" name="servicio" value="Obra nueva"/>
         <div class="opcion-texto">
           <div class="opcion-label">Obra nueva</div>
-          <div class="opcion-desc">Diseño y desarrollo desde cero para una nueva edificación.</div>
+          <div class="opcion-desc">Quiero construir desde cero en un terreno.</div>
+        </div>
+      </label>
+      <label class="opcion" onclick="elegirServicio('Diseño de interiores')">
+        <input type="radio" name="servicio" value="Diseño de interiores"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Diseño de interiores</div>
+          <div class="opcion-desc">Quiero planear y diseñar los espacios interiores de una construcción existente desde cero.</div>
+        </div>
+      </label>
+      <label class="opcion" onclick="elegirServicio('Remodelación interior')">
+        <input type="radio" name="servicio" value="Remodelación interior"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Remodelación interior</div>
+          <div class="opcion-desc">Quiero renovar o modificar acabados y distribución de espacios interiores sin intervenir la estructura.</div>
         </div>
       </label>
       <label class="opcion" onclick="elegirServicio('Ampliación')">
         <input type="radio" name="servicio" value="Ampliación"/>
         <div class="opcion-texto">
           <div class="opcion-label">Ampliación</div>
-          <div class="opcion-desc">Crecimiento o modificación de una construcción existente.</div>
+          <div class="opcion-desc">Quiero agregar metros cuadrados o nuevos espacios a una construcción existente.</div>
         </div>
       </label>
-      <label class="opcion" onclick="elegirServicio('Remodelación / Diseño de interiores')">
-        <input type="radio" name="servicio" value="Remodelación / Diseño de interiores"/>
+      <label class="opcion" onclick="elegirServicio('Diseño de exteriores / Paisajismo')">
+        <input type="radio" name="servicio" value="Diseño de exteriores / Paisajismo"/>
         <div class="opcion-texto">
-          <div class="opcion-label">Remodelación / Diseño de interiores</div>
-          <div class="opcion-desc">Mejora de distribución, funcionalidad e imagen interior.</div>
+          <div class="opcion-label">Diseño de exteriores / Paisajismo</div>
+          <div class="opcion-desc">Quiero diseñar o mejorar patios, jardines, terrazas u otros espacios al aire libre.</div>
         </div>
       </label>
-      <label class="opcion" onclick="elegirServicio('Paisajismo / Diseño de exteriores / Diseño de Fachada')">
-        <input type="radio" name="servicio" value="Paisajismo / Diseño de exteriores / Diseño de Fachada"/>
+      <label class="opcion" onclick="elegirServicio('Remodelación de fachada')">
+        <input type="radio" name="servicio" value="Remodelación de fachada"/>
         <div class="opcion-texto">
-          <div class="opcion-label">Paisajismo / Exteriores / Fachada</div>
-          <div class="opcion-desc">Jardines, terrazas, fachadas y áreas abiertas.</div>
+          <div class="opcion-label">Remodelación de fachada</div>
+          <div class="opcion-desc">Quiero renovar o rediseñar la apariencia exterior del edificio.</div>
         </div>
       </label>
-    </div>
-    <div class="nav"><button class="btn btn-ant" onclick="irA('p2')">←</button></div>
-  </div>
-
-  <!-- ══ OBRA NUEVA ══ -->
-  <div class="pregunta" id="p4a">
-    <div class="etiqueta">Obra nueva</div>
-    <h2>¿Qué tipo de edificación necesitas?</h2>
-    <div class="opciones">
-      <label class="opcion" onclick="radioAuto('edificacion','Casa habitación',irA,'p5a')"><input type="radio" name="edificacion" value="Casa habitación"/><div class="opcion-label">Casa habitación</div></label>
-      <label class="opcion" onclick="radioAuto('edificacion','Edificio de departamentos',irA,'p5a')"><input type="radio" name="edificacion" value="Edificio de departamentos"/><div class="opcion-label">Edificio de departamentos</div></label>
-      <label class="opcion" onclick="radioAuto('edificacion','Otro',irA,'p5a')"><input type="radio" name="edificacion" value="Otro"/><div class="opcion-label">Otro</div></label>
     </div>
     <div class="nav"><button class="btn btn-ant" onclick="irA('p3')">←</button></div>
   </div>
 
-  <div class="pregunta" id="p5a">
-    <div class="etiqueta">Obra nueva</div>
-    <h2>¿Requiere local comercial?</h2>
+  <!-- ══ SECCIÓN A: OBRA NUEVA ══ -->
+
+  <div class="pregunta" id="pA1">
+    <div class="etiqueta">Obra nueva · A1</div>
+    <h2>¿Qué tipo de inmueble deseas construir?</h2>
     <div class="opciones">
-      <label class="opcion" onclick="radioAuto('local','Sí',irA,'p6a')"><input type="radio" name="local" value="Sí"/><div class="opcion-label">Sí</div></label>
-      <label class="opcion" onclick="radioAuto('local','No',irA,'p6a')"><input type="radio" name="local" value="No"/><div class="opcion-label">No</div></label>
+      <label class="opcion" onclick="radioAuto('edificacion','Casa habitación',irA,'pA3')"><input type="radio" name="edificacion" value="Casa habitación"/><div class="opcion-label">Casa habitación</div></label>
+      <label class="opcion" onclick="radioAuto('edificacion','Edificio de departamentos',irA,'pA2')"><input type="radio" name="edificacion" value="Edificio de departamentos"/><div class="opcion-label">Edificio de departamentos</div></label>
+      <label class="opcion" onclick="radioAuto('edificacion','Comercial',irA,'pA4')"><input type="radio" name="edificacion" value="Comercial"/><div class="opcion-label">Comercial</div></label>
     </div>
-    <div class="nav"><button class="btn btn-ant" onclick="irA('p4a')">←</button></div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('p4')">←</button></div>
   </div>
 
-  <div class="pregunta" id="p6a">
-    <div class="etiqueta">Obra nueva</div>
-    <h2>¿Cuál es el área del terreno?</h2>
-    <p class="hint">En metros cuadrados (m²).</p>
+  <div class="pregunta" id="pA2">
+    <div class="etiqueta">Obra nueva · A2</div>
+    <h2>¿Cuántas viviendas o departamentos tendrá el edificio?</h2>
+    <input class="input-grande" type="number" id="val-num-viviendas" placeholder="Ej. 8" min="1"/>
+    <p class="msg-error" id="err-num-viviendas">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pA1')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-num-viviendas','err-num-viviendas',irA,'pA3')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pA3">
+    <div class="etiqueta">Obra nueva · A3</div>
+    <h2>¿El inmueble incluirá local o área comercial?</h2>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('local-com','Sí',irA,'pA5')"><input type="radio" name="local-com" value="Sí"/><div class="opcion-label">Sí</div></label>
+      <label class="opcion" onclick="radioAuto('local-com','No',irA,'pA5')"><input type="radio" name="local-com" value="No"/><div class="opcion-label">No</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" id="btn-ant-A3" onclick="irA('pA1')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pA4">
+    <div class="etiqueta">Obra nueva · A4</div>
+    <h2>¿Qué tipo de negocio o comercio se instalará?</h2>
+    <p class="hint">Ej. restaurante, consultorio, tienda, oficinas, etc.</p>
+    <input class="input-grande" type="text" id="val-tipo-comercio" placeholder="Describe el tipo de comercio"/>
+    <p class="msg-error" id="err-tipo-comercio">Este campo es obligatorio.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pA1')">←</button>
+      <button class="btn btn-sig" onclick="validarTexto('val-tipo-comercio','err-tipo-comercio',irA,'pA5')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pA5">
+    <div class="etiqueta">Obra nueva · A5</div>
+    <h2>¿Cuántos m² mide el terreno?</h2>
     <input class="input-grande" type="number" id="val-terreno" placeholder="Ej. 200" min="1"/>
     <p class="msg-error" id="err-terreno">Ingresa un valor numérico.</p>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p5a')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-terreno','err-terreno',irA,'p7a')">Continuar →</button>
+      <button class="btn btn-ant" id="btn-ant-A5" onclick="">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-terreno','err-terreno',irA,'pA6')">Continuar →</button>
     </div>
   </div>
 
-  <div class="pregunta" id="p7a">
-    <div class="etiqueta">Obra nueva</div>
-    <h2>¿Cuántos niveles requieres?</h2>
+  <div class="pregunta" id="pA6">
+    <div class="etiqueta">Obra nueva · A6</div>
+    <h2>¿Cuántos pisos tendrá la construcción?</h2>
     <input class="input-grande" type="number" id="val-niveles" placeholder="Ej. 2" min="1"/>
     <p class="msg-error" id="err-niveles">Ingresa un valor numérico.</p>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p6a')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-niveles','err-niveles',irA,'p8a')">Continuar →</button>
+      <button class="btn btn-ant" onclick="irA('pA5')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-niveles','err-niveles',irA,'pA7')">Continuar →</button>
     </div>
   </div>
 
-  <div class="pregunta" id="p8a">
-    <div class="etiqueta">Obra nueva</div>
-    <h2>¿Con qué servicios cuenta tu terreno?</h2>
+  <div class="pregunta" id="pA7">
+    <div class="etiqueta">Obra nueva · A7</div>
+    <h2 id="titulo-pA7">¿Qué espacios deseas incluir en tu proyecto?</h2>
+    <p class="hint" id="hint-pA7">Selecciona los que apliquen e indica la cantidad si es necesario.</p>
+
+    <!-- Espacios habitacionales -->
+    <div class="opciones" id="opciones-espacios-hab">
+      <label class="opcion" id="op-recamaras">
+        <input type="checkbox" name="espacio-nuevo" value="Recámaras" onchange="toggleCantidad('cant-recamaras',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Recámaras</div>
+          <div class="opcion-cantidad" id="cant-recamaras" style="display:none">
+            <label>Cantidad:</label>
+            <input type="number" class="input-cantidad" id="val-recamaras" min="1" placeholder="0"/>
+          </div>
+        </div>
+      </label>
+      <label class="opcion" id="op-banos">
+        <input type="checkbox" name="espacio-nuevo" value="Baños completos" onchange="toggleCantidad('cant-banos',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Baños completos</div>
+          <div class="opcion-cantidad" id="cant-banos" style="display:none">
+            <label>Cantidad:</label>
+            <input type="number" class="input-cantidad" id="val-banos" min="1" placeholder="0"/>
+          </div>
+        </div>
+      </label>
+      <label class="opcion" id="op-medios-banos">
+        <input type="checkbox" name="espacio-nuevo" value="Medios baños" onchange="toggleCantidad('cant-medios-banos',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Medios baños</div>
+          <div class="opcion-cantidad" id="cant-medios-banos" style="display:none">
+            <label>Cantidad:</label>
+            <input type="number" class="input-cantidad" id="val-medios-banos" min="1" placeholder="0"/>
+          </div>
+        </div>
+      </label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo" value="Sala / Comedor" onchange="marcarOpcion(this);"/><div class="opcion-label">Sala / Comedor</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo" value="Cocina" onchange="marcarOpcion(this);"/><div class="opcion-label">Cocina</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo" value="Estudio / Oficina" onchange="marcarOpcion(this);"/><div class="opcion-label">Estudio / Oficina</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo" value="Área de servicio" onchange="marcarOpcion(this);"/><div class="opcion-label">Área de servicio</div></label>
+      <label class="opcion" id="op-garage">
+        <input type="checkbox" name="espacio-nuevo" value="Garage / Estacionamiento" onchange="toggleCantidad('cant-garage',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Garage / Estacionamiento</div>
+          <div class="opcion-cantidad" id="cant-garage" style="display:none">
+            <label>Cajones:</label>
+            <input type="number" class="input-cantidad" id="val-garage" min="1" placeholder="0"/>
+          </div>
+        </div>
+      </label>
+      <label class="opcion">
+        <input type="checkbox" name="espacio-nuevo" value="Otro" onchange="toggleOtro('otro-espacio-nuevo',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Otro (especificar)</div>
+          <div class="campo-otro" id="otro-espacio-nuevo"><input type="text" id="val-otro-espacio-nuevo" placeholder="Describe el espacio..."/></div>
+        </div>
+      </label>
+    </div>
+
+    <!-- Espacios comerciales -->
+    <div class="opciones" id="opciones-espacios-com" style="display:none">
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo-com" value="Área de atención al público" onchange="marcarOpcion(this);"/><div class="opcion-label">Área de atención al público</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo-com" value="Oficinas administrativas" onchange="marcarOpcion(this);"/><div class="opcion-label">Oficinas administrativas</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo-com" value="Almacén / Bodega" onchange="marcarOpcion(this);"/><div class="opcion-label">Almacén / Bodega</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo-com" value="Cocina / Área de producción" onchange="marcarOpcion(this);"/><div class="opcion-label">Cocina / Área de producción</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo-com" value="Baños para clientes" onchange="marcarOpcion(this);"/><div class="opcion-label">Baños para clientes</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo-com" value="Baños para empleados" onchange="marcarOpcion(this);"/><div class="opcion-label">Baños para empleados</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-nuevo-com" value="Área de carga y descarga" onchange="marcarOpcion(this);"/><div class="opcion-label">Área de carga y descarga</div></label>
+      <label class="opcion" id="op-estac-com">
+        <input type="checkbox" name="espacio-nuevo-com" value="Estacionamiento" onchange="toggleCantidad('cant-estac-com',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Estacionamiento</div>
+          <div class="opcion-cantidad" id="cant-estac-com" style="display:none">
+            <label>Cajones:</label>
+            <input type="number" class="input-cantidad" id="val-estac-com" min="1" placeholder="0"/>
+          </div>
+        </div>
+      </label>
+      <label class="opcion">
+        <input type="checkbox" name="espacio-nuevo-com" value="Otro" onchange="toggleOtro('otro-espacio-com',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Otro (especificar)</div>
+          <div class="campo-otro" id="otro-espacio-com"><input type="text" id="val-otro-espacio-com" placeholder="Describe el espacio..."/></div>
+        </div>
+      </label>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pA6')">←</button>
+      <button class="btn btn-sig" onclick="irA('pA8')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pA8">
+    <div class="etiqueta">Obra nueva · A8</div>
+    <h2>¿Deseas dividir la construcción en etapas?</h2>
+    <p class="hint">Por ejemplo: construir primero la planta baja y en un futuro agregar más pisos.</p>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('etapas','Sí',irA,'pA9')"><input type="radio" name="etapas" value="Sí"/><div class="opcion-label">Sí</div></label>
+      <label class="opcion" onclick="radioAuto('etapas','No',irA,'pA9')"><input type="radio" name="etapas" value="No"/><div class="opcion-label">No</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pA7')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pA9">
+    <div class="etiqueta">Obra nueva · A9</div>
+    <h2>¿Cuentas con las escrituras del terreno?</h2>
+    <p class="hint">Las necesitamos para verificar que las medidas y datos del terreno coincidan con lo que nos indicas.</p>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('escrituras','Sí',irA,'pA10')"><input type="radio" name="escrituras" value="Sí"/><div class="opcion-label">Sí</div></label>
+      <label class="opcion" onclick="radioAuto('escrituras','No',irA,'pA10')"><input type="radio" name="escrituras" value="No"/><div class="opcion-label">No, aún no las tengo</div></label>
+      <label class="opcion" onclick="radioAuto('escrituras','En trámite',irA,'pA10')"><input type="radio" name="escrituras" value="En trámite"/><div class="opcion-label">Están en trámite</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pA8')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pA10">
+    <div class="etiqueta">Obra nueva · A10</div>
+    <h2>¿Con qué servicios cuenta el terreno actualmente?</h2>
     <p class="hint">Puedes seleccionar varios.</p>
     <div class="opciones">
-      <label class="opcion"><input type="checkbox" name="servicios" value="Agua potable"/><div class="opcion-label">Agua potable</div></label>
-      <label class="opcion"><input type="checkbox" name="servicios" value="Drenaje sanitario"/><div class="opcion-label">Drenaje sanitario</div></label>
-      <label class="opcion"><input type="checkbox" name="servicios" value="Energía eléctrica"/><div class="opcion-label">Energía eléctrica</div></label>
-      <label class="opcion"><input type="checkbox" name="servicios" value="Ninguno"/><div class="opcion-label">Ninguno</div></label>
+      <label class="opcion"><input type="checkbox" name="servicios-terreno" value="Agua potable" onchange="marcarOpcion(this);"/><div class="opcion-label">Agua potable</div></label>
+      <label class="opcion"><input type="checkbox" name="servicios-terreno" value="Energía eléctrica" onchange="marcarOpcion(this);"/><div class="opcion-label">Energía eléctrica</div></label>
+      <label class="opcion"><input type="checkbox" name="servicios-terreno" value="Drenaje sanitario" onchange="marcarOpcion(this);"/><div class="opcion-label">Drenaje sanitario</div></label>
+      <label class="opcion"><input type="checkbox" name="servicios-terreno" value="Ninguno" onchange="marcarOpcion(this);"/><div class="opcion-label">Ninguno</div></label>
     </div>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p7a')">←</button>
-      <button class="btn btn-sig" onclick="irA('p_mobiliario')">Continuar →</button>
+      <button class="btn btn-ant" onclick="irA('pA9')">←</button>
+      <button class="btn btn-sig" onclick="irA('pFinal1')">Continuar →</button>
     </div>
   </div>
 
-  <!-- ══ AMPLIACIÓN ══ -->
-  <div class="pregunta" id="p4b">
-    <div class="etiqueta">Ampliación</div>
-    <h2>¿Qué tipo de inmueble vas a intervenir?</h2>
+  <!-- ══ SECCIÓN B: DISEÑO DE INTERIORES / REMODELACIÓN ══ -->
+
+  <div class="pregunta" id="pB1">
+    <div class="etiqueta">Interiores · B1</div>
+    <h2>¿En qué tipo de inmueble se realizará el proyecto?</h2>
     <div class="opciones">
-      <label class="opcion" onclick="radioAuto('inmueble-amp','Casa habitación',irA,'p5b')"><input type="radio" name="inmueble-amp" value="Casa habitación"/><div class="opcion-label">Casa habitación</div></label>
-      <label class="opcion" onclick="radioAuto('inmueble-amp','Edificio de departamentos',irA,'p5b')"><input type="radio" name="inmueble-amp" value="Edificio de departamentos"/><div class="opcion-label">Edificio de departamentos</div></label>
-      <label class="opcion" onclick="radioAuto('inmueble-amp','Otros',irA,'p5b')"><input type="radio" name="inmueble-amp" value="Otros"/><div class="opcion-label">Otros</div></label>
+      <label class="opcion" onclick="radioAuto('inmueble-int','Habitacional',irA,'pB2')"><input type="radio" name="inmueble-int" value="Habitacional"/><div class="opcion-label">Habitacional</div></label>
+      <label class="opcion" onclick="radioAuto('inmueble-int','Comercial',irA,'pB3')"><input type="radio" name="inmueble-int" value="Comercial"/><div class="opcion-label">Comercial</div></label>
     </div>
-    <div class="nav"><button class="btn btn-ant" onclick="irA('p3')">←</button></div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('p4')">←</button></div>
   </div>
 
-  <div class="pregunta" id="p5b">
-    <div class="etiqueta">Ampliación</div>
-    <h2>¿Qué espacio deseas ampliar?</h2>
+  <div class="pregunta" id="pB2">
+    <div class="etiqueta">Interiores · B2</div>
+    <h2>¿Qué espacios deseas intervenir?</h2>
     <p class="hint">Puedes seleccionar varios.</p>
     <div class="opciones">
-      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Cocina"/><div class="opcion-label">Cocina</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Baño"/><div class="opcion-label">Baño</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Sala / Comedor"/><div class="opcion-label">Sala / Comedor</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Recámara"/><div class="opcion-label">Recámara</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Espacio comercial"/><div class="opcion-label">Espacio comercial</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-int" value="Cocina integral" onchange="marcarOpcion(this);"/><div class="opcion-label">Cocina integral</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-int" value="Baño" onchange="marcarOpcion(this);"/><div class="opcion-label">Baño</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-int" value="Sala / Comedor" onchange="marcarOpcion(this);"/><div class="opcion-label">Sala / Comedor</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-int" value="Recámara" onchange="marcarOpcion(this);"/><div class="opcion-label">Recámara</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-int" value="Escaleras" onchange="marcarOpcion(this);"/><div class="opcion-label">Escaleras</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-int" value="Proyecto completo del inmueble" onchange="marcarOpcion(this);"/><div class="opcion-label">Proyecto completo del inmueble</div></label>
       <label class="opcion">
-        <input type="checkbox" name="espacio-amp" value="Otros" onchange="toggleOtro('otro-amp',this)"/>
+        <input type="checkbox" name="espacio-int" value="Otro" onchange="toggleOtro('otro-int',this); marcarOpcion(this);"/>
         <div class="opcion-texto">
-          <div class="opcion-label">Otros (especificar)</div>
+          <div class="opcion-label">Otro (especificar)</div>
+          <div class="campo-otro" id="otro-int"><input type="text" id="val-otro-int" placeholder="Describe el espacio..."/></div>
+        </div>
+      </label>
+    </div>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pB1')">←</button>
+      <button class="btn btn-sig" onclick="irA('pB4')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pB3">
+    <div class="etiqueta">Interiores · B3</div>
+    <h2>Describe el tipo de espacio comercial a intervenir</h2>
+    <p class="hint">Ej. consultorio, restaurante, salón, oficina, tienda, etc.</p>
+    <input class="input-grande" type="text" id="val-espacio-com-int" placeholder="Describe el espacio comercial"/>
+    <p class="msg-error" id="err-espacio-com-int">Este campo es obligatorio.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pB1')">←</button>
+      <button class="btn btn-sig" onclick="validarTexto('val-espacio-com-int','err-espacio-com-int',irA,'pB4')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pB4">
+    <div class="etiqueta">Interiores · B4</div>
+    <h2>¿Cuántos m² aproximados tiene el espacio a intervenir?</h2>
+    <input class="input-grande" type="number" id="val-m2-int" placeholder="Ej. 45" min="1"/>
+    <p class="msg-error" id="err-m2-int">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" id="btn-ant-B4" onclick="">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-m2-int','err-m2-int',irA,'pB5')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pB5">
+    <div class="etiqueta">Interiores</div>
+    <h2>¿Qué tipo de intervención necesitas en el espacio?</h2>
+    <p class="hint">Puedes seleccionar varias si aplica más de una.</p>
+    <div class="opciones">
+      <label class="opcion">
+        <input type="checkbox" name="estado-int" value="Solo acabados y decoración" onchange="marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Solo acabados y decoración</div>
+          <div class="opcion-desc">Cambiar pisos, pintura, muebles o iluminación sin tocar muros ni tuberías.</div>
+        </div>
+      </label>
+      <label class="opcion">
+        <input type="checkbox" name="estado-int" value="Redistribución de espacios" onchange="marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Redistribución de espacios</div>
+          <div class="opcion-desc">Mover, derribar o construir muros para cambiar la distribución del lugar. No se toca la estructura del edificio.</div>
+        </div>
+      </label>
+      <label class="opcion">
+        <input type="checkbox" name="estado-int" value="Modificación de instalaciones" onchange="marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Modificación de instalaciones</div>
+          <div class="opcion-desc">Cambiar o reubicar tuberías de agua, drenaje o instalación eléctrica.</div>
+        </div>
+      </label>
+      <label class="opcion">
+        <input type="checkbox" name="estado-int" value="No lo sé aún" onchange="marcarOpcion(this);"/>
+        <div class="opcion-label">No lo sé aún</div>
+      </label>
+    </div>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pB4')">←</button>
+      <button class="btn btn-sig" onclick="irA('pB6')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pB6">
+    <div class="etiqueta">Interiores · B6</div>
+    <h2>¿En qué piso se ubica el espacio a intervenir?</h2>
+    <p class="hint">Escribe 1 si es planta baja.</p>
+    <input class="input-grande" type="number" id="val-piso-int" placeholder="Ej. 1" min="1"/>
+    <p class="msg-error" id="err-piso-int">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pB5')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-piso-int','err-piso-int',irA,'pB7')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pB7">
+    <div class="etiqueta">Interiores · B7</div>
+    <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('planos-int','Sí, tengo planos formales',irA,'pB8')"><input type="radio" name="planos-int" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
+      <label class="opcion" onclick="radioAuto('planos-int','Sí, tengo un croquis aproximado',irA,'pB8')"><input type="radio" name="planos-int" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
+      <label class="opcion" onclick="radioAuto('planos-int','No cuento con nada',irA,'pB8')"><input type="radio" name="planos-int" value="No cuento con nada"/><div class="opcion-label">No cuento con nada</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pB6')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pB8">
+    <div class="etiqueta">Interiores · B8</div>
+    <h2>¿Aproximadamente cuántos años tiene la construcción?</h2>
+    <input class="input-grande" type="number" id="val-edad-int" placeholder="Ej. 15" min="0"/>
+    <p class="msg-error" id="err-edad-int">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pB7')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-int','err-edad-int',irA,'pFinal1')">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN C: AMPLIACIÓN ══ -->
+
+  <div class="pregunta" id="pC1">
+    <div class="etiqueta">Ampliación · C1</div>
+    <h2>¿En qué tipo de inmueble se realizará la ampliación?</h2>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('inmueble-amp','Casa habitación',irA,'pC2')"><input type="radio" name="inmueble-amp" value="Casa habitación"/><div class="opcion-label">Casa habitación</div></label>
+      <label class="opcion" onclick="radioAuto('inmueble-amp','Edificio de departamentos',irA,'pC2')"><input type="radio" name="inmueble-amp" value="Edificio de departamentos"/><div class="opcion-label">Edificio de departamentos</div></label>
+      <label class="opcion" onclick="radioAuto('inmueble-amp','Comercial',irA,'pC3')"><input type="radio" name="inmueble-amp" value="Comercial"/><div class="opcion-label">Comercial</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('p4')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pC2">
+    <div class="etiqueta">Ampliación · C2</div>
+    <h2>¿Qué tipo de espacio deseas ampliar?</h2>
+    <p class="hint">Puedes seleccionar varios.</p>
+    <div class="opciones">
+      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Cocina" onchange="marcarOpcion(this);"/><div class="opcion-label">Cocina</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Baño" onchange="marcarOpcion(this);"/><div class="opcion-label">Baño</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Sala / Comedor" onchange="marcarOpcion(this);"/><div class="opcion-label">Sala / Comedor</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Recámara" onchange="marcarOpcion(this);"/><div class="opcion-label">Recámara</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-amp" value="Espacio comercial" onchange="marcarOpcion(this);"/><div class="opcion-label">Espacio comercial</div></label>
+      <label class="opcion">
+        <input type="checkbox" name="espacio-amp" value="Otro" onchange="toggleOtro('otro-amp',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Otro (especificar)</div>
           <div class="campo-otro" id="otro-amp"><input type="text" id="val-otro-amp" placeholder="Describe el espacio..."/></div>
         </div>
       </label>
     </div>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p4b')">←</button>
-      <button class="btn btn-sig" onclick="irA('p6b')">Continuar →</button>
+      <button class="btn btn-ant" onclick="irA('pC1')">←</button>
+      <button class="btn btn-sig" onclick="irA('pC4')">Continuar →</button>
     </div>
   </div>
 
-  <div class="pregunta" id="p6b">
-    <div class="etiqueta">Ampliación</div>
-    <h2>¿Cuántos m² aproximados tiene la ampliación?</h2>
-    <input class="input-grande" type="number" id="val-m2-amp" placeholder="Ej. 45" min="1"/>
+  <div class="pregunta" id="pC3">
+    <div class="etiqueta">Ampliación · C3</div>
+    <h2>Describe el espacio que deseas ampliar</h2>
+    <input class="input-grande" type="text" id="val-espacio-amp-com" placeholder="Describe el espacio a ampliar"/>
+    <p class="msg-error" id="err-espacio-amp-com">Este campo es obligatorio.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pC1')">←</button>
+      <button class="btn btn-sig" onclick="validarTexto('val-espacio-amp-com','err-espacio-amp-com',irA,'pC4')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pC4">
+    <div class="etiqueta">Ampliación · C4</div>
+    <h2>¿Cuántos m² aproximados deseas ampliar?</h2>
+    <input class="input-grande" type="number" id="val-m2-amp" placeholder="Ej. 30" min="1"/>
     <p class="msg-error" id="err-m2-amp">Ingresa un valor numérico.</p>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p5b')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-m2-amp','err-m2-amp',irA,'p7b')">Continuar →</button>
+      <button class="btn btn-ant" id="btn-ant-C4" onclick="">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-m2-amp','err-m2-amp',irA,'pC5')">Continuar →</button>
     </div>
   </div>
 
-  <div class="pregunta" id="p7b">
-    <div class="etiqueta">Ampliación</div>
-    <h2>¿En qué nivel se encuentra la ampliación?</h2>
+  <div class="pregunta" id="pC5">
+    <div class="etiqueta">Ampliación · C5</div>
+    <h2>¿En qué piso se ubica o se realizará la ampliación?</h2>
+    <p class="hint">Escribe 1 si es planta baja.</p>
+    <input class="input-grande" type="number" id="val-piso-amp" placeholder="Ej. 2" min="1"/>
+    <p class="msg-error" id="err-piso-amp">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pC4')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-piso-amp','err-piso-amp',irA,'pC6')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pC6">
+    <div class="etiqueta">Ampliación · C6</div>
+    <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
     <div class="opciones">
-      <label class="opcion" onclick="radioAuto('nivel-amp','Planta Baja',irA,'p_mobiliario')"><input type="radio" name="nivel-amp" value="Planta Baja"/><div class="opcion-label">Planta Baja</div></label>
-      <label class="opcion" onclick="radioAuto('nivel-amp','Segundo nivel',irA,'p_mobiliario')"><input type="radio" name="nivel-amp" value="Segundo nivel"/><div class="opcion-label">Segundo nivel</div></label>
-      <label class="opcion" onclick="radioAuto('nivel-amp','Tercer nivel o más',irA,'p_mobiliario')"><input type="radio" name="nivel-amp" value="Tercer nivel o más"/><div class="opcion-label">Tercer nivel o más</div></label>
+      <label class="opcion" onclick="radioAuto('planos-amp','Sí, tengo planos formales',irA,'pC7')"><input type="radio" name="planos-amp" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
+      <label class="opcion" onclick="radioAuto('planos-amp','Sí, tengo un croquis aproximado',irA,'pC7')"><input type="radio" name="planos-amp" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
+      <label class="opcion" onclick="radioAuto('planos-amp','No cuento con nada',irA,'pC7')"><input type="radio" name="planos-amp" value="No cuento con nada"/><div class="opcion-label">No cuento con nada</div></label>
     </div>
-    <div class="nav"><button class="btn btn-ant" onclick="irA('p6b')">←</button></div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pC5')">←</button></div>
   </div>
 
-  <!-- ══ REMODELACIÓN ══ -->
-  <div class="pregunta" id="p4c">
-    <div class="etiqueta">Remodelación / Interiores</div>
-    <h2>¿Qué tipo de inmueble es?</h2>
+  <div class="pregunta" id="pC7">
+    <div class="etiqueta">Ampliación · C7</div>
+    <h2>¿Aproximadamente cuántos años tiene la construcción existente?</h2>
+    <input class="input-grande" type="number" id="val-edad-amp" placeholder="Ej. 20" min="0"/>
+    <p class="msg-error" id="err-edad-amp">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pC6')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-amp','err-edad-amp',irA,'pFinal1')">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN D: EXTERIORES / PAISAJISMO ══ -->
+
+  <div class="pregunta" id="pD1">
+    <div class="etiqueta">Exteriores / Paisajismo · D1</div>
+    <h2>¿En qué tipo de inmueble se realizará el proyecto?</h2>
     <div class="opciones">
-      <label class="opcion" onclick="radioAuto('inmueble-rem','Habitacional',irA,'p5c')"><input type="radio" name="inmueble-rem" value="Habitacional"/><div class="opcion-label">Habitacional</div></label>
-      <label class="opcion" onclick="radioAuto('inmueble-rem','Comercial',irA,'p5c')"><input type="radio" name="inmueble-rem" value="Comercial"/><div class="opcion-label">Comercial</div></label>
+      <label class="opcion" onclick="radioAuto('inmueble-ext','Habitacional',irA,'pD2')"><input type="radio" name="inmueble-ext" value="Habitacional"/><div class="opcion-label">Habitacional</div></label>
+      <label class="opcion" onclick="radioAuto('inmueble-ext','Comercial',irA,'pD2')"><input type="radio" name="inmueble-ext" value="Comercial"/><div class="opcion-label">Comercial</div></label>
     </div>
-    <div class="nav"><button class="btn btn-ant" onclick="irA('p3')">←</button></div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('p4')">←</button></div>
   </div>
 
-  <div class="pregunta" id="p5c">
-    <div class="etiqueta">Remodelación / Interiores</div>
-    <h2>¿Qué tipo de espacio vas a intervenir?</h2>
+  <div class="pregunta" id="pD2">
+    <div class="etiqueta">Exteriores / Paisajismo · D2</div>
+    <h2>¿Qué tipo de espacio deseas intervenir?</h2>
     <p class="hint">Puedes seleccionar varios.</p>
     <div class="opciones">
-      <label class="opcion"><input type="checkbox" name="espacio-rem" value="Cocina integral"/><div class="opcion-label">Cocina integral</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-rem" value="Baño"/><div class="opcion-label">Baño</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-rem" value="Sala / Comedor"/><div class="opcion-label">Sala / Comedor</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-rem" value="Recámara"/><div class="opcion-label">Recámara</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-rem" value="Escaleras"/><div class="opcion-label">Escaleras</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-ext" value="Patio" onchange="marcarOpcion(this);"/><div class="opcion-label">Patio</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-ext" value="Jardín" onchange="marcarOpcion(this);"/><div class="opcion-label">Jardín</div></label>
+      <label class="opcion"><input type="checkbox" name="espacio-ext" value="Terraza" onchange="marcarOpcion(this);"/><div class="opcion-label">Terraza</div></label>
       <label class="opcion">
-        <input type="checkbox" name="espacio-rem" value="Otros" onchange="toggleOtro('otro-rem',this)"/>
+        <input type="checkbox" name="espacio-ext" value="Otro" onchange="toggleOtro('otro-ext',this); marcarOpcion(this);"/>
         <div class="opcion-texto">
-          <div class="opcion-label">Otros (especificar)</div>
-          <div class="campo-otro" id="otro-rem"><input type="text" id="val-otro-rem" placeholder="Describe el espacio..."/></div>
-        </div>
-      </label>
-    </div>
-    <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p4c')">←</button>
-      <button class="btn btn-sig" onclick="irA('p6c')">Continuar →</button>
-    </div>
-  </div>
-
-  <div class="pregunta" id="p6c">
-    <div class="etiqueta">Remodelación / Interiores</div>
-    <h2>¿Cuántos m² aproximados tiene el espacio?</h2>
-    <input class="input-grande" type="number" id="val-m2-rem" placeholder="Ej. 30" min="1"/>
-    <p class="msg-error" id="err-m2-rem">Ingresa un valor numérico.</p>
-    <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p5c')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-m2-rem','err-m2-rem',irA,'p_mobiliario')">Continuar →</button>
-    </div>
-  </div>
-
-  <!-- ══ EXTERIORES ══ -->
-  <div class="pregunta" id="p4d">
-    <div class="etiqueta">Paisajismo / Exteriores / Fachada</div>
-    <h2>¿Qué tipo de inmueble es?</h2>
-    <div class="opciones">
-      <label class="opcion" onclick="radioAuto('inmueble-ext','Habitacional',irA,'p5d')"><input type="radio" name="inmueble-ext" value="Habitacional"/><div class="opcion-label">Habitacional</div></label>
-      <label class="opcion" onclick="radioAuto('inmueble-ext','Comercial',irA,'p5d')"><input type="radio" name="inmueble-ext" value="Comercial"/><div class="opcion-label">Comercial</div></label>
-    </div>
-    <div class="nav"><button class="btn btn-ant" onclick="irA('p3')">←</button></div>
-  </div>
-
-  <div class="pregunta" id="p5d">
-    <div class="etiqueta">Paisajismo / Exteriores / Fachada</div>
-    <h2>¿Qué espacio deseas intervenir?</h2>
-    <p class="hint">Puedes seleccionar varios.</p>
-    <div class="opciones">
-      <label class="opcion"><input type="checkbox" name="espacio-ext" value="Fachada"/><div class="opcion-label">Fachada</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-ext" value="Patio"/><div class="opcion-label">Patio</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-ext" value="Jardín"/><div class="opcion-label">Jardín</div></label>
-      <label class="opcion"><input type="checkbox" name="espacio-ext" value="Terraza"/><div class="opcion-label">Terraza</div></label>
-      <label class="opcion">
-        <input type="checkbox" name="espacio-ext" value="Otros" onchange="toggleOtro('otro-ext',this)"/>
-        <div class="opcion-texto">
-          <div class="opcion-label">Otros (especificar)</div>
+          <div class="opcion-label">Otro (especificar)</div>
           <div class="campo-otro" id="otro-ext"><input type="text" id="val-otro-ext" placeholder="Describe el espacio..."/></div>
         </div>
       </label>
     </div>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p4d')">←</button>
-      <button class="btn btn-sig" onclick="irA('p6d')">Continuar →</button>
+      <button class="btn btn-ant" onclick="irA('pD1')">←</button>
+      <button class="btn btn-sig" onclick="irA('pD3')">Continuar →</button>
     </div>
   </div>
 
-  <div class="pregunta" id="p6d">
-    <div class="etiqueta">Paisajismo / Exteriores / Fachada</div>
+  <div class="pregunta" id="pD3">
+    <div class="etiqueta">Exteriores / Paisajismo · D3</div>
     <h2>¿Cuántos m² aproximados tiene el espacio?</h2>
-    <p class="hint">En caso de fachada: base × altura.</p>
     <input class="input-grande" type="number" id="val-m2-ext" placeholder="Ej. 60" min="1"/>
     <p class="msg-error" id="err-m2-ext">Ingresa un valor numérico.</p>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p5d')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-m2-ext','err-m2-ext',irA,'p7d')">Continuar →</button>
+      <button class="btn btn-ant" onclick="irA('pD2')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-m2-ext','err-m2-ext',irA,'pD4')">Continuar →</button>
     </div>
   </div>
 
-  <div class="pregunta" id="p7d">
-    <div class="etiqueta">Paisajismo / Exteriores / Fachada</div>
-    <h2>¿En qué nivel del inmueble se ubica el espacio?</h2>
-    <p class="hint">En caso de fachada: número de niveles que abarca.</p>
-    <input class="input-grande" type="number" id="val-nivel-ext" placeholder="Ej. 1" min="1"/>
-    <p class="msg-error" id="err-nivel-ext">Ingresa un valor numérico.</p>
-    <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p6d')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-nivel-ext','err-nivel-ext',irA,'p_mobiliario')">Continuar →</button>
-    </div>
-  </div>
-
-  <!-- ══ COMPLEMENTARIOS ══ -->
-  <div class="pregunta" id="p_mobiliario">
-    <div class="etiqueta">Requerimientos</div>
-    <h2>¿Qué tipo de mobiliario necesitas?</h2>
+  <div class="pregunta" id="pD4">
+    <div class="etiqueta">Exteriores / Paisajismo · D4</div>
+    <h2>¿El espacio cuenta con instalaciones existentes?</h2>
+    <p class="hint">Puedes seleccionar varios. Esto nos ayuda a saber si hay que replantear o integrar instalaciones al diseño.</p>
     <div class="opciones">
-      <label class="opcion" onclick="radioAuto('mobiliario','Mobiliario fijo comercial',irA,'p_render')"><input type="radio" name="mobiliario" value="Mobiliario fijo comercial"/><div class="opcion-label">Mobiliario fijo comercial</div></label>
-      <label class="opcion" onclick="radioAuto('mobiliario','Mobiliario fijo a medida',irA,'p_render')"><input type="radio" name="mobiliario" value="Mobiliario fijo a medida"/><div class="opcion-label">Mobiliario fijo a medida</div></label>
+      <label class="opcion"><input type="checkbox" name="instal-ext" value="Sistema de riego" onchange="marcarOpcion(this);"/><div class="opcion-label">Sistema de riego</div></label>
+      <label class="opcion"><input type="checkbox" name="instal-ext" value="Iluminación exterior" onchange="marcarOpcion(this);"/><div class="opcion-label">Iluminación exterior</div></label>
+      <label class="opcion"><input type="checkbox" name="instal-ext" value="Drenaje pluvial" onchange="marcarOpcion(this);"/><div class="opcion-label">Drenaje pluvial</div></label>
+      <label class="opcion"><input type="checkbox" name="instal-ext" value="Ninguna" onchange="marcarOpcion(this);"/><div class="opcion-label">Ninguna</div></label>
+      <label class="opcion">
+        <input type="checkbox" name="instal-ext" value="Otro" onchange="toggleOtro('otro-instal-ext',this); marcarOpcion(this);"/>
+        <div class="opcion-texto">
+          <div class="opcion-label">Otro (especificar)</div>
+          <div class="campo-otro" id="otro-instal-ext"><input type="text" id="val-otro-instal-ext" placeholder="Describe la instalación..."/></div>
+        </div>
+      </label>
     </div>
-    <div class="nav"><button class="btn btn-ant" id="btn-ant-mob" onclick="">←</button></div>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pD3')">←</button>
+      <button class="btn btn-sig" onclick="irA('pD5')">Continuar →</button>
+    </div>
   </div>
 
-  <div class="pregunta" id="p_render">
-    <div class="etiqueta">Requerimientos</div>
+  <div class="pregunta" id="pD5">
+    <div class="etiqueta">Exteriores / Paisajismo · D5</div>
+    <h2>¿En qué piso se ubica el espacio?</h2>
+    <p class="hint">Escribe 1 si es planta baja o nivel de calle.</p>
+    <input class="input-grande" type="number" id="val-piso-ext" placeholder="Ej. 1" min="1"/>
+    <p class="msg-error" id="err-piso-ext">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pD4')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-piso-ext','err-piso-ext',irA,'pD6')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pD6">
+    <div class="etiqueta">Exteriores / Paisajismo · D6</div>
+    <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('planos-ext','Sí, tengo planos formales',irA,'pD7')"><input type="radio" name="planos-ext" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
+      <label class="opcion" onclick="radioAuto('planos-ext','Sí, tengo un croquis aproximado',irA,'pD7')"><input type="radio" name="planos-ext" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
+      <label class="opcion" onclick="radioAuto('planos-ext','No cuento con nada',irA,'pD7')"><input type="radio" name="planos-ext" value="No cuento con nada"/><div class="opcion-label">No cuento con nada</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pD5')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pD7">
+    <div class="etiqueta">Exteriores / Paisajismo · D7</div>
+    <h2>¿Aproximadamente cuántos años tiene la construcción existente?</h2>
+    <input class="input-grande" type="number" id="val-edad-ext" placeholder="Ej. 10" min="0"/>
+    <p class="msg-error" id="err-edad-ext">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pD6')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-ext','err-edad-ext',irA,'pFinal1')">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN E: FACHADA ══ -->
+
+  <div class="pregunta" id="pE1">
+    <div class="etiqueta">Fachada · E1</div>
+    <h2>¿En qué tipo de inmueble se realizará el proyecto?</h2>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('inmueble-fach','Habitacional',irA,'pE2')"><input type="radio" name="inmueble-fach" value="Habitacional"/><div class="opcion-label">Habitacional</div></label>
+      <label class="opcion" onclick="radioAuto('inmueble-fach','Comercial',irA,'pE2')"><input type="radio" name="inmueble-fach" value="Comercial"/><div class="opcion-label">Comercial</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('p4')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pE2">
+    <div class="etiqueta">Fachada · E2</div>
+    <h2>¿Cuáles son las dimensiones de la fachada?</h2>
+    <p class="hint">En metros lineales.</p>
+    <div class="grid-2">
+      <div class="campo-dim">
+        <label>Ancho (m)</label>
+        <input class="input-grande" type="number" id="val-fach-ancho" placeholder="Ej. 8" min="0.1" step="0.1"/>
+      </div>
+      <div class="campo-dim">
+        <label>Altura total (m)</label>
+        <input class="input-grande" type="number" id="val-fach-alto" placeholder="Ej. 6" min="0.1" step="0.1"/>
+      </div>
+    </div>
+    <p class="msg-error" id="err-fach-dim">Ingresa ambas dimensiones.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pE1')">←</button>
+      <button class="btn btn-sig" onclick="validarDimensiones()">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pE3">
+    <div class="etiqueta">Fachada · E3</div>
+    <h2>¿Cuántos niveles o pisos tiene la fachada?</h2>
+    <input class="input-grande" type="number" id="val-niveles-fach" placeholder="Ej. 2" min="1"/>
+    <p class="msg-error" id="err-niveles-fach">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pE2')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-niveles-fach','err-niveles-fach',irA,'pE4')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pE4">
+    <div class="etiqueta">Fachada · E4</div>
+    <h2>¿Qué elementos deseas modificar o incluir en la nueva fachada?</h2>
+    <p class="hint">Puedes seleccionar varios.</p>
+    <div class="opciones">
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="Recubrimientos y acabados" onchange="marcarOpcion(this);"/><div class="opcion-texto"><div class="opcion-label">Recubrimientos y acabados</div><div class="opcion-desc">Pintura, aplanados, materiales.</div></div></label>
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="Ventanas o puertas" onchange="marcarOpcion(this);"/><div class="opcion-texto"><div class="opcion-label">Ventanas o puertas</div><div class="opcion-desc">Cambio o adición de vanos.</div></div></label>
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="Marquesina o volado" onchange="marcarOpcion(this);"/><div class="opcion-label">Marquesina o volado</div></label>
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="Iluminación exterior" onchange="marcarOpcion(this);"/><div class="opcion-label">Iluminación exterior</div></label>
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="Vegetación o elementos naturales" onchange="marcarOpcion(this);"/><div class="opcion-texto"><div class="opcion-label">Vegetación o elementos naturales</div><div class="opcion-desc">Muros verdes, jardineras.</div></div></label>
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="Señalética o imagen comercial" onchange="marcarOpcion(this);"/><div class="opcion-label">Señalética o imagen comercial</div></label>
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="Cancelería" onchange="marcarOpcion(this);"/><div class="opcion-texto"><div class="opcion-label">Cancelería</div><div class="opcion-desc">Rejas, puertas metálicas, barandales.</div></div></label>
+      <label class="opcion"><input type="checkbox" name="elem-fach" value="No lo sé aún, requiero asesoría" onchange="marcarOpcion(this);"/><div class="opcion-label">No lo sé aún, requiero asesoría</div></label>
+    </div>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pE3')">←</button>
+      <button class="btn btn-sig" onclick="irA('pE5')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pE5">
+    <div class="etiqueta">Fachada · E5</div>
+    <h2>¿La fachada cuenta con elementos estructurales visibles?</h2>
+    <p class="hint">Por ejemplo: columnas expuestas, trabes, arcos o volados existentes.</p>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('estruct-fach','Sí, hay elementos estructurales que quiero conservar',irA,'pE6')"><input type="radio" name="estruct-fach" value="Sí, hay elementos estructurales que quiero conservar"/><div class="opcion-label">Sí, quiero conservarlos</div></label>
+      <label class="opcion" onclick="radioAuto('estruct-fach','Sí, hay elementos estructurales que quiero modificar o remover',irA,'pE6')"><input type="radio" name="estruct-fach" value="Sí, hay elementos estructurales que quiero modificar o remover"/><div class="opcion-label">Sí, quiero modificarlos o removerlos</div></label>
+      <label class="opcion" onclick="radioAuto('estruct-fach','No hay elementos estructurales visibles',irA,'pE6')"><input type="radio" name="estruct-fach" value="No hay elementos estructurales visibles"/><div class="opcion-label">No hay elementos estructurales visibles</div></label>
+      <label class="opcion" onclick="radioAuto('estruct-fach','No estoy seguro',irA,'pE6')"><input type="radio" name="estruct-fach" value="No estoy seguro"/><div class="opcion-label">No estoy seguro</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pE4')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pE6">
+    <div class="etiqueta">Fachada · E6</div>
+    <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('planos-fach','Sí, tengo planos formales',irA,'pE7')"><input type="radio" name="planos-fach" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
+      <label class="opcion" onclick="radioAuto('planos-fach','Sí, tengo un croquis aproximado',irA,'pE7')"><input type="radio" name="planos-fach" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
+      <label class="opcion" onclick="radioAuto('planos-fach','No cuento con nada',irA,'pE7')"><input type="radio" name="planos-fach" value="No cuento con nada"/><div class="opcion-label">No cuento con nada</div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pE5')">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pE7">
+    <div class="etiqueta">Fachada · E7</div>
+    <h2>¿Aproximadamente cuántos años tiene la construcción?</h2>
+    <input class="input-grande" type="number" id="val-edad-fach" placeholder="Ej. 25" min="0"/>
+    <p class="msg-error" id="err-edad-fach">Ingresa un valor numérico.</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pE6')">←</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-fach','err-edad-fach',irA,'pFinal1')">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN FINAL ══ -->
+
+  <div class="pregunta" id="pFinal1">
+    <div class="etiqueta">Para tu cotización</div>
+    <h2>¿Qué alcance buscas para tu proyecto?</h2>
+    <p class="hint">Esto nos ayuda a preparar la cotización más adecuada para tu proyecto.</p>
+
+    <div class="paquete" id="paq-diseno" onclick="elegirPaquete('Anteproyecto')">
+      <div class="paquete-header">
+        <input type="radio" name="paquete" value="Anteproyecto"/>
+        <span class="paquete-nombre">Anteproyecto</span>
+      </div>
+      <p class="paquete-tagline">Quiero visualizar y definir el diseño antes de tomar decisiones de construcción.</p>
+      <p class="paquete-incluye">Incluye: distribución de espacios, planimetría, renders y moodboard de acabados. Ideal para tener una visión clara del proyecto y evaluar opciones.</p>
+    </div>
+
+    <div class="paquete" id="paq-integral" onclick="elegirPaquete('Anteproyecto + Proyecto ejecutivo')">
+      <div class="paquete-header">
+        <input type="radio" name="paquete" value="Anteproyecto + Proyecto ejecutivo"/>
+        <span class="paquete-nombre">Anteproyecto + Proyecto ejecutivo</span>
+      </div>
+      <p class="paquete-tagline">Quiero el diseño completo y todos los planos técnicos para poder construir.</p>
+      <p class="paquete-incluye">Incluye el anteproyecto más el proyecto ejecutivo: planos técnicos, de instalaciones y estructurales necesarios para tramitar permisos y ejecutar la obra.</p>
+    </div>
+
+    <div class="paquete" id="paq-asesor" onclick="elegirPaquete('No lo sé aún')">
+      <div class="paquete-header">
+        <input type="radio" name="paquete" value="No lo sé aún"/>
+        <span class="paquete-nombre">No lo sé aún</span>
+      </div>
+      <p class="paquete-tagline">Con gusto te orientamos sin compromiso.</p>
+    </div>
+
+    <div class="nav"><button class="btn btn-ant" id="btn-ant-final1" onclick="">←</button></div>
+  </div>
+
+  <div class="pregunta" id="pFinal2">
+    <div class="etiqueta">Para tu cotización</div>
     <h2>¿Qué calidad de renders prefieres?</h2>
     <div class="opciones">
-      <label class="opcion" onclick="radioAuto('render','Calidad estándar',irA,'p_ubicacion')">
-        <input type="radio" name="render" value="Calidad estándar"/>
+      <label class="opcion" onclick="radioAuto('render','Renders calidad estándar',irA,'pFinal3')">
+        <input type="radio" name="render" value="Renders calidad estándar"/>
         <div class="opcion-texto">
           <div class="opcion-label">Calidad estándar</div>
-          <div class="opcion-desc">Para revisión y presentación. Detalle moderado.</div>
+          <div class="opcion-desc">Visualizaciones claras y funcionales para entender el diseño y revisar el proyecto.</div>
         </div>
       </label>
-      <label class="opcion" onclick="radioAuto('render','Alta calidad',irA,'p_ubicacion')">
-        <input type="radio" name="render" value="Alta calidad"/>
+      <label class="opcion" onclick="radioAuto('render','Renders alta calidad',irA,'pFinal3')">
+        <input type="radio" name="render" value="Renders alta calidad"/>
         <div class="opcion-texto">
           <div class="opcion-label">Alta calidad</div>
-          <div class="opcion-desc">Para presentaciones comerciales o preventa. Mayor realismo.</div>
+          <div class="opcion-desc">Imágenes fotorrealistas con mayor detalle en iluminación, texturas y ambientación. Ideales para presentaciones comerciales o preventa.</div>
         </div>
       </label>
     </div>
-    <div class="nav"><button class="btn btn-ant" onclick="irA('p_mobiliario')">←</button></div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('pFinal1')">←</button></div>
   </div>
 
-  <div class="pregunta" id="p_ubicacion">
-    <div class="etiqueta">Requerimientos</div>
-    <h2>¿Dónde se ubica el proyecto?</h2>
-    <p class="hint">Dirección o link de Google Maps.</p>
-    <textarea class="input-grande" id="val-ubicacion" placeholder="Ej. Av. Insurgentes 123, CDMX&#10;maps.google.com/..."></textarea>
-    <p class="msg-error" id="err-ubicacion">Este campo es obligatorio.</p>
+  <div class="pregunta" id="pFinal3">
+    <div class="etiqueta">Para tu cotización</div>
+    <h2>¿Tienes considerado un presupuesto aproximado para la obra?</h2>
+    <p class="hint">Este campo es opcional. Si tienes una idea del monto, nos ayuda a orientar mejor la propuesta.</p>
+    <input class="input-grande" type="number" id="val-presup-obra" placeholder="Ej. 500000" min="0"/>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p_render')">←</button>
-      <button class="btn btn-sig" onclick="validarTexto('val-ubicacion','err-ubicacion',irA,'p_comentarios')">Continuar →</button>
+      <button class="btn btn-ant" onclick="irA('pFinal2')">←</button>
+      <button class="btn btn-sig" onclick="irA('pFinal4')">Continuar →</button>
     </div>
   </div>
 
-  <div class="pregunta" id="p_comentarios">
-    <div class="etiqueta">Último paso</div>
-    <h2>¿Tienes alguna duda o comentario?</h2>
+  <div class="pregunta" id="pFinal4">
+    <div class="etiqueta">Para tu cotización</div>
+    <h2>¿Tienes considerado un presupuesto para el servicio de diseño?</h2>
     <p class="hint">Este campo es opcional.</p>
-    <textarea class="input-grande" id="val-comentarios" placeholder="Cualquier detalle adicional..."></textarea>
+    <input class="input-grande" type="number" id="val-presup-diseno" placeholder="Ej. 50000" min="0"/>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('p_ubicacion')">←</button>
+      <button class="btn btn-ant" onclick="irA('pFinal3')">←</button>
+      <button class="btn btn-sig" onclick="irA('pComentarios')">Continuar →</button>
+    </div>
+  </div>
+
+  <div class="pregunta" id="pComentarios">
+    <div class="etiqueta">Último paso</div>
+    <h2>¿Tienes alguna duda o comentario adicional?</h2>
+    <p class="hint">Este campo es opcional.</p>
+    <textarea class="input-grande" id="val-comentarios" placeholder="Cualquier detalle que quieras agregar..."></textarea>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pFinal4')">←</button>
       <button class="btn btn-enviar btn" onclick="enviarFormulario()">Enviar solicitud ✓</button>
     </div>
   </div>
 
 </div><!-- /app -->
 
-<!-- ════════════ ÉXITO ════════════ -->
+<!-- ══ ÉXITO ══ -->
 <div id="pantalla-exito">
   <div class="check-circulo">
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -659,8 +1055,23 @@
 </div>
 
 <script>
+  // ── Estado global ──
+  let servicioActual = '';
+  const TOTAL_PASOS = 16;
   let contadorPasos = 0;
-  const TOTAL_PASOS = 11;
+
+  // Orden canónico de todas las pantallas — define qué está "adelante"
+  const ORDEN_PANTALLAS = [
+    'p1','p2','p3','p4',
+    'pA1','pA2','pA3','pA4','pA5','pA6','pA7','pA8','pA9','pA10',
+    'pB1','pB2','pB3','pB4','pB5','pB6','pB7','pB8',
+    'pC1','pC2','pC3','pC4','pC5','pC6','pC7',
+    'pD1','pD2','pD3','pD4','pD5','pD6','pD7',
+    'pE1','pE2','pE3','pE4','pE5','pE6','pE7',
+    'pFinal1','pFinal2','pFinal3','pFinal4','pComentarios'
+  ];
+
+  let pantallaActual = null;
 
   function iniciar() {
     document.getElementById('pantalla-inicio').style.display = 'none';
@@ -668,38 +1079,121 @@
     irA('p1');
   }
 
+  function limpiarAdelante(idActual) {
+    const idxActual = ORDEN_PANTALLAS.indexOf(idActual);
+    if (idxActual === -1) return;
+    const pantallasAdelante = ORDEN_PANTALLAS.slice(idxActual + 1);
+    pantallasAdelante.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      // Limpiar inputs de texto y número
+      el.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(inp => {
+        inp.value = '';
+        inp.classList.remove('error');
+      });
+      // Desmarcar radios y checkboxes
+      el.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(inp => {
+        inp.checked = false;
+        const opcion = inp.closest('.opcion');
+        if (opcion) opcion.classList.remove('seleccionada');
+      });
+      // Ocultar campos "otro" y "cantidad"
+      el.querySelectorAll('.campo-otro').forEach(c => c.classList.remove('visible'));
+      el.querySelectorAll('.opcion-cantidad').forEach(c => c.style.display = 'none');
+      // Ocultar mensajes de error
+      el.querySelectorAll('.msg-error').forEach(e => e.classList.remove('visible'));
+      // Limpiar paquetes seleccionados
+      el.querySelectorAll('.paquete').forEach(p => p.classList.remove('seleccionado'));
+    });
+  }
+
   function irA(id) {
+    // Si estamos retrocediendo, limpiar todo lo que está adelante
+    const idxAnterior = pantallaActual ? ORDEN_PANTALLAS.indexOf(pantallaActual) : -1;
+    const idxDestino  = ORDEN_PANTALLAS.indexOf(id);
+    if (idxAnterior > -1 && idxDestino < idxAnterior) {
+      limpiarAdelante(id);
+    }
+
     document.querySelectorAll('.pregunta').forEach(p => p.classList.remove('activa'));
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.add('activa');
+    pantallaActual = id;
     contadorPasos++;
     document.getElementById('progreso').style.width = Math.min((contadorPasos / TOTAL_PASOS) * 100, 95) + '%';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // ── Elegir servicio y configurar flujos ──
   function elegirServicio(valor) {
+    servicioActual = valor;
     document.querySelector(`input[name="servicio"][value="${valor}"]`).checked = true;
     document.querySelectorAll('input[name="servicio"]').forEach(r =>
       r.closest('.opcion').classList.toggle('seleccionada', r.value === valor)
     );
-    const btnAnt = document.getElementById('btn-ant-mob');
-    const mapaAnt = {
-      'Obra nueva': 'p8a',
-      'Ampliación': 'p7b',
-      'Remodelación / Diseño de interiores': 'p6c',
-      'Paisajismo / Diseño de exteriores / Diseño de Fachada': 'p7d'
+
+    // Botón atrás de sección final apunta al último paso de la sección
+    const mapaAntFinal = {
+      'Obra nueva': 'pA10',
+      'Diseño de interiores': 'pB8',
+      'Remodelación interior': 'pB8',
+      'Ampliación': 'pC7',
+      'Diseño de exteriores / Paisajismo': 'pD7',
+      'Remodelación de fachada': 'pE7'
     };
-    btnAnt.onclick = () => irA(mapaAnt[valor]);
+    document.getElementById('btn-ant-final1').onclick = () => irA(mapaAntFinal[valor]);
+
     const mapaDest = {
-      'Obra nueva': 'p4a',
-      'Ampliación': 'p4b',
-      'Remodelación / Diseño de interiores': 'p4c',
-      'Paisajismo / Diseño de exteriores / Diseño de Fachada': 'p4d'
+      'Obra nueva': 'pA1',
+      'Diseño de interiores': 'pB1',
+      'Remodelación interior': 'pB1',
+      'Ampliación': 'pC1',
+      'Diseño de exteriores / Paisajismo': 'pD1',
+      'Remodelación de fachada': 'pE1'
     };
     setTimeout(() => irA(mapaDest[valor]), 180);
   }
 
+  // ── Configurar A7 según tipo de edificación ──
+  function configurarA7(tipoEdificacion) {
+    const titulo = document.getElementById('titulo-pA7');
+    const hint   = document.getElementById('hint-pA7');
+    const hab    = document.getElementById('opciones-espacios-hab');
+    const com    = document.getElementById('opciones-espacios-com');
+
+    if (tipoEdificacion === 'Comercial') {
+      titulo.textContent = '¿Qué espacios deseas incluir en tu proyecto?';
+      hint.textContent   = 'Selecciona los espacios que conformarán el inmueble comercial.';
+      hab.style.display  = 'none';
+      com.style.display  = 'flex';
+      com.style.flexDirection = 'column';
+    } else {
+      if (tipoEdificacion === 'Edificio de departamentos') {
+        titulo.textContent = '¿Qué espacios deseas incluir por vivienda?';
+        hint.textContent   = 'Indica los espacios de cada departamento de manera individual.';
+      } else {
+        titulo.textContent = '¿Qué espacios deseas incluir en tu proyecto?';
+        hint.textContent   = 'Selecciona los que apliquen e indica la cantidad si es necesario.';
+      }
+      hab.style.display = 'flex';
+      hab.style.flexDirection = 'column';
+      com.style.display = 'none';
+    }
+  }
+
+  // ── Elegir paquete ──
+  function elegirPaquete(valor) {
+    document.querySelector(`input[name="paquete"][value="${valor}"]`).checked = true;
+    document.querySelectorAll('.paquete').forEach(p => p.classList.remove('seleccionado'));
+    const seleccionado = [...document.querySelectorAll('.paquete')].find(p =>
+      p.querySelector('input[type="radio"]').value === valor
+    );
+    if (seleccionado) seleccionado.classList.add('seleccionado');
+    setTimeout(() => irA('pFinal2'), 180);
+  }
+
+  // ── Radio con auto-avance ──
   function radioAuto(name, valor, fn, destino) {
     document.querySelector(`input[name="${name}"][value="${valor}"]`).checked = true;
     document.querySelectorAll(`input[name="${name}"]`).forEach(r =>
@@ -708,19 +1202,141 @@
     setTimeout(() => fn(destino), 180);
   }
 
+  // ── Marcar opción checkbox ──
+  function marcarOpcion(checkbox) {
+    checkbox.closest('.opcion').classList.toggle('seleccionada', checkbox.checked);
+  }
+
+  // ── Toggle campo Otro ──
   function toggleOtro(campoId, checkbox) {
     const campo = document.getElementById(campoId);
     campo.classList.toggle('visible', checkbox.checked);
-    checkbox.closest('.opcion').classList.toggle('seleccionada', checkbox.checked);
     if (checkbox.checked) campo.querySelector('input').focus();
   }
 
-  document.addEventListener('change', function(e) {
-    if (e.target.type === 'checkbox' && !e.target.hasAttribute('onchange')) {
-      e.target.closest('.opcion').classList.toggle('seleccionada', e.target.checked);
+  // ── Toggle cantidad ──
+  function toggleCantidad(campoId, checkbox) {
+    const campo = document.getElementById(campoId);
+    campo.style.display = checkbox.checked ? 'flex' : 'none';
+    if (checkbox.checked) campo.querySelector('input').focus();
+  }
+
+  // ── Configurar botón atrás contextual en A3 ──
+  function configurarAntA3(desdeEdificio) {
+    document.getElementById('btn-ant-A3').onclick = () => irA(desdeEdificio ? 'pA2' : 'pA1');
+  }
+
+  // ── Configurar botón atrás en A5 ──
+  function configurarAntA5() {
+    const edificacion = getRadio('edificacion');
+    if (edificacion === 'Casa habitación') {
+      document.getElementById('btn-ant-A5').onclick = () => irA('pA3');
+    } else if (edificacion === 'Edificio de departamentos') {
+      document.getElementById('btn-ant-A5').onclick = () => irA('pA3');
+    } else {
+      document.getElementById('btn-ant-A5').onclick = () => irA('pA4');
+    }
+  }
+
+  // ── Configurar botón atrás en B4 ──
+  function configurarAntB4() {
+    const inmueble = getRadio('inmueble-int');
+    document.getElementById('btn-ant-B4').onclick = () => irA(inmueble === 'Habitacional' ? 'pB2' : 'pB3');
+  }
+
+  // ── Configurar botón atrás en C4 ──
+  function configurarAntC4() {
+    const inmueble = getRadio('inmueble-amp');
+    document.getElementById('btn-ant-C4').onclick = () => irA(inmueble === 'Comercial' ? 'pC3' : 'pC2');
+  }
+
+  // Sobrescribir radioAuto para manejar btns ant contextuales
+  const _radioAuto = radioAuto;
+
+  // Interceptar clicks de radio en A1 para ajustar botón atrás de A3 y A7
+  document.addEventListener('click', function(e) {
+    const opcion = e.target.closest('.opcion');
+    if (!opcion) return;
+    const radio = opcion.querySelector('input[type="radio"]');
+    if (!radio) return;
+
+    if (radio.name === 'edificacion') {
+      setTimeout(() => configurarA7(radio.value), 50);
+
+      if (radio.value === 'Edificio de departamentos') {
+        setTimeout(() => {
+          document.getElementById('btn-ant-A3').onclick = () => irA('pA2');
+        }, 200);
+      } else if (radio.value === 'Casa habitación') {
+        setTimeout(() => {
+          document.getElementById('btn-ant-A3').onclick = () => irA('pA1');
+          document.getElementById('btn-ant-A5').onclick = () => irA('pA3');
+        }, 200);
+      } else if (radio.value === 'Comercial') {
+        setTimeout(() => {
+          document.getElementById('btn-ant-A5').onclick = () => irA('pA4');
+        }, 200);
+      }
+    }
+
+    if (radio.name === 'inmueble-int') {
+      setTimeout(() => {
+        document.getElementById('btn-ant-B4').onclick = () => irA(radio.value === 'Habitacional' ? 'pB2' : 'pB3');
+      }, 200);
+    }
+
+    if (radio.name === 'inmueble-amp') {
+      setTimeout(() => {
+        document.getElementById('btn-ant-C4').onclick = () => irA(radio.value === 'Comercial' ? 'pC3' : 'pC2');
+      }, 200);
     }
   });
 
+  // ── Validación de contacto (teléfono o email) ──
+  function validarContacto() {
+    const inp = document.getElementById('val-contacto');
+    const err = document.getElementById('err-contacto');
+    const val = inp.value.trim();
+    // Extraer todas las cadenas que parezcan teléfono o email
+    const telefonoRe = /\d[\d\s\-().]{8,}/;
+    const emailRe    = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+    const esValido   = telefonoRe.test(val) || emailRe.test(val);
+    if (!val || !esValido) {
+      inp.classList.add('error'); err.classList.add('visible'); return;
+    }
+    inp.classList.remove('error'); err.classList.remove('visible');
+    irA('p3');
+  }
+
+  // ── Mostrar campo municipio al elegir estado ──
+  function actualizarEstado() {
+    const estado = document.getElementById('val-estado').value;
+    const wrap   = document.getElementById('wrap-municipio');
+    wrap.style.display = estado ? 'block' : 'none';
+    document.getElementById('err-estado').style.display = 'none';
+  }
+
+  // ── Validación ubicación (estado + municipio) ──
+  function validarUbicacion() {
+    const estado    = document.getElementById('val-estado');
+    const municipio = document.getElementById('val-municipio');
+    const errEst    = document.getElementById('err-estado');
+    const errMun    = document.getElementById('err-municipio');
+    let ok = true;
+    if (!estado.value) {
+      errEst.style.display = 'block'; ok = false;
+    } else {
+      errEst.style.display = 'none';
+    }
+    if (!municipio.value.trim()) {
+      municipio.classList.add('error'); errMun.classList.add('visible'); ok = false;
+    } else {
+      municipio.classList.remove('error'); errMun.classList.remove('visible');
+    }
+    if (ok) irA('p4');
+  }
+
+  // ── Validaciones ──
   function validarTexto(inputId, errId, fn, destino) {
     const inp = document.getElementById(inputId);
     const err = document.getElementById(errId);
@@ -734,13 +1350,25 @@
   function validarNumero(inputId, errId, fn, destino) {
     const inp = document.getElementById(inputId);
     const err = document.getElementById(errId);
-    if (!inp.value || isNaN(inp.value) || Number(inp.value) <= 0) {
+    if (!inp.value || isNaN(inp.value) || Number(inp.value) < 0) {
       inp.classList.add('error'); err.classList.add('visible'); return;
     }
     inp.classList.remove('error'); err.classList.remove('visible');
     fn(destino);
   }
 
+  function validarDimensiones() {
+    const ancho = document.getElementById('val-fach-ancho');
+    const alto  = document.getElementById('val-fach-alto');
+    const err   = document.getElementById('err-fach-dim');
+    if (!ancho.value || !alto.value || Number(ancho.value) <= 0 || Number(alto.value) <= 0) {
+      err.classList.add('visible'); return;
+    }
+    err.classList.remove('visible');
+    irA('pE3');
+  }
+
+  // ── Helpers de lectura ──
   function getRadio(name) {
     const el = document.querySelector(`input[name="${name}"]:checked`);
     return el ? el.value : '';
@@ -750,66 +1378,151 @@
     return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(c => c.value).join(', ');
   }
 
-  function enviarFormulario() {
-    const servicio = getRadio('servicio');
+  function getEspaciosNuevos() {
+    const edificacion = getRadio('edificacion');
+    if (edificacion === 'Comercial') {
+      const checks = [...document.querySelectorAll('input[name="espacio-nuevo-com"]:checked')];
+      return checks.map(c => {
+        if (c.value === 'Estacionamiento') {
+          const n = document.getElementById('val-estac-com').value;
+          return n ? `Estacionamiento (${n} cajones)` : 'Estacionamiento';
+        }
+        if (c.value === 'Otro') {
+          const txt = document.getElementById('val-otro-espacio-com').value.trim();
+          return txt ? `Otro: ${txt}` : 'Otro';
+        }
+        return c.value;
+      }).join(', ');
+    }
+    // Habitacional / Edificio de departamentos
+    const checks = [...document.querySelectorAll('input[name="espacio-nuevo"]:checked')];
+    return checks.map(c => {
+      if (c.value === 'Recámaras') {
+        const n = document.getElementById('val-recamaras').value;
+        return n ? `Recámaras (${n})` : 'Recámaras';
+      }
+      if (c.value === 'Baños completos') {
+        const n = document.getElementById('val-banos').value;
+        return n ? `Baños completos (${n})` : 'Baños completos';
+      }
+      if (c.value === 'Medios baños') {
+        const n = document.getElementById('val-medios-banos').value;
+        return n ? `Medios baños (${n})` : 'Medios baños';
+      }
+      if (c.value === 'Garage / Estacionamiento') {
+        const n = document.getElementById('val-garage').value;
+        return n ? `Garage / Estacionamiento (${n} cajones)` : 'Garage / Estacionamiento';
+      }
+      if (c.value === 'Otro') {
+        const txt = document.getElementById('val-otro-espacio-nuevo').value.trim();
+        return txt ? `Otro: ${txt}` : 'Otro';
+      }
+      return c.value;
+    }).join(', ');
+  }
 
+  // ── Envío ──
+  function enviarFormulario() {
+    const servicio = servicioActual;
+
+    // ── Columnas comunes a todos los servicios ──
     const datos = {
-      nombre:      document.getElementById('val-nombre').value,
-      contacto:    document.getElementById('val-contacto').value,
-      servicio:    servicio,
-      mobiliario:  getRadio('mobiliario'),
-      render:      getRadio('render'),
-      ubicacion:   document.getElementById('val-ubicacion').value,
-      comentarios: document.getElementById('val-comentarios').value,
+      nombre:              document.getElementById('val-nombre').value.trim(),
+      contacto:            document.getElementById('val-contacto').value.trim(),
+      ubicacion:           document.getElementById('val-estado').value + ' — ' + document.getElementById('val-municipio').value.trim(),
+      servicio:            servicio,
+      tipo_inmueble:       '',   // se llena según sección
+      espacios:            '',   // espacios seleccionados / descripción del espacio
+      m2:                  '',   // metros cuadrados del espacio o terreno relevante
+      piso_o_niveles:      '',   // piso donde se ubica, o número de niveles
+      planos:              '',   // ¿cuenta con planos?
+      edad_construccion:   '',   // años de la edificación existente
+      info_adicional:      '',   // datos extra propios de cada sección
+      alcance:             getRadio('paquete'),
+      render:              getRadio('render'),
+      presup_obra:         document.getElementById('val-presup-obra').value || '',
+      presup_diseno:       document.getElementById('val-presup-diseno').value || '',
+      comentarios:         document.getElementById('val-comentarios').value.trim(),
     };
 
     if (servicio === 'Obra nueva') {
-      datos.edificacion = getRadio('edificacion');
-      datos.local       = getRadio('local');
-      datos.terreno     = document.getElementById('val-terreno').value;
-      datos.niveles     = document.getElementById('val-niveles').value;
-      datos.servicios   = getCheckboxes('servicios');
+      const edificacion = getRadio('edificacion');
+      datos.tipo_inmueble     = edificacion;
+      datos.espacios          = getEspaciosNuevos();
+      datos.m2                = document.getElementById('val-terreno').value + ' m² (terreno)';
+      datos.piso_o_niveles    = document.getElementById('val-niveles').value + ' piso(s)';
+      datos.info_adicional    = [
+        getRadio('local-com') === 'Sí' ? 'Incluye local comercial' : '',
+        document.getElementById('val-tipo-comercio').value.trim() ? 'Tipo de comercio: ' + document.getElementById('val-tipo-comercio').value.trim() : '',
+        document.getElementById('val-num-viviendas').value ? 'Viviendas: ' + document.getElementById('val-num-viviendas').value : '',
+        'Construcción por etapas: ' + getRadio('etapas'),
+        'Escrituras: ' + getRadio('escrituras'),
+        'Servicios: ' + getCheckboxes('servicios-terreno'),
+      ].filter(Boolean).join(' | ');
+
+    } else if (servicio === 'Diseño de interiores' || servicio === 'Remodelación interior') {
+      datos.tipo_inmueble   = getRadio('inmueble-int');
+      let esp = getCheckboxes('espacio-int');
+      const otroInt = document.getElementById('val-otro-int').value.trim();
+      if (otroInt) esp = esp.replace('Otro', 'Otro: ' + otroInt);
+      datos.espacios        = esp || document.getElementById('val-espacio-com-int').value.trim();
+      datos.m2              = document.getElementById('val-m2-int').value + ' m²';
+      datos.piso_o_niveles  = 'Piso ' + document.getElementById('val-piso-int').value;
+      datos.planos          = getRadio('planos-int');
+      datos.edad_construccion = document.getElementById('val-edad-int').value + ' años';
+      datos.info_adicional  = 'Tipo de intervención: ' + getCheckboxes('estado-int');
+
     } else if (servicio === 'Ampliación') {
-      datos.inmueble_amp = getRadio('inmueble-amp');
+      datos.tipo_inmueble   = getRadio('inmueble-amp');
       let esp = getCheckboxes('espacio-amp');
-      const otro = document.getElementById('val-otro-amp').value.trim();
-      if (otro) esp = esp.replace('Otros', 'Otros: ' + otro);
-      datos.espacios_amp = esp;
-      datos.m2_amp       = document.getElementById('val-m2-amp').value;
-      datos.nivel_amp    = getRadio('nivel-amp');
-    } else if (servicio === 'Remodelación / Diseño de interiores') {
-      datos.inmueble_rem = getRadio('inmueble-rem');
-      let esp = getCheckboxes('espacio-rem');
-      const otro = document.getElementById('val-otro-rem').value.trim();
-      if (otro) esp = esp.replace('Otros', 'Otros: ' + otro);
-      datos.espacios_rem = esp;
-      datos.m2_rem       = document.getElementById('val-m2-rem').value;
-    } else {
-      datos.inmueble_ext = getRadio('inmueble-ext');
+      const otroAmp = document.getElementById('val-otro-amp').value.trim();
+      if (otroAmp) esp = esp.replace('Otro', 'Otro: ' + otroAmp);
+      datos.espacios        = esp || document.getElementById('val-espacio-amp-com').value.trim();
+      datos.m2              = document.getElementById('val-m2-amp').value + ' m²';
+      datos.piso_o_niveles  = 'Piso ' + document.getElementById('val-piso-amp').value;
+      datos.planos          = getRadio('planos-amp');
+      datos.edad_construccion = document.getElementById('val-edad-amp').value + ' años';
+
+    } else if (servicio === 'Diseño de exteriores / Paisajismo') {
+      datos.tipo_inmueble   = getRadio('inmueble-ext');
       let esp = getCheckboxes('espacio-ext');
-      const otro = document.getElementById('val-otro-ext').value.trim();
-      if (otro) esp = esp.replace('Otros', 'Otros: ' + otro);
-      datos.espacios_ext = esp;
-      datos.m2_ext       = document.getElementById('val-m2-ext').value;
-      datos.nivel_ext    = document.getElementById('val-nivel-ext').value;
+      const otroExt = document.getElementById('val-otro-ext').value.trim();
+      if (otroExt) esp = esp.replace('Otro', 'Otro: ' + otroExt);
+      datos.espacios        = esp;
+      datos.m2              = document.getElementById('val-m2-ext').value + ' m²';
+      datos.piso_o_niveles  = 'Piso ' + document.getElementById('val-piso-ext').value;
+      datos.planos          = getRadio('planos-ext');
+      datos.edad_construccion = document.getElementById('val-edad-ext').value + ' años';
+      const otroInstal = document.getElementById('val-otro-instal-ext').value.trim();
+      let instal = getCheckboxes('instal-ext');
+      if (otroInstal) instal = instal.replace('Otro', 'Otro: ' + otroInstal);
+      datos.info_adicional  = 'Instalaciones existentes: ' + instal;
+
+    } else if (servicio === 'Remodelación de fachada') {
+      const ancho = document.getElementById('val-fach-ancho').value;
+      const alto  = document.getElementById('val-fach-alto').value;
+      const m2Calc = (ancho && alto) ? (parseFloat(ancho) * parseFloat(alto)).toFixed(1) + ' m² (' + ancho + 'm × ' + alto + 'm)' : '';
+      datos.tipo_inmueble   = getRadio('inmueble-fach');
+      datos.espacios        = 'Fachada — Elementos: ' + getCheckboxes('elem-fach');
+      datos.m2              = m2Calc;
+      datos.piso_o_niveles  = document.getElementById('val-niveles-fach').value + ' nivel(es)';
+      datos.planos          = getRadio('planos-fach');
+      datos.edad_construccion = document.getElementById('val-edad-fach').value + ' años';
+      datos.info_adicional  = 'Elementos estructurales: ' + getRadio('estruct-fach');
     }
 
-    // Deshabilita el botón para evitar envíos múltiples
     const btn = document.querySelector('.btn-enviar');
     btn.disabled = true;
     btn.textContent = 'Enviando...';
     btn.style.opacity = '0.6';
     btn.style.cursor  = 'not-allowed';
 
-    // ── Reemplaza con tu URL de Apps Script ──
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1eCExz9GW1uLTNqehbUCYB5VFgG5Jph899buQ-94eqVpikkiLibsfdHBJgalfxyeb/exec";
-    // ─────────────────────────────────────────
-
-    const url = APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(datos));
+    const url = APPS_SCRIPT_URL + '?sheet=Formulario cotizaci%C3%B3n&data=' + encodeURIComponent(JSON.stringify(datos));
 
     fetch(url, { method: 'GET', mode: 'no-cors' })
-    .then(() => mostrarExito())
-    .catch(() => mostrarExito());
+      .then(() => mostrarExito())
+      .catch(() => mostrarExito());
   }
 
   function mostrarExito() {
