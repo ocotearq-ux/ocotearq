@@ -106,7 +106,6 @@
     .opcion-label { font-family: var(--font-body); font-size: 14px; color: var(--gris-900); line-height: 1.4; }
     .opcion-desc { font-family: var(--font-body); font-size: 12px; color: var(--gris-500); margin-top: 3px; line-height: 1.45; }
     .opcion.seleccionada { border-color: var(--verde); background: var(--verde-claro); }
-    /* Cuando hay contenido expandible debajo, volver a alinear arriba */
     .opcion:has(.campo-otro.visible),
     .opcion:has(.opcion-cantidad[style*="flex"]) { align-items: flex-start; }
     .opcion:has(.campo-otro.visible) input[type="checkbox"],
@@ -179,6 +178,89 @@
 
     .msg-error { font-family: var(--font-body); font-size: 12px; color: #c0392b; margin-top: 6px; display: none; }
     .msg-error.visible { display: block; }
+
+    /* ── Slider de porcentaje ── */
+    .porc-slider-wrap {
+      background: var(--blanco);
+      border: 1.5px solid var(--gris-200);
+      border-radius: var(--radio);
+      padding: 20px 18px;
+      margin-bottom: 12px;
+    }
+    .porc-control {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .porc-control input[type="range"] {
+      flex: 1;
+      accent-color: var(--verde);
+      height: 4px;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 2px;
+      background: linear-gradient(to right, var(--verde) 50%, var(--gris-300) 50%);
+    }
+    .porc-control input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--verde);
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .porc-num-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .porc-num-wrap input[type="number"] {
+      width: 64px;
+      padding: 8px 8px;
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 600;
+      border: 1.5px solid var(--verde);
+      border-radius: var(--radio);
+      text-align: center;
+      outline: none;
+      color: var(--gris-900);
+      background: var(--blanco);
+      -webkit-appearance: none;
+    }
+    .porc-num-wrap span {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gris-700);
+    }
+    .porc-resultado {
+      background: var(--verde-claro);
+      border-radius: var(--radio);
+      padding: 16px;
+      text-align: center;
+    }
+    .porc-resultado-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--verde);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .porc-resultado-m2 {
+      font-family: var(--font-titulo);
+      font-size: 28px;
+      color: var(--verde-oscuro);
+    }
+    .porc-resultado-ref {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--gris-500);
+      margin-top: 4px;
+    }
 
     /* ── Navegación ── */
     .nav { display: flex; gap: 10px; margin-top: 24px; }
@@ -373,11 +455,42 @@
   <div class="pregunta" id="pA5">
     <div class="etiqueta">Obra nueva · A5</div>
     <h2>¿Cuántos m² mide el terreno?</h2>
-    <input class="input-grande" type="number" id="val-terreno" placeholder="Ej. 200" min="1"/>
+    <input class="input-grande" type="number" id="val-terreno" placeholder="Ej. 200" min="1"
+      oninput="actualizarSliderTerreno()"/>
     <p class="msg-error" id="err-terreno">Ingresa un valor numérico.</p>
     <div class="nav">
       <button class="btn btn-ant" id="btn-ant-A5" onclick="">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-terreno','err-terreno',irA,'pA6')">Continuar →</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-terreno','err-terreno',irA,'pA5b')">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ── NUEVA PREGUNTA: Porcentaje de área construible ── -->
+  <div class="pregunta" id="pA5b">
+    <div class="etiqueta">Obra nueva · A5b</div>
+    <h2>¿Qué porcentaje del terreno deseas construir?</h2>
+    <p class="hint">Desliza o ajusta el porcentaje de área que planeas edificar.</p>
+
+    <div class="porc-slider-wrap">
+      <div class="porc-control">
+        <input type="range" id="slider-porc" min="5" max="100" step="5" value="50"
+          oninput="actualizarPorcentaje(this.value)"/>
+        <div class="porc-num-wrap">
+          <input type="number" id="val-porcentaje" min="1" max="100" value="50"
+            oninput="sincronizarSlider(this.value)"/>
+          <span>%</span>
+        </div>
+      </div>
+      <div class="porc-resultado">
+        <div class="porc-resultado-label">Área construible estimada</div>
+        <div class="porc-resultado-m2" id="display-m2-construible">— m²</div>
+        <div class="porc-resultado-ref" id="display-terreno-ref"></div>
+      </div>
+    </div>
+
+    <p class="msg-error" id="err-porcentaje">Ingresa un porcentaje válido (1–100).</p>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pA5')">←</button>
+      <button class="btn btn-sig" onclick="validarPorcentaje()">Continuar →</button>
     </div>
   </div>
 
@@ -387,7 +500,7 @@
     <input class="input-grande" type="number" id="val-niveles" placeholder="Ej. 2" min="1"/>
     <p class="msg-error" id="err-niveles">Ingresa un valor numérico.</p>
     <div class="nav">
-      <button class="btn btn-ant" onclick="irA('pA5')">←</button>
+      <button class="btn btn-ant" onclick="irA('pA5b')">←</button>
       <button class="btn btn-sig" onclick="validarNumero('val-niveles','err-niveles',irA,'pA7')">Continuar →</button>
     </div>
   </div>
@@ -1057,13 +1170,12 @@
 <script>
   // ── Estado global ──
   let servicioActual = '';
-  const TOTAL_PASOS = 16;
+  const TOTAL_PASOS = 17;
   let contadorPasos = 0;
 
-  // Orden canónico de todas las pantallas — define qué está "adelante"
   const ORDEN_PANTALLAS = [
     'p1','p2','p3','p4',
-    'pA1','pA2','pA3','pA4','pA5','pA6','pA7','pA8','pA9','pA10',
+    'pA1','pA2','pA3','pA4','pA5','pA5b','pA6','pA7','pA8','pA9','pA10',
     'pB1','pB2','pB3','pB4','pB5','pB6','pB7','pB8',
     'pC1','pC2','pC3','pC4','pC5','pC6','pC7',
     'pD1','pD2','pD3','pD4','pD5','pD6','pD7',
@@ -1086,29 +1198,23 @@
     pantallasAdelante.forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
-      // Limpiar inputs de texto y número
       el.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(inp => {
         inp.value = '';
         inp.classList.remove('error');
       });
-      // Desmarcar radios y checkboxes
       el.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(inp => {
         inp.checked = false;
         const opcion = inp.closest('.opcion');
         if (opcion) opcion.classList.remove('seleccionada');
       });
-      // Ocultar campos "otro" y "cantidad"
       el.querySelectorAll('.campo-otro').forEach(c => c.classList.remove('visible'));
       el.querySelectorAll('.opcion-cantidad').forEach(c => c.style.display = 'none');
-      // Ocultar mensajes de error
       el.querySelectorAll('.msg-error').forEach(e => e.classList.remove('visible'));
-      // Limpiar paquetes seleccionados
       el.querySelectorAll('.paquete').forEach(p => p.classList.remove('seleccionado'));
     });
   }
 
   function irA(id) {
-    // Si estamos retrocediendo, limpiar todo lo que está adelante
     const idxAnterior = pantallaActual ? ORDEN_PANTALLAS.indexOf(pantallaActual) : -1;
     const idxDestino  = ORDEN_PANTALLAS.indexOf(id);
     if (idxAnterior > -1 && idxDestino < idxAnterior) {
@@ -1123,6 +1229,16 @@
     contadorPasos++;
     document.getElementById('progreso').style.width = Math.min((contadorPasos / TOTAL_PASOS) * 100, 95) + '%';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Inicializar el display de m² construibles al entrar a pA5b
+    if (id === 'pA5b') {
+      // Restaurar el slider al valor guardado en el input (puede haber sido limpiado a vacío)
+      const porcEl = document.getElementById('val-porcentaje');
+      if (!porcEl.value) porcEl.value = 50;
+      document.getElementById('slider-porc').value = porcEl.value;
+      recalcularM2Construible();
+      actualizarSliderGradient(porcEl.value);
+    }
   }
 
   // ── Elegir servicio y configurar flujos ──
@@ -1133,7 +1249,6 @@
       r.closest('.opcion').classList.toggle('seleccionada', r.value === valor)
     );
 
-    // Botón atrás de sección final apunta al último paso de la sección
     const mapaAntFinal = {
       'Obra nueva': 'pA10',
       'Diseño de interiores': 'pB8',
@@ -1221,39 +1336,68 @@
     if (checkbox.checked) campo.querySelector('input').focus();
   }
 
-  // ── Configurar botón atrás contextual en A3 ──
-  function configurarAntA3(desdeEdificio) {
-    document.getElementById('btn-ant-A3').onclick = () => irA(desdeEdificio ? 'pA2' : 'pA1');
+  // ── Porcentaje de área construible ──
+  function actualizarSliderGradient(val) {
+    const slider = document.getElementById('slider-porc');
+    const pct = ((val - slider.min) / (slider.max - slider.min)) * 100;
+    slider.style.background = `linear-gradient(to right, var(--verde) ${pct}%, var(--gris-300) ${pct}%)`;
   }
 
-  // ── Configurar botón atrás en A5 ──
-  function configurarAntA5() {
-    const edificacion = getRadio('edificacion');
-    if (edificacion === 'Casa habitación') {
-      document.getElementById('btn-ant-A5').onclick = () => irA('pA3');
-    } else if (edificacion === 'Edificio de departamentos') {
-      document.getElementById('btn-ant-A5').onclick = () => irA('pA3');
+  function actualizarTerreno() {
+    // Actualiza el display de referencia si ya estamos en pA5b
+    if (pantallaActual === 'pA5b') recalcularM2Construible();
+  }
+
+  function actualizarSliderTerreno() {
+    // Nada extra necesario: solo actualiza si el usuario vuelve a pA5b
+  }
+
+  function actualizarPorcentaje(val) {
+    const v = Math.min(100, Math.max(1, parseInt(val) || 1));
+    document.getElementById('val-porcentaje').value = v;
+    actualizarSliderGradient(v);
+    recalcularM2Construible();
+  }
+
+  function sincronizarSlider(val) {
+    const v = Math.min(100, Math.max(1, parseInt(val) || 1));
+    document.getElementById('slider-porc').value = v;
+    actualizarSliderGradient(v);
+    recalcularM2Construible();
+  }
+
+  function recalcularM2Construible() {
+    const terreno = parseFloat(document.getElementById('val-terreno').value) || 0;
+    const porc    = parseFloat(document.getElementById('val-porcentaje').value) || 0;
+    const display = document.getElementById('display-m2-construible');
+    const ref     = document.getElementById('display-terreno-ref');
+
+    if (terreno > 0 && porc > 0) {
+      const m2 = ((terreno * porc) / 100).toFixed(1);
+      // Remove trailing .0 for cleaner display
+      display.textContent = (m2.endsWith('.0') ? Math.round(m2) : m2) + ' m²';
+      ref.textContent     = 'de ' + terreno + ' m² totales del terreno';
+    } else if (terreno <= 0) {
+      display.textContent = '— m²';
+      ref.textContent     = 'Regresa e ingresa el área del terreno primero';
     } else {
-      document.getElementById('btn-ant-A5').onclick = () => irA('pA4');
+      display.textContent = '— m²';
+      ref.textContent     = '';
     }
   }
 
-  // ── Configurar botón atrás en B4 ──
-  function configurarAntB4() {
-    const inmueble = getRadio('inmueble-int');
-    document.getElementById('btn-ant-B4').onclick = () => irA(inmueble === 'Habitacional' ? 'pB2' : 'pB3');
+  function validarPorcentaje() {
+    const inp = document.getElementById('val-porcentaje');
+    const err = document.getElementById('err-porcentaje');
+    const val = parseFloat(inp.value);
+    if (!inp.value || isNaN(val) || val < 1 || val > 100) {
+      err.classList.add('visible'); return;
+    }
+    err.classList.remove('visible');
+    irA('pA6');
   }
 
-  // ── Configurar botón atrás en C4 ──
-  function configurarAntC4() {
-    const inmueble = getRadio('inmueble-amp');
-    document.getElementById('btn-ant-C4').onclick = () => irA(inmueble === 'Comercial' ? 'pC3' : 'pC2');
-  }
-
-  // Sobrescribir radioAuto para manejar btns ant contextuales
-  const _radioAuto = radioAuto;
-
-  // Interceptar clicks de radio en A1 para ajustar botón atrás de A3 y A7
+  // Interceptar clicks de radio para configurar botones atrás contextuales
   document.addEventListener('click', function(e) {
     const opcion = e.target.closest('.opcion');
     if (!opcion) return;
@@ -1262,7 +1406,6 @@
 
     if (radio.name === 'edificacion') {
       setTimeout(() => configurarA7(radio.value), 50);
-
       if (radio.value === 'Edificio de departamentos') {
         setTimeout(() => {
           document.getElementById('btn-ant-A3').onclick = () => irA('pA2');
@@ -1292,12 +1435,11 @@
     }
   });
 
-  // ── Validación de contacto (teléfono o email) ──
+  // ── Validación de contacto ──
   function validarContacto() {
     const inp = document.getElementById('val-contacto');
     const err = document.getElementById('err-contacto');
     const val = inp.value.trim();
-    // Extraer todas las cadenas que parezcan teléfono o email
     const telefonoRe = /\d[\d\s\-().]{8,}/;
     const emailRe    = /[^\s@]+@[^\s@]+\.[^\s@]+/;
     const esValido   = telefonoRe.test(val) || emailRe.test(val);
@@ -1316,7 +1458,7 @@
     document.getElementById('err-estado').style.display = 'none';
   }
 
-  // ── Validación ubicación (estado + municipio) ──
+  // ── Validación ubicación ──
   function validarUbicacion() {
     const estado    = document.getElementById('val-estado');
     const municipio = document.getElementById('val-municipio');
@@ -1394,7 +1536,6 @@
         return c.value;
       }).join(',');
     }
-    // Habitacional / Edificio de departamentos
     const checks = [...document.querySelectorAll('input[name="espacio-nuevo"]:checked')];
     return checks.map(c => {
       if (c.value === 'Recámaras') {
@@ -1425,19 +1566,18 @@
   function enviarFormulario() {
     const servicio = servicioActual;
 
-    // ── Columnas comunes a todos los servicios ──
     const datos = {
       nombre:              document.getElementById('val-nombre').value.trim(),
       contacto:            document.getElementById('val-contacto').value.trim(),
       ubicacion:           document.getElementById('val-estado').value + ' — ' + document.getElementById('val-municipio').value.trim(),
       servicio:            servicio,
-      tipo_inmueble:       '',   // se llena según sección
-      espacios:            '',   // espacios seleccionados / descripción del espacio
-      m2:                  '',   // metros cuadrados del espacio o terreno relevante
-      piso_o_niveles:      '',   // piso donde se ubica, o número de niveles
-      planos:              '',   // ¿cuenta con planos?
-      edad_construccion:   '',   // años de la edificación existente
-      info_adicional:      '',   // datos extra propios de cada sección
+      tipo_inmueble:       '',
+      espacios:            '',
+      m2:                  '',
+      piso_o_niveles:      '',
+      planos:              '',
+      edad_construccion:   '',
+      info_adicional:      '',
       alcance:             getRadio('paquete'),
       render:              getRadio('render'),
       presup_obra:         document.getElementById('val-presup-obra').value || '',
@@ -1446,12 +1586,20 @@
     };
 
     if (servicio === 'Obra nueva') {
-      const edificacion = getRadio('edificacion');
-      datos.tipo_inmueble     = edificacion;
-      datos.espacios          = getEspaciosNuevos();
-      datos.m2                = document.getElementById('val-terreno').value + ' m² (terreno)';
-      datos.piso_o_niveles    = document.getElementById('val-niveles').value + ' piso(s)';
-      datos.info_adicional    = [
+      const edificacion  = getRadio('edificacion');
+      const terrenoVal   = document.getElementById('val-terreno').value;
+      const porcVal      = document.getElementById('val-porcentaje').value;
+      const m2Constr     = (terrenoVal && porcVal)
+        ? ((parseFloat(terrenoVal) * parseFloat(porcVal)) / 100).toFixed(1)
+        : '';
+      // Remove trailing .0
+      const m2ConstrStr  = m2Constr && m2Constr.endsWith('.0') ? String(Math.round(m2Constr)) : m2Constr;
+
+      datos.tipo_inmueble  = edificacion;
+      datos.espacios       = getEspaciosNuevos();
+      datos.m2             = terrenoVal + 'm² (' + m2ConstrStr + 'm² - ' + porcVal + '%)';
+      datos.piso_o_niveles = document.getElementById('val-niveles').value + ' piso(s)';
+      datos.info_adicional = [
         getRadio('local-com') === 'Sí' ? 'Incluye local comercial' : '',
         document.getElementById('val-tipo-comercio').value.trim() ? 'Tipo de comercio: ' + document.getElementById('val-tipo-comercio').value.trim() : '',
         document.getElementById('val-num-viviendas').value ? 'Viviendas: ' + document.getElementById('val-num-viviendas').value : '',
