@@ -1719,21 +1719,15 @@
     btn.style.opacity = '0.6';
     btn.style.cursor  = 'not-allowed';
 
-    // Sanitizar: reemplazar caracteres especiales que pueden romper el JSON en Apps Script
-    const sanitizar = obj => {
-      const out = {};
-      for (const k in obj) {
-        out[k] = typeof obj[k] === 'string'
-          ? obj[k].replace(/²/g, '2').replace(/[^\x00-\x7FáéíóúÁÉÍÓÚüÜñÑ¿¡·%°\-\/() .,_:@+]/g, '')
-          : obj[k];
-      }
-      return out;
-    };
 
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1eCExz9GW1uLTNqehbUCYB5VFgG5Jph899buQ-94eqVpikkiLibsfdHBJgalfxyeb/exec";
-    const url = APPS_SCRIPT_URL + '?sheet=Formulario cotizaci%C3%B3n&data=' + encodeURIComponent(JSON.stringify(sanitizar(datos)));
 
-    fetch(url, { method: 'GET', mode: 'no-cors' })
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(datos)
+    })
       .then(() => mostrarExito())
       .catch(() => mostrarExito());
   }
