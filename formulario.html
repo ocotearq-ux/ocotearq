@@ -1647,8 +1647,8 @@
       const pctConstr = document.getElementById('val-porcentaje-construible').value;
       const m2Constr  = pctConstr ? Math.round(terrenoM2 * parseInt(pctConstr) / 100) : '';
       const m2Str     = pctConstr
-        ? `${terrenoM2} m² (${m2Constr} m² - ${pctConstr}%)`
-        : `${terrenoM2} m²`;
+        ? `${terrenoM2} m2 (${m2Constr} m2 - ${pctConstr}%)`
+        : `${terrenoM2} m2`;
       datos.tipo_inmueble     = edificacion;
       datos.espacios          = getEspaciosNuevos();
       datos.m2                = m2Str;
@@ -1668,7 +1668,7 @@
       const otroInt = document.getElementById('val-otro-int').value.trim();
       if (otroInt) esp = esp.replace('Otro', 'Otro: ' + otroInt);
       datos.espacios        = esp || document.getElementById('val-espacio-com-int').value.trim();
-      datos.m2              = document.getElementById('val-m2-int').value + ' m²';
+      datos.m2              = document.getElementById('val-m2-int').value + ' m2';
       datos.piso_o_niveles  = 'Piso ' + document.getElementById('val-piso-int').value;
       datos.planos          = getRadio('planos-int');
       datos.edad_construccion = document.getElementById('val-edad-int').value + ' años';
@@ -1680,7 +1680,7 @@
       const otroAmp = document.getElementById('val-otro-amp').value.trim();
       if (otroAmp) esp = esp.replace('Otro', 'Otro: ' + otroAmp);
       datos.espacios        = esp || document.getElementById('val-espacio-amp-com').value.trim();
-      datos.m2              = document.getElementById('val-m2-amp').value + ' m²';
+      datos.m2              = document.getElementById('val-m2-amp').value + ' m2';
       datos.piso_o_niveles  = 'Piso ' + document.getElementById('val-piso-amp').value;
       datos.planos          = getRadio('planos-amp');
       datos.edad_construccion = document.getElementById('val-edad-amp').value + ' años';
@@ -1691,7 +1691,7 @@
       const otroExt = document.getElementById('val-otro-ext').value.trim();
       if (otroExt) esp = esp.replace('Otro', 'Otro: ' + otroExt);
       datos.espacios        = esp;
-      datos.m2              = document.getElementById('val-m2-ext').value + ' m²';
+      datos.m2              = document.getElementById('val-m2-ext').value + ' m2';
       datos.piso_o_niveles  = 'Piso ' + document.getElementById('val-piso-ext').value;
       datos.planos          = getRadio('planos-ext');
       datos.edad_construccion = document.getElementById('val-edad-ext').value + ' años';
@@ -1703,7 +1703,7 @@
     } else if (servicio === 'Remodelación de fachada') {
       const ancho = document.getElementById('val-fach-ancho').value;
       const alto  = document.getElementById('val-fach-alto').value;
-      const m2Calc = (ancho && alto) ? (parseFloat(ancho) * parseFloat(alto)).toFixed(1) + ' m² (' + ancho + 'm × ' + alto + 'm)' : '';
+      const m2Calc = (ancho && alto) ? (parseFloat(ancho) * parseFloat(alto)).toFixed(1) + ' m2 (' + ancho + 'm x ' + alto + 'm)' : '';
       datos.tipo_inmueble   = getRadio('inmueble-fach');
       datos.espacios        = getCheckboxes('elem-fach');
       datos.m2              = m2Calc;
@@ -1719,8 +1719,19 @@
     btn.style.opacity = '0.6';
     btn.style.cursor  = 'not-allowed';
 
+    // Sanitizar: reemplazar caracteres especiales que pueden romper el JSON en Apps Script
+    const sanitizar = obj => {
+      const out = {};
+      for (const k in obj) {
+        out[k] = typeof obj[k] === 'string'
+          ? obj[k].replace(/²/g, '2').replace(/[^\x00-\x7FáéíóúÁÉÍÓÚüÜñÑ¿¡·%°\-\/() .,_:@+]/g, '')
+          : obj[k];
+      }
+      return out;
+    };
+
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1eCExz9GW1uLTNqehbUCYB5VFgG5Jph899buQ-94eqVpikkiLibsfdHBJgalfxyeb/exec";
-    const url = APPS_SCRIPT_URL + '?sheet=Formulario cotizaci%C3%B3n&data=' + encodeURIComponent(JSON.stringify(datos));
+    const url = APPS_SCRIPT_URL + '?sheet=Formulario cotizaci%C3%B3n&data=' + encodeURIComponent(JSON.stringify(sanitizar(datos)));
 
     fetch(url, { method: 'GET', mode: 'no-cors' })
       .then(() => mostrarExito())
