@@ -329,7 +329,7 @@
   </div>
   <h1>ocote Arquitectos</h1>
   <p class="subtitulo">Solicitud de cotización</p>
-  <p>Este formulario nos permitirá conocer tu proyecto y enviarte una cotización personalizada. La información será tratada con total confidencialidad.</p>
+  <p>Cuéntanos tu proyecto y te enviamos una cotización personalizada. Son solo unos minutos y nos ayuda a llegar a la primera reunión con ideas concretas para ti.</p>
   <button class="btn-inicio" onclick="iniciar()">Comenzar →</button>
 </div>
 
@@ -442,6 +442,19 @@
       </label>
     </div>
     <div class="nav"><button class="btn btn-ant" onclick="irA('p3')">←</button></div>
+  </div>
+
+  <!-- ══ URGENCIA ══ -->
+  <div class="pregunta" id="pUrgencia">
+    <div class="etiqueta">Tu proyecto</div>
+    <h2>¿Cuándo te gustaría comenzar?</h2>
+    <p class="hint">Nos ayuda a coordinar los tiempos y darte prioridad si lo necesitas.</p>
+    <div class="opciones">
+      <label class="opcion" onclick="radioAuto('urgencia','En menos de 1 mes',irA,_destUrgencia())"><input type="radio" name="urgencia" value="En menos de 1 mes"/><div class="opcion-texto"><div class="opcion-label">Lo antes posible</div><div class="opcion-desc">En menos de un mes.</div></div></label>
+      <label class="opcion" onclick="radioAuto('urgencia','En 1 a 3 meses',irA,_destUrgencia())"><input type="radio" name="urgencia" value="En 1 a 3 meses"/><div class="opcion-texto"><div class="opcion-label">En los próximos meses</div><div class="opcion-desc">Entre 1 y 3 meses.</div></div></label>
+      <label class="opcion" onclick="radioAuto('urgencia','En más de 3 meses',irA,_destUrgencia())"><input type="radio" name="urgencia" value="En más de 3 meses"/><div class="opcion-texto"><div class="opcion-label">Todavía estoy planeando</div><div class="opcion-desc">Más de 3 meses o sin fecha definida.</div></div></label>
+    </div>
+    <div class="nav"><button class="btn btn-ant" onclick="irA('p4')">←</button></div>
   </div>
 
   <!-- ══ SECCIÓN A: OBRA NUEVA ══ -->
@@ -674,7 +687,7 @@
   <div class="pregunta" id="pA9">
     <div class="etiqueta">Obra nueva</div>
     <h2>¿Cuentas con las escrituras del terreno?</h2>
-    <p class="hint">Las necesitamos para verificar que las medidas y datos del terreno coincidan con lo que nos indicas.</p>
+    <p class="hint">No te preocupes si aún no las tienes — podemos comenzar el proyecto de todas formas.</p>
     <div class="opciones">
       <label class="opcion" onclick="radioAuto('escrituras','Sí',irA,'pA10')"><input type="radio" name="escrituras" value="Sí"/><div class="opcion-label">Sí</div></label>
       <label class="opcion" onclick="radioAuto('escrituras','No',irA,'pA10')"><input type="radio" name="escrituras" value="No"/><div class="opcion-label">No, aún no las tengo</div></label>
@@ -811,6 +824,7 @@
   <div class="pregunta" id="pB7">
     <div class="etiqueta">Interiores</div>
     <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
+    <p class="hint">Si no tienes nada, no hay problema — lo resolvemos durante el proceso.</p>
     <div class="opciones">
       <label class="opcion" onclick="radioAuto('planos-int','Sí, tengo planos formales',irA,'pB8')"><input type="radio" name="planos-int" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
       <label class="opcion" onclick="radioAuto('planos-int','Sí, tengo un croquis aproximado',irA,'pB8')"><input type="radio" name="planos-int" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
@@ -822,7 +836,7 @@
   <div class="pregunta" id="pB8">
     <div class="etiqueta">Interiores</div>
     <h2>¿Aproximadamente cuántos años tiene la construcción?</h2>
-    <input class="input-grande" type="number" id="val-edad-int" placeholder="Ej. 15" min="0"/>
+    <p class="hint">Un dato aproximado es suficiente.</p> placeholder="Ej. 15" min="0"/>
     <p class="msg-error" id="err-edad-int">Ingresa un valor numérico.</p>
     <div class="nav">
       <button class="btn btn-ant" onclick="irA('pB7')">←</button>
@@ -904,6 +918,7 @@
   <div class="pregunta" id="pC6">
     <div class="etiqueta">Ampliación</div>
     <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
+    <p class="hint">Si no tienes nada, no hay problema — lo resolvemos durante el proceso.</p>
     <div class="opciones">
       <label class="opcion" onclick="radioAuto('planos-amp','Sí, tengo planos formales',irA,'pC7')"><input type="radio" name="planos-amp" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
       <label class="opcion" onclick="radioAuto('planos-amp','Sí, tengo un croquis aproximado',irA,'pC7')"><input type="radio" name="planos-amp" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
@@ -915,6 +930,7 @@
   <div class="pregunta" id="pC7">
     <div class="etiqueta">Ampliación</div>
     <h2>¿Aproximadamente cuántos años tiene la construcción existente?</h2>
+    <p class="hint">Un dato aproximado es suficiente.</p>
     <input class="input-grande" type="number" id="val-edad-amp" placeholder="Ej. 20" min="0"/>
     <p class="msg-error" id="err-edad-amp">Ingresa un valor numérico.</p>
     <div class="nav">
@@ -1006,6 +1022,7 @@
   <div class="pregunta" id="pD6">
     <div class="etiqueta">Exteriores / Paisajismo</div>
     <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
+    <p class="hint">Si no tienes nada, no hay problema — lo resolvemos durante el proceso.</p>
     <div class="opciones">
       <label class="opcion" onclick="radioAuto('planos-ext','Sí, tengo planos formales',irA,'pD7')"><input type="radio" name="planos-ext" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
       <label class="opcion" onclick="radioAuto('planos-ext','Sí, tengo un croquis aproximado',irA,'pD7')"><input type="radio" name="planos-ext" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
@@ -1017,6 +1034,7 @@
   <div class="pregunta" id="pD7">
     <div class="etiqueta">Exteriores / Paisajismo</div>
     <h2>¿Aproximadamente cuántos años tiene la construcción existente?</h2>
+    <p class="hint">Un dato aproximado es suficiente.</p>
     <input class="input-grande" type="number" id="val-edad-ext" placeholder="Ej. 10" min="0"/>
     <p class="msg-error" id="err-edad-ext">Ingresa un valor numérico.</p>
     <div class="nav">
@@ -1105,6 +1123,7 @@
   <div class="pregunta" id="pE6">
     <div class="etiqueta">Fachada</div>
     <h2>¿Cuentas con planos o croquis de la construcción existente?</h2>
+    <p class="hint">Si no tienes nada, no hay problema — lo resolvemos durante el proceso.</p>
     <div class="opciones">
       <label class="opcion" onclick="radioAuto('planos-fach','Sí, tengo planos formales',irA,'pE7')"><input type="radio" name="planos-fach" value="Sí, tengo planos formales"/><div class="opcion-label">Sí, tengo planos formales</div></label>
       <label class="opcion" onclick="radioAuto('planos-fach','Sí, tengo un croquis aproximado',irA,'pE7')"><input type="radio" name="planos-fach" value="Sí, tengo un croquis aproximado"/><div class="opcion-label">Sí, tengo un croquis aproximado</div></label>
@@ -1116,6 +1135,7 @@
   <div class="pregunta" id="pE7">
     <div class="etiqueta">Fachada</div>
     <h2>¿Aproximadamente cuántos años tiene la construcción?</h2>
+    <p class="hint">Un dato aproximado es suficiente.</p>
     <input class="input-grande" type="number" id="val-edad-fach" placeholder="Ej. 25" min="0"/>
     <p class="msg-error" id="err-edad-fach">Ingresa un valor numérico.</p>
     <div class="nav">
@@ -1237,7 +1257,25 @@
     </svg>
   </div>
   <h2>¡Solicitud enviada!</h2>
-  <p>Hemos recibido tu información. En breve nos pondremos en contacto con tu cotización personalizada.<br/><br/>Gracias por confiar en <strong>ocote Arquitectos</strong>.</p>
+  <p>Gracias por contactarnos. Revisaremos tu información y nos pondremos en contacto contigo en menos de 24 horas.</p>
+  <div style="margin-top: 28px; text-align: left; width: 100%; max-width: 340px;">
+    <p style="font-family: var(--font-titulo); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--verde); margin-bottom: 14px;">¿Qué sigue?</p>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="font-family: var(--font-titulo); font-size: 13px; color: var(--verde); flex-shrink: 0; margin-top: 1px;">01</span>
+        <p style="font-size: 13px; color: var(--gris-700); line-height: 1.5;">Te enviamos una cotización personalizada basada en los datos que nos compartiste.</p>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="font-family: var(--font-titulo); font-size: 13px; color: var(--verde); flex-shrink: 0; margin-top: 1px;">02</span>
+        <p style="font-size: 13px; color: var(--gris-700); line-height: 1.5;">Agendamos una llamada o reunión para resolver tus dudas y afinar los detalles del proyecto.</p>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="font-family: var(--font-titulo); font-size: 13px; color: var(--verde); flex-shrink: 0; margin-top: 1px;">03</span>
+        <p style="font-size: 13px; color: var(--gris-700); line-height: 1.5;">Comenzamos a trabajar en tu proyecto.</p>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top: 28px; font-size: 12px; color: var(--gris-500);">— ocote Arquitectos</p>
 </div>
 
 <script>
@@ -1248,7 +1286,7 @@
 
   // Orden canónico de todas las pantallas — define qué está "adelante"
   const ORDEN_PANTALLAS = [
-    'p1','p2','p3','p4',
+    'p1','p2','p3','p4','pUrgencia',
     'pA1','pA2','pA3','pA4','pA5','pA5b','pA6','pA7','pA8','pA9','pA10',
     'pB1','pB2','pB3','pB4','pB5','pB6','pB7','pB8',
     'pC1','pC2','pC3','pC4','pC5','pC6','pC7',
@@ -1355,8 +1393,12 @@
       'Diseño de exteriores / Paisajismo': 'pD1',
       'Remodelación de fachada': 'pE1'
     };
-    setTimeout(() => irA(mapaDest[valor]), 180);
+    _destUrgencia = () => mapaDest[valor];
+    setTimeout(() => irA('pUrgencia'), 180);
   }
+
+  // Destino después de pUrgencia (se sobreescribe en elegirServicio)
+  let _destUrgencia = () => '';
 
   // ── Ir a la primera pantalla final según el servicio ──
   function irAFinal() {
@@ -1388,6 +1430,7 @@
     // Proyecto
     filas.push({ sec: 'Proyecto' });
     filas.push(['Servicio', s]);
+    const urg = getRadio('urgencia'); if (urg) filas.push(['Inicio estimado', urg]);
 
     if (s === 'Obra nueva') {
       const edif = getRadio('edificacion');
@@ -1761,6 +1804,7 @@
       contacto:            document.getElementById('val-contacto').value.trim(),
       ubicacion:           document.getElementById('val-estado').value + ' — ' + document.getElementById('val-municipio').value.trim(),
       servicio:            servicio,
+      inicio_estimado:     getRadio('urgencia'),
       tipo_inmueble:       '',   // se llena según sección
       espacios:            '',   // espacios seleccionados / descripción del espacio
       m2:                  '',   // metros cuadrados del espacio o terreno relevante
