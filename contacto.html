@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Contacto — ocote Arquitectos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --verde:       #5B9768;
+      --verde-osc:   #4a7f56;
+      --verde-claro: #e8f2ea;
+      --gris-100:    #f7f7f5;
+      --gris-200:    #ebebea;
+      --gris-300:    #d4d4d2;
+      --gris-500:    #8a8a87;
+      --gris-700:    #4a4a47;
+      --gris-900:    #1a1a18;
+      --blanco:      #ffffff;
+      --radio:       8px;
+      --mono:        'Fragment Mono', monospace;
+      --body:        'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      font-family: var(--body);
+      background: var(--gris-900);
+      color: var(--blanco);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--blanco);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+      animation: subir 0.45s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes subir {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header de la card ── */
+    .card-header {
+      background: var(--blanco);
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid var(--gris-200);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .logo-row svg {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    .logo-nombre {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--gris-500);
+      letter-spacing: 0.5px;
+    }
+
+    .card-header h1 {
+      font-family: var(--mono);
+      font-size: clamp(18px, 5vw, 21px);
+      font-weight: 400;
+      color: var(--gris-900);
+      line-height: 1.3;
+    }
+    .card-header p {
+      font-size: 13px;
+      color: var(--gris-500);
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    /* ── Cuerpo del formulario ── */
+    .card-body {
+      padding: 24px 28px 28px;
+      background: var(--blanco);
+    }
+
+    .campo {
+      margin-bottom: 14px;
+    }
+    .campo label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--gris-500);
+      margin-bottom: 6px;
+      font-family: var(--mono);
+    }
+    .campo input,
+    .campo select,
+    .campo textarea {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--body);
+      font-size: 14px;
+      color: var(--gris-900);
+      background: var(--gris-100);
+      border: 1.5px solid var(--gris-200);
+      border-radius: var(--radio);
+      outline: none;
+      transition: border-color 0.18s, background 0.18s;
+      -webkit-appearance: none;
+      resize: none;
+    }
+    .campo input:focus,
+    .campo select:focus,
+    .campo textarea:focus {
+      border-color: var(--verde);
+      background: var(--blanco);
+    }
+    .campo input.error,
+    .campo select.error,
+    .campo textarea.error {
+      border-color: #e05252;
+    }
+    .campo textarea { height: 80px; line-height: 1.5; }
+
+    .msg-error {
+      font-size: 11px;
+      color: #e05252;
+      margin-top: 5px;
+      display: none;
+    }
+    .msg-error.visible { display: block; }
+
+    /* ── Chips de servicio ── */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .chip {
+      padding: 7px 13px;
+      border-radius: 100px;
+      border: 1.5px solid var(--gris-200);
+      background: var(--blanco);
+      font-size: 12px;
+      color: var(--gris-700);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .chip.activo {
+      border-color: var(--verde);
+      background: var(--verde-claro);
+      color: var(--verde-osc);
+      font-weight: 500;
+    }
+
+    /* ── Botón enviar ── */
+    .btn-enviar {
+      width: 100%;
+      padding: 14px;
+      background: var(--verde);
+      color: var(--blanco);
+      border: none;
+      border-radius: var(--radio);
+      font-family: var(--body);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.18s, transform 0.12s;
+      letter-spacing: 0.2px;
+    }
+    .btn-enviar:active { transform: scale(0.98); }
+    .btn-enviar:hover  { background: var(--verde-osc); }
+    .btn-enviar:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Separador ── */
+    .sep {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0 14px;
+    }
+    .sep::before, .sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gris-200);
+    }
+    .sep span {
+      font-size: 11px;
+      color: var(--gris-300);
+      font-family: var(--mono);
+      white-space: nowrap;
+    }
+
+    /* ── Pantalla de éxito ── */
+    .exito {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 28px;
+      animation: subir 0.4s cubic-bezier(.22,1,.36,1) both;
+    }
+    .exito.visible { display: flex; }
+
+    .check-wrap {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--verde-claro);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .check-wrap svg { stroke: var(--verde); }
+
+    .exito h2 {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--gris-900);
+      margin-bottom: 8px;
+    }
+    .exito p {
+      font-size: 13px;
+      color: var(--gris-500);
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+
+    .pasos {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    .paso {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .paso-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--verde);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .paso p {
+      font-size: 12px;
+      color: var(--gris-700);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ── Fondo decorativo ── */
+    .bg-deco {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .bg-deco::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,151,104,0.12) 0%, transparent 70%);
+    }
+    .bg-deco::after {
+      content: '';
+      position: absolute;
+      bottom: -150px; right: -150px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,151,104,0.08) 0%, transparent 70%);
+    }
+    .wrap { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+
+<div class="bg-deco"></div>
+
+<div class="wrap">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="card-header">
+      <div class="logo-row">
+        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000"><rect fill="#5b9668" x="0.3" y="0.26" width="2000" height="2000"/><path fill="#fff" d="M546.76,1342.76v40.65H423.63V1558c0,46,24.5,61.56,69.94,61.56,20.31,0,38.25-1.79,53.19-6v43.64c-19.72,6-39.45,7.17-56.19,7.17-75.91,0-116.55-29.28-116.55-97.43v-183.5H283.76v-40.65H374v-86.07h49.61v86.07Z"/><path fill="#fff" d="M793,1666.73c-94.44,0-142.26-68.73-142.26-164.37,0-104.6,56.79-169.16,143.45-169.16,96.84,0,139.28,72.33,139.28,181.11H702.78c1.8,61.57,31.69,106.4,92.05,106.4,40.65,0,68.15-19.73,81.9-61.57h50.2C916.18,1624.9,866.57,1666.73,793,1666.73Zm-89-193.06H879.71c0-52-32.27-94.44-86.07-94.44C737.45,1379.23,708.16,1421.07,704,1473.67Z"/><rect fill="#fff" x="1433.67" y="333.79" width="283.32" height="333.53"/><path fill="#fff" d="M566.94,500.56c0,95-45.42,166.77-141.65,166.77S283.62,595.6,283.62,500.56s45.44-166.77,141.67-166.77S566.94,405.53,566.94,500.56Zm-231.31,0c0,64,26.29,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.3-120.74-89.65-120.74S335.63,436.61,335.63,500.56Z"/><path fill="#fff" d="M501.8,947.07c-5.38-41.24-32.88-67-76.51-67-64.55,0-89.66,61.57-89.66,123.73s28.09,117.76,90.85,117.76c43.64,0,70.53-24.51,78.9-74.13h50.21c-6.57,75.32-53.2,120.14-130.3,120.14-91.45,0-141.67-71.72-141.67-163.77,0-93.85,49-169.76,142.26-169.76,76.51,0,124.33,46.63,126.13,113Z"/><path fill="#fff" d="M929.19,1000.86c0,95-45.42,166.76-141.66,166.76s-141.66-71.72-141.66-166.76S691.3,834.09,787.53,834.09,929.19,905.83,929.19,1000.86Zm-231.32,0c0,64,26.3,120.75,89.66,120.75s89.65-56.79,89.65-120.75-26.29-120.74-89.65-120.74S697.87,936.91,697.87,1000.86Z"/></svg>
+        <span class="logo-nombre">ocote Arquitectos</span>
+      </div>
+      <h1>Cuéntanos tu proyecto</h1>
+      <p>Te contactamos en menos de 24 horas con una cotización personalizada.</p>
+    </div>
+
+    <!-- Formulario -->
+    <div class="card-body" id="form-wrap">
+
+      <div class="campo">
+        <label>Nombre</label>
+        <input type="text" id="c-nombre" placeholder="Tu nombre o empresa"/>
+        <p class="msg-error" id="err-nombre">Este campo es obligatorio.</p>
+      </div>
+
+      <div class="campo">
+        <label>Teléfono o correo</label>
+        <input type="text" id="c-contacto" placeholder="55 1234 5678 / correo@email.com"/>
+        <p class="msg-error" id="err-contacto">Ingresa un teléfono o correo válido.</p>
+      </div>
+
+      <div class="sep"><span>¿Qué necesitas?</span></div>
+
+      <div class="campo">
+        <div class="chips" id="chips-servicio">
+          <div class="chip" data-val="Obra nueva">Obra nueva</div>
+          <div class="chip" data-val="Diseño de interiores">Interiores</div>
+          <div class="chip" data-val="Remodelación interior">Remodelación</div>
+          <div class="chip" data-val="Ampliación">Ampliación</div>
+          <div class="chip" data-val="Diseño de exteriores / Paisajismo">Exteriores</div>
+          <div class="chip" data-val="Remodelación de fachada">Fachada</div>
+          <div class="chip" data-val="No lo sé aún">No lo sé aún</div>
+        </div>
+        <p class="msg-error" id="err-servicio">Selecciona una opción.</p>
+      </div>
+
+      <div class="campo">
+        <label>Cuéntanos más <span style="font-family:var(--body);text-transform:none;letter-spacing:0;color:var(--gris-300)">(opcional)</span></label>
+        <textarea id="c-mensaje" placeholder="Ubicación del proyecto, idea general, dudas…"></textarea>
+      </div>
+
+      <button class="btn-enviar" id="btn-enviar" onclick="enviar()">Solicitar cotización →</button>
+
+    </div>
+
+    <!-- Éxito -->
+    <div class="exito" id="pantalla-exito">
+      <div class="check-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2>¡Listo, casi terminamos!</h2>
+      <p>Se abrió WhatsApp con un mensaje listo para enviar. Solo mándalo y te respondemos en menos de 24 horas.</p>
+      <p style="margin-top:8px; font-size:12px; color: var(--gris-300);">¿No se abrió WhatsApp? <a href="https://wa.me/521XXXXXXXXXX" target="_blank" style="color:var(--verde); text-decoration:underline;">Toca aquí</a></p>
+
+      <div class="pasos">
+        <div class="paso">
+          <span class="paso-num">01</span>
+          <p>Te enviamos una cotización personalizada.</p>
+        </div>
+        <div class="paso">
+          <span class="paso-num">02</span>
+          <p>Agendamos una llamada para afinar los detalles.</p>
+        </div>
+        <div class="paso">
+          <span class="paso-num">03</span>
+          <p>Comenzamos a trabajar en tu proyecto.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let servicioSeleccionado = '';
+
+  // ── Chips ──
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('activo'));
+      chip.classList.add('activo');
+      servicioSeleccionado = chip.dataset.val;
+      document.getElementById('err-servicio').classList.remove('visible');
+      chip.classList.remove('error');
+    });
+  });
+
+  // ── Validación y envío ──
+  function enviar() {
+    let ok = true;
+
+    const nombre   = document.getElementById('c-nombre');
+    const contacto = document.getElementById('c-contacto');
+    const errNom   = document.getElementById('err-nombre');
+    const errCon   = document.getElementById('err-contacto');
+    const errSrv   = document.getElementById('err-servicio');
+
+    // Nombre
+    if (!nombre.value.trim()) {
+      nombre.classList.add('error'); errNom.classList.add('visible'); ok = false;
+    } else {
+      nombre.classList.remove('error'); errNom.classList.remove('visible');
+    }
+
+    // Contacto
+    const val = contacto.value.trim();
+    const esValido = /\d[\d\s\-().]{8,}/.test(val) || /[^\s@]+@[^\s@]+\.[^\s@]+/.test(val);
+    if (!val || !esValido) {
+      contacto.classList.add('error'); errCon.classList.add('visible'); ok = false;
+    } else {
+      contacto.classList.remove('error'); errCon.classList.remove('visible');
+    }
+
+    // Servicio
+    if (!servicioSeleccionado) {
+      errSrv.classList.add('visible'); ok = false;
+    } else {
+      errSrv.classList.remove('visible');
+    }
+
+    if (!ok) return;
+
+    const btn = document.getElementById('btn-enviar');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const datos = {
+      nombre:         nombre.value.trim(),
+      contacto:       contacto.value.trim(),
+      ubicacion:      '—',
+      servicio:       servicioSeleccionado,
+      tipo_inmueble:  '',
+      espacios:       '',
+      m2:             '',
+      piso_o_niveles: '',
+      planos:         '',
+      edad_construccion: '',
+      info_adicional: document.getElementById('c-mensaje').value.trim(),
+      alcance:        '',
+      render:         '',
+      presup_obra:    '',
+      presup_diseno:  '',
+      comentarios:    '— Enviado desde formulario corto —',
+      inicio_estimado: '',
+    };
+
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1eCExz9GW1uLTNqehbUCYB5VFgG5Jph899buQ-94eqVpikkiLibsfdHBJgalfxyeb/exec";
+    const FORM_SECRET = "064738435187f4c52d4a19bf9e5816b7307699e45c3a27fe2001c4ac983efb4a";
+    datos._secret = FORM_SECRET;
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(datos)
+    })
+      .then(() => abrirWhatsApp(datos.nombre, datos.servicio))
+      .catch(() => abrirWhatsApp(datos.nombre, datos.servicio));
+  }
+
+  function abrirWhatsApp(nombre, servicio) {
+    const mensaje = `Hola, soy ${nombre} y me gustaría solicitar una cotización para mi proyecto de *${servicio}*.`;
+    const url = `https://wa.me/521XXXXXXXXXX?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+    mostrarExito();
+  }
+
+  function mostrarExito() {
+    document.getElementById('form-wrap').style.display = 'none';
+    const ex = document.getElementById('pantalla-exito');
+    ex.classList.add('visible');
+  }
+</script>
+</body>
+</html>
