@@ -305,6 +305,17 @@
     .check-circulo svg { stroke: var(--verde); }
     #pantalla-exito h2 { font-size: 24px; margin-bottom: 12px; }
     #pantalla-exito p { font-family: var(--font-body); font-size: 14px; color: var(--gris-500); line-height: 1.7; max-width: 320px; margin: 0 auto; }
+    /* ── Resumen compacto ── */
+    .resumen-tabla { width: 100%; border-collapse: collapse; margin-top: 4px; }
+    .resumen-seccion td {
+      font-family: var(--font-titulo); font-size: 10px; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--verde); padding: 14px 0 4px;
+    }
+    .resumen-fila td { padding: 5px 0; border-bottom: 1px solid var(--gris-200); vertical-align: top; }
+    .resumen-fila:last-child td { border-bottom: none; }
+    .resumen-key { font-size: 11px; color: var(--gris-500); width: 42%; padding-right: 10px; line-height: 1.4; }
+    .resumen-val { font-size: 13px; color: var(--gris-900); line-height: 1.4; }
+
   </style>
 </head>
 <body>
@@ -815,7 +826,7 @@
     <p class="msg-error" id="err-edad-int">Ingresa un valor numérico.</p>
     <div class="nav">
       <button class="btn btn-ant" onclick="irA('pB7')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-edad-int','err-edad-int',irA,'pFinal1')">Continuar →</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-int','err-edad-int',()=>irAFinal(),'')">Continuar →</button>
     </div>
   </div>
 
@@ -908,7 +919,7 @@
     <p class="msg-error" id="err-edad-amp">Ingresa un valor numérico.</p>
     <div class="nav">
       <button class="btn btn-ant" onclick="irA('pC6')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-edad-amp','err-edad-amp',irA,'pFinal1')">Continuar →</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-amp','err-edad-amp',()=>irAFinal(),'')">Continuar →</button>
     </div>
   </div>
 
@@ -1010,7 +1021,7 @@
     <p class="msg-error" id="err-edad-ext">Ingresa un valor numérico.</p>
     <div class="nav">
       <button class="btn btn-ant" onclick="irA('pD6')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-edad-ext','err-edad-ext',irA,'pFinal1')">Continuar →</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-ext','err-edad-ext',()=>irAFinal(),'')">Continuar →</button>
     </div>
   </div>
 
@@ -1109,7 +1120,7 @@
     <p class="msg-error" id="err-edad-fach">Ingresa un valor numérico.</p>
     <div class="nav">
       <button class="btn btn-ant" onclick="irA('pE6')">←</button>
-      <button class="btn btn-sig" onclick="validarNumero('val-edad-fach','err-edad-fach',irA,'pFinal1')">Continuar →</button>
+      <button class="btn btn-sig" onclick="validarNumero('val-edad-fach','err-edad-fach',()=>irAFinal(),'')">Continuar →</button>
     </div>
   </div>
 
@@ -1200,6 +1211,18 @@
     <textarea class="input-grande" id="val-comentarios" placeholder="Cualquier detalle que quieras agregar..."></textarea>
     <div class="nav">
       <button class="btn btn-ant" onclick="irA('pFinal4')">←</button>
+      <button class="btn btn-sig" onclick="mostrarResumen()">Revisar solicitud →</button>
+    </div>
+  </div>
+
+  <!-- ══ RESUMEN ══ -->
+  <div class="pregunta" id="pResumen">
+    <div class="etiqueta">Revisa tu solicitud</div>
+    <h2>¿Todo está correcto?</h2>
+    <p class="hint">Confirma tus datos antes de enviar.</p>
+    <div id="resumen-contenido"></div>
+    <div class="nav">
+      <button class="btn btn-ant" onclick="irA('pComentarios')">←</button>
       <button class="btn btn-enviar btn" onclick="enviarFormulario()">Enviar solicitud ✓</button>
     </div>
   </div>
@@ -1231,7 +1254,7 @@
     'pC1','pC2','pC3','pC4','pC5','pC6','pC7',
     'pD1','pD2','pD3','pD4','pD5','pD6','pD7',
     'pE1','pE2','pE3','pE4','pE5','pE6','pE7',
-    'pFinal1','pFinal2','pFinal3','pFinal4','pComentarios'
+    'pFinal1','pFinal2','pFinal3','pFinal4','pComentarios','pResumen'
   ];
 
   let pantallaActual = null;
@@ -1302,6 +1325,13 @@
       r.closest('.opcion').classList.toggle('seleccionada', r.value === valor)
     );
 
+    // Servicios con un único paquete (integral): asignar automáticamente y saltar pFinal1
+    const soloUnPaquete = !['Obra nueva','Ampliación'].includes(valor);
+    if (soloUnPaquete) {
+      const inputIntegral = document.querySelector('input[name="paquete"][value="Anteproyecto + Proyecto ejecutivo"]');
+      if (inputIntegral) inputIntegral.checked = true;
+    }
+
     // Botón atrás de sección final apunta al último paso de la sección
     const mapaAntFinal = {
       'Obra nueva': 'pA10',
@@ -1312,6 +1342,10 @@
       'Remodelación de fachada': 'pE7'
     };
     document.getElementById('btn-ant-final1').onclick = () => irA(mapaAntFinal[valor]);
+
+    // El botón atrás de pFinal2 va a pFinal1 solo si hay elección de paquete
+    document.querySelector('#pFinal2 .btn-ant').onclick =
+      () => soloUnPaquete ? irA(mapaAntFinal[valor]) : irA('pFinal1');
 
     const mapaDest = {
       'Obra nueva': 'pA1',
@@ -1324,7 +1358,118 @@
     setTimeout(() => irA(mapaDest[valor]), 180);
   }
 
-  // ── Configurar A7 según tipo de edificación ──
+  // ── Ir a la primera pantalla final según el servicio ──
+  function irAFinal() {
+    const soloUnPaquete = !['Obra nueva','Ampliación'].includes(servicioActual);
+    irA(soloUnPaquete ? 'pFinal2' : 'pFinal1');
+  }
+
+  function elegirPaquete(valor) {
+    document.querySelector(`input[name="paquete"][value="${valor}"]`).checked = true;
+    document.querySelectorAll('.paquete').forEach(p => p.classList.remove('seleccionado'));
+    const seleccionado = [...document.querySelectorAll('.paquete')].find(p =>
+      p.querySelector('input[type="radio"]').value === valor
+    );
+    if (seleccionado) seleccionado.classList.add('seleccionado');
+    setTimeout(() => irA('pFinal2'), 180);
+  }
+
+  // ── Mostrar resumen compacto ──
+  function mostrarResumen() {
+    const s = servicioActual;
+    const filas = [];
+
+    // Contacto
+    filas.push({ sec: 'Contacto' });
+    filas.push(['Nombre', document.getElementById('val-nombre').value.trim()]);
+    filas.push(['Teléfono / Email', document.getElementById('val-contacto').value.trim()]);
+    filas.push(['Ubicación', document.getElementById('val-estado').value + ', ' + document.getElementById('val-municipio').value.trim()]);
+
+    // Proyecto
+    filas.push({ sec: 'Proyecto' });
+    filas.push(['Servicio', s]);
+
+    if (s === 'Obra nueva') {
+      const edif = getRadio('edificacion');
+      filas.push(['Tipo de inmueble', edif]);
+      if (document.getElementById('val-num-viviendas').value) filas.push(['Viviendas', document.getElementById('val-num-viviendas').value]);
+      if (getRadio('local-com')) filas.push(['Área comercial', getRadio('local-com')]);
+      if (document.getElementById('val-tipo-comercio').value.trim()) filas.push(['Tipo de comercio', document.getElementById('val-tipo-comercio').value.trim()]);
+      const t = document.getElementById('val-terreno').value;
+      const pct = document.getElementById('val-porcentaje-construible').value;
+      filas.push(['Terreno', t ? t + ' m²' : '—']);
+      if (pct) filas.push(['Área construible', Math.round(parseFloat(t) * parseInt(pct) / 100) + ' m² (' + pct + '%)']);
+      filas.push(['Pisos', document.getElementById('val-niveles').value]);
+      const esp = getEspaciosNuevos(); if (esp) filas.push(['Espacios', esp]);
+      filas.push(['Etapas', getRadio('etapas')]);
+      filas.push(['Escrituras', getRadio('escrituras')]);
+      const serv = getCheckboxes('servicios-terreno'); if (serv) filas.push(['Servicios del terreno', serv]);
+
+    } else if (s === 'Diseño de interiores' || s === 'Remodelación interior') {
+      filas.push(['Tipo de inmueble', getRadio('inmueble-int')]);
+      const esp = getCheckboxes('espacio-int') || document.getElementById('val-espacio-com-int').value.trim();
+      if (esp) filas.push(['Espacios', esp]);
+      filas.push(['Superficie', document.getElementById('val-m2-int').value + ' m²']);
+      filas.push(['Piso', document.getElementById('val-piso-int').value]);
+      const ti = getCheckboxes('estado-int'); if (ti) filas.push(['Intervención', ti]);
+      filas.push(['Planos', getRadio('planos-int')]);
+      filas.push(['Antigüedad', document.getElementById('val-edad-int').value + ' años']);
+
+    } else if (s === 'Ampliación') {
+      filas.push(['Tipo de inmueble', getRadio('inmueble-amp')]);
+      const esp = getCheckboxes('espacio-amp') || document.getElementById('val-espacio-amp-com').value.trim();
+      if (esp) filas.push(['Espacios', esp]);
+      filas.push(['Superficie a ampliar', document.getElementById('val-m2-amp').value + ' m²']);
+      filas.push(['Piso', document.getElementById('val-piso-amp').value]);
+      filas.push(['Planos', getRadio('planos-amp')]);
+      filas.push(['Antigüedad', document.getElementById('val-edad-amp').value + ' años']);
+
+    } else if (s === 'Diseño de exteriores / Paisajismo') {
+      filas.push(['Tipo de inmueble', getRadio('inmueble-ext')]);
+      const esp = getCheckboxes('espacio-ext'); if (esp) filas.push(['Espacios', esp]);
+      filas.push(['Superficie', document.getElementById('val-m2-ext').value + ' m²']);
+      filas.push(['Piso', document.getElementById('val-piso-ext').value]);
+      const ins = getCheckboxes('instal-ext'); if (ins) filas.push(['Instalaciones', ins]);
+      filas.push(['Planos', getRadio('planos-ext')]);
+      filas.push(['Antigüedad', document.getElementById('val-edad-ext').value + ' años']);
+
+    } else if (s === 'Remodelación de fachada') {
+      filas.push(['Tipo de inmueble', getRadio('inmueble-fach')]);
+      const a = document.getElementById('val-fach-ancho').value, h = document.getElementById('val-fach-alto').value;
+      if (a && h) filas.push(['Dimensiones', a + ' m × ' + h + ' m']);
+      filas.push(['Niveles', document.getElementById('val-niveles-fach').value]);
+      const el = getCheckboxes('elem-fach'); if (el) filas.push(['Elementos', el]);
+      filas.push(['Planos', getRadio('planos-fach')]);
+      filas.push(['Antigüedad', document.getElementById('val-edad-fach').value + ' años']);
+    }
+
+    // Cotización
+    filas.push({ sec: 'Cotización' });
+    filas.push(['Alcance', getRadio('paquete') || 'Anteproyecto + Proyecto ejecutivo']);
+    filas.push(['Renders', getRadio('render')]);
+    const po = document.getElementById('val-presup-obra').value;
+    const pd = document.getElementById('val-presup-diseno').value;
+    if (po) filas.push(['Presup. obra', '$' + Number(po).toLocaleString('es-MX')]);
+    if (pd) filas.push(['Presup. diseño', '$' + Number(pd).toLocaleString('es-MX')]);
+    const com = document.getElementById('val-comentarios').value.trim();
+    if (com) filas.push(['Comentarios', com]);
+
+    // Construir tabla
+    let html = '<table class="resumen-tabla">';
+    filas.forEach(f => {
+      if (f.sec) {
+        html += `<tr class="resumen-seccion"><td colspan="2">${f.sec}</td></tr>`;
+      } else if (f[1]) {
+        html += `<tr class="resumen-fila"><td class="resumen-key">${f[0]}</td><td class="resumen-val">${f[1]}</td></tr>`;
+      }
+    });
+    html += '</table>';
+
+    document.getElementById('resumen-contenido').innerHTML = html;
+    irA('pResumen');
+  }
+
+
   function configurarA7(tipoEdificacion) {
     const titulo = document.getElementById('titulo-pA7');
     const hint   = document.getElementById('hint-pA7');
@@ -1376,17 +1521,6 @@
   function elegirPorcentaje(pct) {
     const slider = document.getElementById('slider-porcentaje');
     if (slider) { slider.value = pct; onSliderChange(pct); }
-  }
-
-  
-  function elegirPaquete(valor) {
-    document.querySelector(`input[name="paquete"][value="${valor}"]`).checked = true;
-    document.querySelectorAll('.paquete').forEach(p => p.classList.remove('seleccionado'));
-    const seleccionado = [...document.querySelectorAll('.paquete')].find(p =>
-      p.querySelector('input[type="radio"]').value === valor
-    );
-    if (seleccionado) seleccionado.classList.add('seleccionado');
-    setTimeout(() => irA('pFinal2'), 180);
   }
 
   // ── Radio con auto-avance ──
