@@ -606,39 +606,36 @@
 
   // ── Enviar ───────────────────────────────────────────────────
   async function enviarContrato() {
-    const btn = document.getElementById("btn-enviar");
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Generando…';
-    setProgreso(90);
+  const btn = document.getElementById("btn-enviar");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Generando…';
+  setProgreso(90);
 
-    const payload = {
-      _secret:    FORM_SECRET,
-      accion:     "generar_contrato",
-      folio:      estado.folio,
-      rfc:        estado.rfc,
-      domicilio:  estado.domicilio,
-      paquete:    estado.paquete,
-    };
+  const payload = {
+    _secret:   FORM_SECRET,
+    accion:    "generar_contrato",
+    folio:     estado.folio,
+    rfc:       estado.rfc,
+    domicilio: estado.domicilio,
+    paquete:   estado.paquete,
+  };
 
-    try {
-      await fetch(APPS_SCRIPT_URL, {
-        method:  "POST",
-        mode:    "no-cors",
-        headers: { "Content-Type": "text/plain" },
-        body:    JSON.stringify(payload),
-      });
+  try {
+    // Mismo patrón que el formulario de cotización
+    const url = APPS_SCRIPT_URL + "?data=" + encodeURIComponent(JSON.stringify(payload));
+    await fetch(url, { method: "GET", mode: "no-cors" });
 
-      setProgreso(100);
-      document.querySelector(".container").style.display = "none";
-      document.getElementById("pantalla-exito").style.display = "block";
+    setProgreso(100);
+    document.querySelector(".container").style.display = "none";
+    document.getElementById("pantalla-exito").style.display = "block";
 
-    } catch(e) {
-      btn.disabled = false;
-      btn.textContent = "Generar y enviar →";
-      setProgreso(75);
-      mostrarError("Error de conexión al generar el contrato. Intenta de nuevo.");
-    }
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = "Generar y enviar →";
+    setProgreso(75);
+    mostrarError("Error de conexión. Intenta de nuevo.");
   }
+}
 
   // ── Helpers ──────────────────────────────────────────────────
   function mostrarError(msg) {
