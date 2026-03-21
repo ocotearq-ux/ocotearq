@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Renders — ocote Arquitectos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --verde:        #5B9768;
+      --verde-oscuro: #4a7f56;
+      --verde-claro:  #e8f2ea;
+      --verde-dim:    rgba(91,151,104,0.1);
+      --negro:        #111110;
+      --gris-900:     #1a1a18;
+      --gris-700:     #4a4a47;
+      --gris-500:     #8a8a87;
+      --gris-300:     #d4d4d2;
+      --gris-200:     #ebebea;
+      --gris-100:     #f5f5f3;
+      --blanco:       #ffffff;
+      --radio:        8px;
+      --font-titulo:  'Fragment Mono', monospace;
+      --font-body:    'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--gris-100);
+      color: var(--gris-900);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gris-300);
+    }
+    .logo {
+      font-family: var(--font-titulo); font-size: 16px;
+      color: var(--negro); text-decoration: none; letter-spacing: -0.5px;
+    }
+    .logo span {
+      display: inline-block; width: 8px; height: 8px;
+      background: var(--verde); margin-left: 6px;
+      vertical-align: middle; margin-bottom: 2px;
+    }
+    .logo-svg { display: none; }
+    .logo-dot { display: none; }
+    .header-controls {
+      display: flex; align-items: center; gap: 8px;
+      flex-wrap: wrap; justify-content: flex-end;
+      justify-self: end;
+    }
+    .ctrl-btn {
+      display: flex; align-items: center;
+      border: 1.5px solid var(--gris-300);
+      border-radius: 100px; overflow: hidden;
+      background: var(--blanco);
+    }
+    .ctrl-opt {
+      padding: 6px 13px;
+      font-family: var(--font-body); font-size: 12px; font-weight: 500;
+      color: var(--gris-500); cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border: none; background: transparent; letter-spacing: 0.3px;
+    }
+    .ctrl-opt.activo { background: var(--negro); color: var(--blanco); }
+    .ctrl-opt:first-child { border-right: 1px solid var(--gris-200); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 120px 32px 44px;
+      max-width: 960px; margin: 0 auto;
+      border-bottom: 1px solid var(--gris-300);
+    }
+    .hero-tag {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--verde); font-weight: 600; margin-bottom: 14px;
+      font-family: var(--font-body);
+    }
+    .hero h1 {
+      font-family: var(--font-titulo); font-size: clamp(30px,4.5vw,50px);
+      font-weight: 400; line-height: 1.1; letter-spacing: -1.5px;
+      color: var(--negro); margin-bottom: 14px;
+    }
+    .hero h1 em { font-style: normal; color: var(--verde); }
+    .hero p { font-size: 15px; color: var(--gris-500); line-height: 1.7; max-width: 500px; }
+
+    /* ── LAYOUT ── */
+    .main-grid {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 300px;
+      align-items: start;
+    }
+
+    /* ── CONFIGURADOR ── */
+    .configurador { padding: 36px 32px 80px; border-right: 1px solid var(--gris-300); }
+
+    .seccion {
+      margin-bottom: 40px; padding-bottom: 40px;
+      border-bottom: 1px solid var(--gris-200);
+    }
+    .seccion:last-of-type { border-bottom: none; margin-bottom: 0; }
+
+    .seccion-num {
+      font-family: var(--font-titulo); font-size: 10px; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--verde); margin-bottom: 5px;
+    }
+    .seccion h2 {
+      font-family: var(--font-titulo); font-size: 16px; font-weight: 400;
+      color: var(--negro); margin-bottom: 4px; letter-spacing: -0.3px;
+    }
+    .seccion .hint { font-size: 13px; color: var(--gris-500); margin-bottom: 18px; line-height: 1.5; }
+
+    /* ── CARDS ── */
+    .cards-grid { display: grid; gap: 10px; }
+    .cards-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .cards-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    .card-op {
+      position: relative; cursor: pointer;
+      border: 1.5px solid var(--gris-200);
+      border-radius: var(--radio); background: var(--blanco);
+      transition: border-color 0.18s, background 0.18s, transform 0.12s;
+      -webkit-tap-highlight-color: transparent; user-select: none;
+      overflow: hidden;
+    }
+    .card-op:hover { border-color: var(--gris-300); transform: translateY(-1px); }
+    .card-op.activa { border-color: var(--verde); background: var(--verde-claro); }
+    .card-op input { position: absolute; opacity: 0; pointer-events: none; }
+
+    /* Card visual preview area — placeholder for future image */
+    .card-preview {
+      width: 100%; height: 80px;
+      background: var(--gris-200);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; border-bottom: 1px solid var(--gris-200);
+      transition: background 0.18s;
+      position: relative;
+    }
+    .card-op.activa .card-preview { background: rgba(91,151,104,0.1); border-bottom-color: rgba(91,151,104,0.2); }
+    .card-preview svg { display: none; } /* Placeholder: reemplazar con <img> cuando tengas imágenes */
+    .card-preview::after {
+      content: attr(data-placeholder);
+      font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase;
+      color: var(--gris-400, #b0b0ae); font-family: var(--font-body);
+    }
+
+    .card-body { padding: 12px 14px 14px; }
+    .card-label {
+      font-size: 13px; font-weight: 600; color: var(--negro);
+      display: flex; align-items: center; justify-content: space-between; gap: 6px;
+    }
+    .card-desc { font-size: 11px; color: var(--gris-500); line-height: 1.45; margin-top: 3px; }
+
+    /* Check indicator */
+    .card-check {
+      width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid var(--gris-300);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s;
+    }
+    .card-op.activa .card-check { border-color: var(--verde); background: var(--verde); }
+    .card-check::after {
+      content: ''; width: 4px; height: 7px;
+      border: 2px solid white; border-top: none; border-left: none;
+      transform: rotate(45deg) translateY(-1px);
+      opacity: 0; transition: opacity 0.15s;
+    }
+    .card-op.activa .card-check::after { opacity: 1; }
+
+    /* Extra badge — only on extras */
+    .card-badge {
+      display: inline-block; margin-top: 6px;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.4px;
+      text-transform: uppercase;
+      background: var(--verde); color: white;
+      padding: 2px 8px; border-radius: 100px;
+    }
+
+    /* ── NUMÉRICOS ── */
+    .input-row { display: flex; align-items: center; gap: 12px; }
+    .num-control {
+      display: flex; align-items: center;
+      border: 1.5px solid var(--gris-200); border-radius: var(--radio);
+      background: var(--blanco); overflow: hidden;
+    }
+    .num-btn {
+      width: 42px; height: 46px; background: none; border: none;
+      font-size: 20px; font-weight: 300; color: var(--gris-700);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .num-btn:hover { background: var(--verde-dim); color: var(--verde); }
+    .num-valor {
+      width: 52px; text-align: center;
+      font-family: var(--font-titulo); font-size: 18px;
+      color: var(--negro); border: none; background: none; outline: none;
+    }
+    .num-valor::-webkit-inner-spin-button,
+    .num-valor::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .num-valor[type=number] { -moz-appearance: textfield; }
+    .input-label { font-size: 13px; color: var(--gris-700); font-weight: 500; }
+
+    /* ── EXTRAS ── */
+    .extra-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px;
+      border: 1.5px solid var(--gris-200); border-radius: var(--radio);
+      background: var(--blanco); margin-bottom: 10px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .extra-row.activo { border-color: var(--verde); background: var(--verde-claro); }
+
+    .extra-preview {
+      width: 52px; height: 52px; flex-shrink: 0;
+      border-radius: 6px; background: var(--gris-200);
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--gris-200); overflow: hidden;
+      transition: background 0.18s;
+    }
+    .extra-row.activo .extra-preview { background: rgba(91,151,104,0.1); border-color: rgba(91,151,104,0.2); }
+    .extra-preview svg { display: none; }
+
+    .extra-content { flex: 1; min-width: 0; }
+    .extra-nombre { font-size: 13px; font-weight: 600; color: var(--negro); margin-bottom: 2px; }
+    .extra-desc { font-size: 11px; color: var(--gris-500); line-height: 1.45; margin-bottom: 8px; }
+    .extra-controls { display: flex; align-items: center; gap: 10px; }
+
+    .toggle {
+      position: relative; width: 42px; height: 22px; flex-shrink: 0;
+      background: var(--gris-300); border-radius: 100px;
+      cursor: pointer; transition: background 0.2s; margin-top: 2px;
+    }
+    .toggle.on { background: var(--verde); }
+    .toggle::after {
+      content: ''; position: absolute;
+      width: 16px; height: 16px; top: 3px; left: 3px;
+      background: white; border-radius: 50%;
+      transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .toggle.on::after { transform: translateX(20px); }
+
+    /* ── FECHA & CAMPOS ── */
+    .campo-input {
+      width: 100%; padding: 12px 14px;
+      font-family: var(--font-body); font-size: 14px;
+      color: var(--gris-900); background: var(--blanco);
+      border: 1.5px solid var(--gris-200); border-radius: var(--radio);
+      outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+    }
+    .campo-input:focus { border-color: var(--verde); }
+    .campo-input::placeholder { color: var(--gris-300); }
+    textarea.campo-input { resize: vertical; min-height: 76px; line-height: 1.6; }
+    .campo-label {
+      font-size: 11px; font-weight: 600; color: var(--gris-700);
+      margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .campo-wrap { margin-bottom: 12px; }
+    .campo-wrap:last-child { margin-bottom: 0; }
+
+    /* ── SIDEBAR ── */
+    .sidebar { padding: 28px 20px; position: sticky; top: 61px; }
+
+    .precio-card {
+      background: var(--blanco); border: 1.5px solid var(--gris-200);
+      border-radius: var(--radio); overflow: hidden; margin-bottom: 12px;
+    }
+    .precio-header { background: var(--negro); padding: 18px 18px 16px; }
+    .precio-header .plabel {
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 6px; font-weight: 500;
+    }
+    .precio-total {
+      font-family: var(--font-titulo); font-size: 32px;
+      color: white; line-height: 1; letter-spacing: -1px;
+      transition: all 0.3s ease;
+    }
+    .precio-total .cur { font-size: 16px; color: var(--verde); margin-right: 2px; }
+    .precio-nota { font-size: 11px; color: rgba(255,255,255,0.28); margin-top: 5px; }
+
+    /* Botón enviar solicitud */
+    .enviar-bloqueado {
+      background: var(--gris-200); border-radius: var(--radio);
+      padding: 14px; text-align: center;
+      font-size: 12px; color: var(--gris-500); line-height: 1.5;
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+    }
+    .enviar-bloqueado svg { opacity: 0.35; }
+    .btn-enviar-solicitud {
+      width: 100%; padding: 14px;
+      background: var(--verde); color: white; border: none;
+      border-radius: 100px; font-family: var(--font-body);
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn-enviar-solicitud:hover { background: var(--verde-oscuro); transform: translateY(-1px); }
+    .btn-enviar-solicitud:active { transform: scale(0.98); }
+    .enviar-spinner {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px; font-size: 13px; color: var(--gris-500);
+    }
+    .spinner-circle {
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 2px solid var(--gris-300); border-top-color: var(--verde);
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .precio-desglose { padding: 2px 18px 14px; }
+    .desglose-fila {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 11px; padding: 4px 0;
+      border-bottom: 1px solid var(--gris-200); color: var(--gris-700);
+    }
+    .desglose-fila:last-child { border-bottom: none; }
+    .desglose-fila .val { font-family: var(--font-titulo); font-size: 11px; color: var(--negro); }
+    .desglose-fila.total-row {
+      font-weight: 600; font-size: 12px; color: var(--negro);
+      padding-top: 8px; margin-top: 4px;
+      border-top: 1.5px solid var(--gris-300); border-bottom: none;
+    }
+    .desglose-fila.total-row .val { color: var(--verde); font-size: 12px; }
+    .desglose-fila.oculta { display: none; }
+
+    /* Resumen */
+    .resumen-config {
+      background: var(--gris-100); border: 1px solid var(--gris-200);
+      border-radius: var(--radio); padding: 12px 14px;
+      margin-bottom: 12px; font-size: 11px; color: var(--gris-700); line-height: 1.9;
+    }
+    .resumen-config strong { color: var(--negro); font-weight: 600; }
+
+    /* PayPal */
+    .paypal-bloqueado {
+      background: var(--gris-200); border-radius: var(--radio);
+      padding: 14px; text-align: center;
+      font-size: 12px; color: var(--gris-500); line-height: 1.5;
+    }
+    .paypal-bloqueado svg { display: block; margin: 0 auto 7px; opacity: 0.35; }
+
+    .nota-pago {
+      font-size: 11px; color: var(--gris-500); text-align: center;
+      margin-top: 10px; line-height: 1.6; padding: 0 2px;
+    }
+    .nota-pago strong { color: var(--gris-700); }
+
+    /* Divider */
+    .nota-divider {
+      display: flex; align-items: center; gap: 8px;
+      margin: 14px 0 10px; font-size: 10px; color: var(--gris-300);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .nota-divider::before, .nota-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--gris-200);
+    }
+
+    /* ── ÉXITO ── */
+    #pantalla-exito {
+      display: none; text-align: center; padding: 80px 32px;
+      max-width: 500px; margin: 0 auto;
+    }
+    .exito-icono {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: var(--verde-claro);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .exito-icono svg { stroke: var(--verde); }
+    #pantalla-exito h2 {
+      font-family: var(--font-titulo); font-size: 26px; font-weight: 400;
+      letter-spacing: -0.5px; margin-bottom: 10px;
+    }
+    #pantalla-exito p { font-size: 14px; color: var(--gris-500); line-height: 1.7; }
+    .folio-exito {
+      display: inline-block;
+      font-family: var(--font-titulo); font-size: 12px;
+      background: var(--verde-claro); color: var(--verde);
+      padding: 7px 18px; border-radius: 100px; margin: 18px 0 28px;
+    }
+    .exito-pasos {
+      text-align: left; margin-top: 28px;
+      border: 1px solid var(--gris-200); border-radius: var(--radio);
+      background: var(--blanco); overflow: hidden;
+    }
+    .exito-paso {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 18px; border-bottom: 1px solid var(--gris-200);
+      font-size: 13px; color: var(--gris-700); line-height: 1.5;
+    }
+    .exito-paso:last-child { border-bottom: none; }
+    .exito-paso .ep-num {
+      font-family: var(--font-titulo); font-size: 12px;
+      color: var(--verde); flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* WhatsApp button */
+    .btn-wa-sidebar {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; margin-top: 12px;
+      padding: 11px 16px;
+      background: #25D366; color: white;
+      border-radius: 100px; text-decoration: none;
+      font-size: 13px; font-weight: 500; font-family: var(--font-body);
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn-wa-sidebar:hover { background: #1ebe5a; transform: translateY(-1px); }
+
+    /* m2 slider */
+    .m2-display {
+      background: var(--blanco); border: 1.5px solid var(--gris-200);
+      border-radius: var(--radio); padding: 16px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .m2-display .m2-num {
+      font-family: var(--font-titulo); font-size: 28px; color: var(--verde);
+      letter-spacing: -1px; line-height: 1;
+    }
+    .m2-display .m2-label { font-size: 12px; color: var(--gris-500); margin-top: 3px; }
+    .m2-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 6px; border-radius: 3px;
+      background: var(--gris-200); outline: none; cursor: pointer;
+      margin-bottom: 6px;
+    }
+    .m2-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--verde); cursor: pointer;
+      box-shadow: 0 2px 6px rgba(91,151,104,0.4);
+      transition: transform 0.12s;
+    }
+    .m2-slider:active::-webkit-slider-thumb { transform: scale(1.15); }
+    .m2-slider::-moz-range-thumb {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--verde); border: none; cursor: pointer;
+    }
+    .m2-ticks { display: flex; justify-content: space-between; font-size: 10px; color: var(--gris-500); margin-top: 2px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 740px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .configurador { border-right: none; padding: 24px 20px 48px; }
+      .sidebar { position: static; padding: 0 20px 40px; border-top: 1px solid var(--gris-300); }
+      .cards-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+      header { padding: 16px 20px; }
+      .hero { padding: 100px 20px 32px; }
+    }
+    @media (max-width: 480px) {
+      .cards-grid.cols-2, .cards-grid.cols-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="logo">ocote<span></span></a>
+
+  <div class="header-controls">
+    <!-- Moneda -->
+    <div class="ctrl-btn" id="btn-moneda">
+      <button class="ctrl-opt activo" id="opt-mxn" onclick="setCurrency('MXN')">MXN</button>
+      <button class="ctrl-opt" id="opt-usd" onclick="setCurrency('USD')">USD</button>
+    </div>
+    <!-- Idioma -->
+    <div class="ctrl-btn" id="btn-idioma">
+      <button class="ctrl-opt activo" id="opt-es" onclick="setLang('es')">ES</button>
+      <button class="ctrl-opt" id="opt-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag" data-i18n="hero-tag">Visualización arquitectónica</div>
+  <h1 data-i18n="hero-h1">Configura tus<br/><em>renders</em></h1>
+  <p data-i18n="hero-p">Elige las opciones de tu proyecto y ve el precio en tiempo real. Al completar el anticipo te contactamos para coordinar los detalles y comenzar.</p>
+</div>
+
+<!-- MAIN -->
+<div id="main-wrapper">
+<div class="main-grid">
+
+  <!-- ════ CONFIGURADOR ════ -->
+  <div class="configurador">
+
+    <!-- 01: Tipo de espacio -->
+    <div class="seccion">
+      <div class="seccion-num">01</div>
+      <h2 data-i18n="s1-titulo">Tipo de espacio</h2>
+      <p class="hint" data-i18n="s1-hint">Los renders serán de espacios interiores, exteriores, o ambos.</p>
+      <div class="cards-grid cols-3">
+
+        <!-- Interior -->
+        <div class="card-op activa" onclick="seleccionar('espacio','interior',this)">
+          <input type="radio" name="espacio" value="interior" checked/>
+          <div class="card-preview">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- Room interior perspective sketch -->
+              <rect width="160" height="80" fill="none"/>
+              <!-- Back wall -->
+              <polygon points="30,10 130,10 130,70 30,70" fill="#f0f0ee" stroke="#c8c8c5" stroke-width="1"/>
+              <!-- Floor perspective -->
+              <polygon points="5,75 155,75 130,70 30,70" fill="#e8e8e4" stroke="#c8c8c5" stroke-width="1"/>
+              <!-- Left wall -->
+              <polygon points="5,15 30,10 30,70 5,75" fill="#e4e4e0" stroke="#c8c8c5" stroke-width="1"/>
+              <!-- Ceiling -->
+              <polygon points="5,15 155,15 130,10 30,10" fill="#f5f5f3" stroke="#c8c8c5" stroke-width="1"/>
+              <!-- Window -->
+              <rect x="60" y="18" width="40" height="30" fill="#d0e8f0" stroke="#a0b8c0" stroke-width="1"/>
+              <line x1="80" y1="18" x2="80" y2="48" stroke="#a0b8c0" stroke-width="0.8"/>
+              <line x1="60" y1="33" x2="100" y2="33" stroke="#a0b8c0" stroke-width="0.8"/>
+              <!-- Sofa simplified -->
+              <rect x="45" y="58" width="50" height="10" rx="2" fill="#c8c8c5" stroke="#a8a8a5" stroke-width="1"/>
+              <rect x="45" y="52" width="10" height="16" rx="2" fill="#c8c8c5" stroke="#a8a8a5" stroke-width="1"/>
+              <rect x="85" y="52" width="10" height="16" rx="2" fill="#c8c8c5" stroke="#a8a8a5" stroke-width="1"/>
+              <!-- Floor line accent -->
+              <line x1="30" y1="70" x2="130" y2="70" stroke="#5B9768" stroke-width="1.5" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-label">
+              <span data-i18n="c-interior">Interior</span>
+              <div class="card-check"></div>
+            </div>
+            <div class="card-desc" data-i18n="c-interior-desc">Sala, cocina, recámara, oficina, lobby…</div>
+          </div>
+        </div>
+
+        <!-- Exterior -->
+        <div class="card-op" onclick="seleccionar('espacio','exterior',this)">
+          <input type="radio" name="espacio" value="exterior"/>
+          <div class="card-preview">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- Sky -->
+              <rect width="160" height="80" fill="#eef4f8"/>
+              <!-- Ground -->
+              <rect x="0" y="62" width="160" height="18" fill="#e8e8e4"/>
+              <!-- Building facade -->
+              <rect x="25" y="18" width="70" height="46" fill="#f5f5f3" stroke="#c8c8c5" stroke-width="1.2"/>
+              <!-- Windows row 1 -->
+              <rect x="33" y="25" width="12" height="10" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.8"/>
+              <rect x="50" y="25" width="12" height="10" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.8"/>
+              <rect x="67" y="25" width="12" height="10" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.8"/>
+              <!-- Windows row 2 -->
+              <rect x="33" y="40" width="12" height="10" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.8"/>
+              <rect x="50" y="40" width="12" height="10" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.8"/>
+              <rect x="67" y="40" width="12" height="10" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.8"/>
+              <!-- Door -->
+              <rect x="51" y="52" width="18" height="12" fill="#d8cfc8" stroke="#a8a8a5" stroke-width="0.8"/>
+              <!-- Tree -->
+              <ellipse cx="118" cy="38" rx="16" ry="18" fill="#b8d0b0"/>
+              <rect x="115" y="56" width="6" height="8" fill="#8a7060"/>
+              <!-- Shadow -->
+              <rect x="25" y="62" width="70" height="3" fill="rgba(0,0,0,0.07)" rx="1"/>
+              <!-- Green accent -->
+              <rect x="25" y="62" width="70" height="2" fill="#5B9768" opacity="0.4" rx="1"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-label">
+              <span data-i18n="c-exterior">Exterior</span>
+              <div class="card-check"></div>
+            </div>
+            <div class="card-desc" data-i18n="c-exterior-desc">Fachada, volumen, jardín, acceso…</div>
+          </div>
+        </div>
+
+        <!-- Mixto -->
+        <div class="card-op" onclick="seleccionar('espacio','mixto',this)">
+          <input type="radio" name="espacio" value="mixto"/>
+          <div class="card-preview">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- Split composition -->
+              <!-- Left half: interior -->
+              <clipPath id="cl"><rect width="78" height="80"/></clipPath>
+              <g clip-path="url(#cl)">
+                <rect width="78" height="80" fill="#f0f0ee"/>
+                <polygon points="0,8 78,15 78,65 0,72" fill="#e8e8e4"/>
+                <rect x="22" y="20" width="32" height="22" fill="#d0e8f0" stroke="#a0b8c0" stroke-width="0.8"/>
+                <rect x="28" y="54" width="36" height="8" rx="1.5" fill="#c8c8c5"/>
+              </g>
+              <!-- Right half: exterior -->
+              <clipPath id="cr"><rect x="82" width="78" height="80"/></clipPath>
+              <g clip-path="url(#cr)">
+                <rect x="82" width="78" height="80" fill="#eef4f8"/>
+                <rect x="82" y="62" width="78" height="18" fill="#e8e8e4"/>
+                <rect x="92" y="22" width="48" height="40" fill="#f5f5f3" stroke="#c8c8c5" stroke-width="1"/>
+                <rect x="100" y="30" width="10" height="8" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.7"/>
+                <rect x="115" y="30" width="10" height="8" fill="#c8dce8" stroke="#a8b8c0" stroke-width="0.7"/>
+                <rect x="107" y="52" width="12" height="10" fill="#d8cfc8"/>
+                <ellipse cx="152" cy="44" rx="10" ry="12" fill="#b8d0b0"/>
+              </g>
+              <!-- Divider -->
+              <line x1="80" y1="0" x2="80" y2="80" stroke="#5B9768" stroke-width="2" opacity="0.6"/>
+              <!-- Plus sign -->
+              <circle cx="80" cy="40" r="8" fill="#5B9768"/>
+              <line x1="80" y1="35" x2="80" y2="45" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="75" y1="40" x2="85" y2="40" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-label">
+              <span data-i18n="c-mixto">Ambos</span>
+              <div class="card-check"></div>
+            </div>
+            <div class="card-desc" data-i18n="c-mixto-desc">Combinación de vistas interiores y exteriores.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 02: Metros cuadrados -->
+    <div class="seccion">
+      <div class="seccion-num">02</div>
+      <h2 data-i18n="s2m-titulo">Metros cuadrados del espacio</h2>
+      <p class="hint" data-i18n="s2m-hint">Área total del espacio que abarcarán los renders.</p>
+
+      <div class="input-row">
+        <div class="num-control">
+          <button class="num-btn" onclick="cambiarM2(-5)" type="button">−</button>
+          <input class="num-valor" type="number" id="val-m2" value="50" min="1" max="9999"
+                 style="width:72px" oninput="syncM2FromInput()"/>
+          <button class="num-btn" onclick="cambiarM2(5)" type="button">+</button>
+        </div>
+        <span class="input-label">m²</span>
+      </div>
+    </div>
+
+    <!-- 03: Modelado -->
+    <div class="seccion">
+      <div class="seccion-num">03</div>
+      <h2 data-i18n="s2-titulo">Modelado 3D</h2>
+      <p class="hint" data-i18n="s2-hint">El proyecto ya cuenta con modelo 3D o lo creamos nosotros desde tus planos. Solo aceptamos archivos en formato Revit (.rvt) o SketchUp (.skp).</p>
+      <div class="cards-grid cols-2">
+
+        <div class="card-op" onclick="seleccionarModelado('completo',this)">
+          <input type="radio" name="modelado" value="completo"/>
+          <div class="card-preview">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- Blueprint / drafting feel -->
+              <rect width="160" height="80" fill="#f0f4f8"/>
+              <!-- Grid lines subtle -->
+              <line x1="0" y1="20" x2="160" y2="20" stroke="#d0dce8" stroke-width="0.5"/>
+              <line x1="0" y1="40" x2="160" y2="40" stroke="#d0dce8" stroke-width="0.5"/>
+              <line x1="0" y1="60" x2="160" y2="60" stroke="#d0dce8" stroke-width="0.5"/>
+              <line x1="40" y1="0" x2="40" y2="80" stroke="#d0dce8" stroke-width="0.5"/>
+              <line x1="80" y1="0" x2="80" y2="80" stroke="#d0dce8" stroke-width="0.5"/>
+              <line x1="120" y1="0" x2="120" y2="80" stroke="#d0dce8" stroke-width="0.5"/>
+              <!-- Isometric box being drawn -->
+              <polygon points="80,12 118,32 118,60 80,40" fill="rgba(91,151,104,0.15)" stroke="#5B9768" stroke-width="1.5"/>
+              <polygon points="80,12 42,32 42,60 80,40" fill="rgba(91,151,104,0.08)" stroke="#5B9768" stroke-width="1.5"/>
+              <polygon points="42,32 80,12 118,32 80,52" fill="rgba(91,151,104,0.22)" stroke="#5B9768" stroke-width="1.5"/>
+              <!-- Pencil cursor -->
+              <line x1="118" y1="32" x2="132" y2="18" stroke="#4a7f56" stroke-width="1.5"/>
+              <polygon points="132,18 136,12 127,16" fill="#4a7f56"/>
+              <!-- Dashed line being drawn -->
+              <line x1="42" y1="60" x2="80" y2="40" stroke="#5B9768" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-label">
+              <span data-i18n="m-crear">Creamos el modelo</span>
+              <div class="card-check"></div>
+            </div>
+            <div class="card-desc" data-i18n="m-crear-desc">Modelamos desde tus planos, croquis o medidas.</div>
+          </div>
+        </div>
+
+        <div class="card-op activa" onclick="seleccionarModelado('existe',this)">
+          <input type="radio" name="modelado" value="existe" checked/>
+          <div class="card-preview">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- File/model ready feel -->
+              <rect width="160" height="80" fill="#f0f4f0"/>
+              <!-- 3D model file icon -->
+              <rect x="44" y="10" width="48" height="60" rx="4" fill="#e8f2ea" stroke="#5B9768" stroke-width="1.5"/>
+              <path d="M68,10 L68,26 L92,26" fill="none" stroke="#5B9768" stroke-width="1.5"/>
+              <polygon points="68,10 92,10 92,26 68,26" fill="#c8e0cc" stroke="#5B9768" stroke-width="1.5"/>
+              <!-- Isometric shape on file -->
+              <polygon points="68,42 80,36 92,42 80,48" fill="rgba(91,151,104,0.3)" stroke="#5B9768" stroke-width="1"/>
+              <polygon points="68,42 68,52 80,58 80,48" fill="rgba(91,151,104,0.15)" stroke="#5B9768" stroke-width="1"/>
+              <polygon points="92,42 92,52 80,58 80,48" fill="rgba(91,151,104,0.2)" stroke="#5B9768" stroke-width="1"/>
+              <!-- Check badge -->
+              <circle cx="114" cy="20" r="12" fill="#5B9768"/>
+              <polyline points="108,20 112,24 120,16" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-label">
+              <span data-i18n="m-tengo">Ya tengo modelo</span>
+              <div class="card-check"></div>
+            </div>
+            <div class="card-desc" data-i18n="m-tengo-desc">Aceptamos archivos en Revit (.rvt) o SketchUp (.skp) únicamente.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 04: Número de renders -->
+    <div class="seccion">
+      <div class="seccion-num">04</div>
+      <h2 data-i18n="s3-titulo">Número de renders</h2>
+      <p class="hint" data-i18n="s3-hint">Cada imagen es una vista o encuadre distinto del proyecto.</p>
+      <div class="input-row">
+        <div class="num-control">
+          <button class="num-btn" onclick="cambiarNum('renders',-1)" type="button">−</button>
+          <input class="num-valor" type="number" id="val-renders" value="1" min="1" max="99"
+                 oninput="clampNum('renders',1,99); calcular()"/>
+          <button class="num-btn" onclick="cambiarNum('renders',1)" type="button">+</button>
+        </div>
+        <span class="input-label" data-i18n="label-imagenes">imagen(es)</span>
+      </div>
+    </div>
+
+    <!-- 04: Extras -->
+    <div class="seccion">
+      <div class="seccion-num">05</div>
+      <h2 data-i18n="s4-titulo">Extras</h2>
+      <p class="hint" data-i18n="s4-hint">Eleva la presentación de tu proyecto y dale más impacto a tu entrega.</p>
+
+      <!-- Vista 360 -->
+      <div class="extra-row" id="row-360">
+        <div class="extra-preview">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Spherical / panoramic icon -->
+            <circle cx="16" cy="16" r="11" stroke="#5B9768" stroke-width="1.5" fill="rgba(91,151,104,0.08)"/>
+            <!-- Equator -->
+            <ellipse cx="16" cy="16" rx="11" ry="4.5" stroke="#5B9768" stroke-width="1" stroke-dasharray="2,1.5" fill="none"/>
+            <!-- Meridian -->
+            <ellipse cx="16" cy="16" rx="4.5" ry="11" stroke="#5B9768" stroke-width="1" stroke-dasharray="2,1.5" fill="none"/>
+            <!-- Eye in center -->
+            <circle cx="16" cy="16" r="2.5" fill="#5B9768"/>
+            <!-- Rotate arrows -->
+            <path d="M5,10 Q6,6 10,5" stroke="#5B9768" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <polygon points="10,3.5 10,6.5 12.5,5" fill="#5B9768"/>
+            <path d="M27,22 Q26,26 22,27" stroke="#5B9768" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <polygon points="22,28.5 22,25.5 19.5,27" fill="#5B9768"/>
+          </svg>
+        </div>
+        <div class="extra-content">
+          <div class="extra-nombre" data-i18n="e360-nombre">Vista 360°</div>
+          <div class="extra-desc" data-i18n="e360-desc">Imagen panorámica interactiva. El espectador puede girar y explorar el espacio desde un punto fijo. Ideal para presentaciones inmersivas.</div>
+          <div class="extra-controls">
+            <div class="num-control" id="ctrl-360" style="display:none">
+              <button class="num-btn" onclick="cambiarNum('vistas360',-1)" type="button">−</button>
+              <input class="num-valor" type="number" id="val-vistas360" value="1" min="1" max="20"
+                     oninput="clampNum('vistas360',1,20); calcular()"/>
+              <button class="num-btn" onclick="cambiarNum('vistas360',1)" type="button">+</button>
+            </div>
+            <div id="label-360-vistas" style="display:none;font-size:12px;color:var(--gris-700)" data-i18n="label-vistas">vista(s)</div>
+            <span class="card-badge" data-i18n="e360-precio" style="display:none"></span>
+          </div>
+        </div>
+        <div class="toggle" id="toggle-360" onclick="toggleExtra('360')"></div>
+      </div>
+
+      <!-- Recorrido virtual -->
+      <div class="extra-row" id="row-recorrido">
+        <div class="extra-preview">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Film/video icon -->
+            <rect x="3" y="8" width="26" height="16" rx="2" stroke="#5B9768" stroke-width="1.5" fill="rgba(91,151,104,0.08)"/>
+            <!-- Film sprockets -->
+            <rect x="3" y="10" width="3" height="3" rx="0.5" fill="#5B9768" opacity="0.5"/>
+            <rect x="3" y="15" width="3" height="3" rx="0.5" fill="#5B9768" opacity="0.5"/>
+            <rect x="3" y="20" width="3" height="3" rx="0.5" fill="#5B9768" opacity="0.5"/>
+            <rect x="26" y="10" width="3" height="3" rx="0.5" fill="#5B9768" opacity="0.5"/>
+            <rect x="26" y="15" width="3" height="3" rx="0.5" fill="#5B9768" opacity="0.5"/>
+            <rect x="26" y="20" width="3" height="3" rx="0.5" fill="#5B9768" opacity="0.5"/>
+            <!-- Play button -->
+            <circle cx="16" cy="16" r="6" fill="#5B9768"/>
+            <polygon points="14,13 14,19 20,16" fill="white"/>
+          </svg>
+        </div>
+        <div class="extra-content">
+          <div class="extra-nombre" data-i18n="erec-nombre">Recorrido virtual</div>
+          <div class="extra-desc" data-i18n="erec-desc">Video animado que recorre los espacios del proyecto. Ideal para presentaciones, marketing o preventa. Se cotiza por segundo de video final.</div>
+          <div class="extra-controls">
+            <div style="display:none; align-items:center; gap:8px;" id="ctrl-recorrido">
+              <div class="num-control">
+                <button class="num-btn" onclick="cambiarNum('segundos',-5)" type="button">−</button>
+                <input class="num-valor" type="number" id="val-segundos" value="30" min="5" max="600" style="width:60px"
+                       oninput="clampNum('segundos',5,600); calcular()"/>
+                <button class="num-btn" onclick="cambiarNum('segundos',5)" type="button">+</button>
+              </div>
+              <span style="font-size:12px;color:var(--gris-700)" data-i18n="label-segundos">seg</span>
+            </div>
+            <span class="card-badge" data-i18n="erec-precio" style="display:none"></span>
+          </div>
+        </div>
+        <div class="toggle" id="toggle-recorrido" onclick="toggleExtra('recorrido')"></div>
+      </div>
+    </div>
+
+    <!-- 05: Calidad -->
+    <div class="seccion">
+      <div class="seccion-num">06</div>
+      <h2 data-i18n="s5-titulo">Calidad de render</h2>
+      <p class="hint" data-i18n="s5-hint">La calidad afecta el nivel de detalle, la resolución y los tiempos de producción.</p>
+      <div class="cards-grid cols-2">
+
+        <div class="card-op activa" onclick="seleccionarCalidad('basico',this)">
+          <input type="radio" name="calidad" value="basico" checked/>
+          <div class="card-preview">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- Standard quality room — clean but simple -->
+              <rect width="160" height="80" fill="#e8e8e4"/>
+              <rect x="10" y="10" width="140" height="60" fill="#f0f0ec"/>
+              <!-- Simple wall/floor -->
+              <polygon points="10,10 150,10 130,25 30,25" fill="#f8f8f5"/>
+              <polygon points="10,70 150,70 130,55 30,55" fill="#e0e0dc"/>
+              <!-- Flat window, no reflections -->
+              <rect x="55" y="18" width="50" height="30" fill="#c8d8e0" stroke="#b0c0c8" stroke-width="1"/>
+              <!-- Simple sofa, flat colors -->
+              <rect x="40" y="52" width="80" height="12" rx="2" fill="#b8b8b4"/>
+              <rect x="40" y="46" width="12" height="18" rx="2" fill="#b8b8b4"/>
+              <rect x="108" y="46" width="12" height="18" rx="2" fill="#b8b8b4"/>
+              <!-- Standard badge -->
+              <rect x="10" y="64" width="46" height="14" fill="#5B9768" rx="0"/>
+              <text x="20" y="74" font-family="monospace" font-size="7" fill="white">ESTÁNDAR</text>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-label">
+              <span data-i18n="q-basico">Estándar</span>
+              <div class="card-check"></div>
+            </div>
+            <div class="card-desc" data-i18n="q-basico-desc">Iluminación directa y acabados limpios. Ideal para revisión de diseño y presentaciones internas con el cliente.</div>
+          </div>
+        </div>
+
+        <div class="card-op" onclick="seleccionarCalidad('alta',this)">
+          <input type="radio" name="calidad" value="alta"/>
+          <div class="card-preview">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+              <!-- High quality — richer, reflections, depth -->
+              <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#d8eaf5"/>
+                  <stop offset="100%" stop-color="#f0f8ff"/>
+                </linearGradient>
+                <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e4e0d8"/>
+                  <stop offset="100%" stop-color="#c8c4bc"/>
+                </linearGradient>
+                <linearGradient id="wall" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#f0ede8"/>
+                  <stop offset="100%" stop-color="#e8e4de"/>
+                </linearGradient>
+              </defs>
+              <rect width="160" height="80" fill="url(#sky)"/>
+              <rect x="10" y="10" width="140" height="60" fill="url(#wall)"/>
+              <!-- Richer ceiling with ambient light bloom -->
+              <polygon points="10,10 150,10 130,22 30,22" fill="#faf9f7"/>
+              <ellipse cx="80" cy="16" rx="25" ry="5" fill="rgba(255,250,230,0.7)"/>
+              <!-- Floor with reflection -->
+              <polygon points="10,70 150,70 130,58 30,58" fill="url(#floor)"/>
+              <polygon points="30,58 130,58 130,70 30,70" fill="rgba(91,151,104,0.08)"/>
+              <!-- Window with reflections/glow -->
+              <rect x="55" y="15" width="50" height="35" fill="#b8d8f0"/>
+              <rect x="55" y="15" width="50" height="35" fill="rgba(255,255,255,0.3)"/>
+              <rect x="55" y="15" width="16" height="35" fill="rgba(255,255,255,0.15)"/>
+              <line x1="80" y1="15" x2="80" y2="50" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+              <line x1="55" y1="32" x2="105" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+              <!-- Light bloom from window -->
+              <ellipse cx="80" cy="58" rx="30" ry="4" fill="rgba(200,220,240,0.4)"/>
+              <!-- Rich sofa with shadows -->
+              <rect x="38" y="52" width="84" height="14" rx="3" fill="#8a847c"/>
+              <rect x="38" y="52" width="84" height="4" rx="2" fill="#9a948c"/>
+              <rect x="38" y="44" width="14" height="22" rx="3" fill="#9a948c"/>
+              <rect x="108" y="44" width="14" height="22" rx="3" fill="#9a948c"/>
+              <!-- Shadow under sofa -->
+              <ellipse cx="80" cy="67" rx="38" ry="2" fill="rgba(0,0,0,0.12)"/>
+              <!-- 4K badge -->
+              <rect x="10" y="64" width="32" height="14" fill="#5B9768"/>
+              <text x="16" y="74" font-family="monospace" font-size="8" fill="white">4K+</text>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-label">
+              <span data-i18n="q-alta">Alta calidad</span>
+              <div class="card-check"></div>
+            </div>
+            <div class="card-desc" data-i18n="q-alta-desc">Iluminación global, reflexiones y sombras con mayor profundidad y detalle fotorrealista. Para preventa, editorial o entregas premium.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 07: Fecha -->
+    <div class="seccion">
+      <div class="seccion-num">07</div>
+      <h2>
+        <span data-i18n="s6-titulo">Fecha límite</span>
+        <span style="font-size:13px;color:var(--gris-500);font-weight:400;font-family:var(--font-body);margin-left:6px" data-i18n="opcional">(opcional)</span>
+      </h2>
+      <p class="hint" data-i18n="s6-hint">Nos ayuda a organizar nuestra agenda y darte prioridad si lo necesitas.</p>
+      <input type="date" class="campo-input" id="val-fecha" oninput="calcular()"/>
+    </div>
+
+    <!-- 08: Contacto -->
+    <div class="seccion">
+      <div class="seccion-num">08</div>
+      <h2 data-i18n="s7-titulo">Tus datos</h2>
+      <p class="hint" data-i18n="s7-hint">Para enviarte confirmación, solicitar tus archivos e iniciar el proceso tras el pago.</p>
+      <div class="campo-wrap">
+        <label class="campo-label" data-i18n="label-nombre">Nombre</label>
+        <input type="text" class="campo-input" id="val-nombre"
+               placeholder="" data-i18n-placeholder="ph-nombre"
+               oninput="actualizarEnviar()"/>
+      </div>
+      <div class="campo-wrap">
+        <label class="campo-label" data-i18n="label-contacto">Contacto</label>
+        <input type="text" class="campo-input" id="val-contacto"
+               placeholder="" data-i18n-placeholder="ph-contacto"
+               oninput="actualizarEnviar()"/>
+      </div>
+      <div class="campo-wrap">
+        <label class="campo-label">
+          <span data-i18n="label-desc">Descripción del proyecto</span>
+          <span style="font-weight:400;color:var(--gris-500);text-transform:none;letter-spacing:0" data-i18n="opcional"> (opcional)</span>
+        </label>
+        <textarea class="campo-input" id="val-descripcion"
+                  placeholder="" data-i18n-placeholder="ph-desc"></textarea>
+      </div>
+    </div>
+
+  </div><!-- /configurador -->
+
+  <!-- ════ SIDEBAR ════ -->
+  <div class="sidebar">
+
+    <!-- Precio card -->
+    <div class="precio-card">
+      <div class="precio-header">
+        <div class="plabel" data-i18n="precio-label">Total estimado</div>
+        <div class="precio-total">
+          <span class="cur" id="precio-cur">$</span><span id="precio-numero">225.00</span>
+        </div>
+        <div class="precio-nota" id="precio-moneda-nota">MXN · más IVA</div>
+      </div>
+
+      <!-- Sin anticipo: quitar pill -->
+
+      <div class="precio-desglose">
+        <div class="desglose-fila">
+          <span data-i18n="d-espacio">Espacio</span>
+          <span class="val" id="d-espacio-val">—</span>
+        </div>
+        <div class="desglose-fila">
+          <span><span data-i18n="d-renders">Renders</span> (<span id="d-nrender">1</span>)</span>
+          <span class="val" id="d-renders-val">—</span>
+        </div>
+        <div class="desglose-fila">
+          <span data-i18n="d-modelado">Modelado</span>
+          <span class="val" id="d-modelado-val">—</span>
+        </div>
+        <div class="desglose-fila oculta" id="d-360-row">
+          <span>360° (<span id="d-n360">0</span>)</span>
+          <span class="val" id="d-360-val">—</span>
+        </div>
+        <div class="desglose-fila oculta" id="d-rec-row">
+          <span><span data-i18n="d-recorrido">Recorrido</span> (<span id="d-nseg">0</span>s)</span>
+          <span class="val" id="d-recorrido-val">—</span>
+        </div>
+        <div class="desglose-fila oculta" id="d-calidad-row">
+          <span data-i18n="d-calidad">Calidad alta</span>
+          <span class="val" id="d-calidad-val">—</span>
+        </div>
+        <div class="desglose-fila total-row">
+          <span data-i18n="d-total">Total</span>
+          <span class="val" id="d-total">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen -->
+    <div class="resumen-config">
+      <span id="resumen-texto" data-i18n="resumen-default">Configura las opciones de arriba.</span>
+    </div>
+
+    <!-- Botón enviar solicitud -->
+    <div id="enviar-zone">
+      <div class="enviar-bloqueado" id="enviar-bloqueado">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        <span data-i18n="enviar-bloqueado">Ingresa tu nombre y contacto para enviar la solicitud.</span>
+      </div>
+      <button class="btn-enviar-solicitud" id="btn-enviar" onclick="enviarSolicitud()" style="display:none" data-i18n="btn-enviar">
+        Enviar solicitud →
+      </button>
+      <div class="enviar-spinner" id="enviar-spinner" style="display:none">
+        <div class="spinner-circle"></div>
+        <span data-i18n="enviando">Enviando…</span>
+      </div>
+    </div>
+
+    <div class="nota-divider" data-i18n="nota-divider">¿qué sigue?</div>
+    <p class="nota-pago" data-i18n="nota-proceso">
+      Al recibir tu solicitud revisamos los detalles y nos ponemos en contacto contigo para confirmar el precio final, resolver cualquier duda y coordinar el pago y los archivos para comenzar.
+    </p>
+
+    <a href="https://wa.me/525611056933?text=Hola%2C%20tengo%20una%20duda%20sobre%20el%20servicio%20de%20renders" target="_blank" class="btn-wa-sidebar" id="btn-wa-sidebar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.174-1.62A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.587-.5-5.084-1.375l-.361-.214-3.747.983.999-3.648-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      <span data-i18n="btn-wa">¿Tienes dudas? Escríbenos</span>
+    </a>
+
+  </div>
+
+</div><!-- /main-grid -->
+</div><!-- /main-wrapper -->
+
+<!-- PANTALLA ÉXITO -->
+<div id="pantalla-exito">
+  <div class="exito-icono">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <h2 data-i18n="exito-titulo">¡Solicitud enviada!</h2>
+  <p data-i18n="exito-desc">Recibimos tu información. Nos pondremos en contacto contigo en menos de 24 horas para confirmar los detalles, ajustar el precio si es necesario y coordinar el inicio del proyecto.</p>
+  <div class="folio-exito" id="folio-exito">—</div>
+
+  <div class="exito-pasos">
+    <div class="exito-paso">
+      <span class="ep-num">01</span>
+      <span data-i18n="exito-paso1">Revisamos tu solicitud y te contactamos para confirmar el precio final y resolver cualquier duda.</span>
+    </div>
+    <div class="exito-paso">
+      <span class="ep-num">02</span>
+      <span data-i18n="exito-paso2">Coordinamos el pago y la entrega de tus archivos (modelo 3D, planos o referencias).</span>
+    </div>
+    <div class="exito-paso">
+      <span class="ep-num">03</span>
+      <span data-i18n="exito-paso3">Producimos los renders y te enviamos una revisión antes de la entrega final.</span>
+    </div>
+  </div>
+
+  <p style="margin-top:24px;font-size:12px;color:var(--gris-500)">
+    <span data-i18n="exito-contacto">Dudas:</span>
+    <a href="mailto:ocotearq@gmail.com" style="color:var(--verde)">ocotearq@gmail.com</a>
+    <span> · </span>
+    <a href="https://wa.me/525611056933" style="color:var(--verde)" target="_blank">WhatsApp</a>
+  </p>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  TRADUCCIONES
+// ══════════════════════════════════════════════════════════
+const T = {
+  es: {
+    'hero-tag': 'Visualización arquitectónica',
+    'hero-h1': 'Configura tus<br/><em>renders</em>',
+    'hero-p': 'Elige las opciones de tu proyecto y obtén un precio estimado en tiempo real. Envíanos la solicitud y te contactamos para ajustar detalles y comenzar.',
+    's1-titulo': 'Tipo de espacio',
+    's1-hint': 'Los renders serán de espacios interiores, exteriores, o ambos.',
+    'c-interior': 'Interior',
+    'c-interior-desc': 'Sala, cocina, recámara, oficina, lobby…',
+    'c-exterior': 'Exterior',
+    'c-exterior-desc': 'Fachada, volumen, jardín, acceso…',
+    'c-mixto': 'Ambos',
+    'c-mixto-desc': 'Combinación de vistas interiores y exteriores.',
+    's2m-titulo': 'Metros cuadrados del espacio',
+    's2m-hint': 'Anota el área del espacio a desarrollar en los renders.',
+    'm2-ayuda': 'Puedes ajustar\ncon el control',
+    'm2-o-escribe': 'O escribe el valor exacto:',
+    's2-titulo': 'Modelado 3D',
+    's2-hint': 'El proyecto ya cuenta con modelo 3D o lo creamos nosotros desde tus planos. Solo aceptamos archivos en formato Revit (.rvt) o SketchUp (.skp).',
+    'm-crear': 'Creamos el modelo',
+    'm-crear-desc': 'Modelamos desde tus planos, croquis o medidas.',
+    'm-tengo': 'Ya tengo modelo',
+    'm-tengo-desc': 'Aceptamos archivos en Revit (.rvt) o SketchUp (.skp) únicamente.',
+    's3-titulo': 'Número de renders',
+    's3-hint': 'Cada imagen es una vista o encuadre distinto del proyecto.',
+    'label-imagenes': 'imagen(es)',
+    's4-titulo': 'Extras',
+    's4-hint': 'Eleva la presentación de tu proyecto y dale más impacto a tu entrega.',
+    'e360-nombre': 'Vista 360°',
+    'e360-desc': 'Imagen panorámica interactiva. El espectador puede girar y explorar el espacio desde un punto fijo. Ideal para presentaciones inmersivas.',
+    'e360-precio': '+ $400 MXN / vista',
+    'label-vistas': 'vista(s)',
+    'erec-nombre': 'Recorrido virtual',
+    'erec-desc': 'Video animado que recorre los espacios del proyecto. Ideal para marketing o preventa. Se cotiza por segundo de video final.',
+    'erec-precio': '+ $50 MXN / seg',
+    'label-segundos': 'seg',
+    's5-titulo': 'Calidad de render',
+    's5-hint': 'La calidad afecta el nivel de detalle y los tiempos de producción.',
+    'q-basico': 'Estándar',
+    'q-basico-desc': 'Iluminación directa y acabados limpios. Ideal para revisión de diseño y presentaciones internas con el cliente.',
+    'q-alta': 'Alta calidad',
+    'q-alta-desc': 'Iluminación global, reflexiones y sombras con mayor profundidad y detalle fotorrealista. Para preventa, editorial o entregas premium.',
+    's6-titulo': 'Fecha límite',
+    'opcional': '(opcional)',
+    's6-hint': 'Nos ayuda a organizar nuestra agenda y darte prioridad si lo necesitas.',
+    's7-titulo': 'Tus datos',
+    's7-hint': 'Te contactaremos a este correo o número para confirmar detalles y coordinar el inicio.',
+    'label-nombre': 'Nombre',
+    'ph-nombre': 'Tu nombre o empresa',
+    'label-contacto': 'Contacto (WhatsApp o correo)',
+    'ph-contacto': '55 1234 5678 / correo@email.com',
+    'label-desc': 'Descripción del proyecto',
+    'ph-desc': 'Cuéntanos brevemente sobre el espacio o comparte referencias…',
+    'precio-label': 'Precio estimado',
+    'd-espacio': 'Espacio',
+    'd-renders': 'Renders',
+    'd-modelado': 'Modelado',
+    'd-m2': 'm²',
+    'd-recorrido': 'Recorrido',
+    'd-calidad': 'Calidad alta',
+    'd-total': 'Total estimado',
+    'resumen-default': 'Configura las opciones de arriba.',
+    'enviar-bloqueado': 'Ingresa tu nombre y contacto para enviar la solicitud.',
+    'btn-enviar': 'Enviar solicitud →',
+    'enviando': 'Enviando…',
+    'nota-divider': '¿qué sigue?',
+    'nota-proceso': 'Al recibir tu solicitud revisamos los detalles y nos ponemos en contacto contigo para confirmar el precio final, resolver cualquier duda y coordinar el pago y los archivos para comenzar.',
+    'btn-wa': '¿Tienes dudas? Escríbenos',
+    'exito-titulo': '¡Solicitud enviada!',
+    'exito-desc': 'Recibimos tu información. Nos pondremos en contacto contigo en menos de 24 horas para confirmar los detalles, ajustar el precio si es necesario y coordinar el inicio del proyecto.',
+    'exito-paso1': 'Revisamos tu solicitud y te contactamos para confirmar el precio final y resolver cualquier duda.',
+    'exito-paso2': 'Coordinamos el pago y la entrega de tus archivos (modelo 3D, planos o referencias).',
+    'exito-paso3': 'Producimos los renders y te enviamos una revisión antes de la entrega final.',
+    'exito-contacto': 'Dudas:',
+  },
+  en: {
+    'hero-tag': 'Architectural visualization',
+    'hero-h1': 'Configure your<br/><em>renders</em>',
+    'hero-p': 'Choose your project options and get an estimated price in real time. Submit a request and we will get in touch to confirm details and get started.',
+    's1-titulo': 'Space type',
+    's1-hint': 'The renders will show interior, exterior, or both types of spaces.',
+    'c-interior': 'Interior',
+    'c-interior-desc': 'Living room, kitchen, bedroom, office, lobby…',
+    'c-exterior': 'Exterior',
+    'c-exterior-desc': 'Facade, volume, garden, entrance…',
+    'c-mixto': 'Both',
+    'c-mixto-desc': 'Combination of interior and exterior views.',
+    's2m-titulo': 'Square meters of the space',
+    's2m-hint': 'Total area of the space the renders will cover.',
+    'm2-ayuda': 'Adjust\nwith the slider',
+    'm2-o-escribe': 'Or type the exact value:',
+    's2-titulo': '3D Modeling',
+    's2-hint': 'Does the project already have a 3D model, or should we create one from your plans? We only accept Revit (.rvt) or SketchUp (.skp) files.',
+    'm-crear': 'We create the model',
+    'm-crear-desc': 'We model from your floor plans, sketches or measurements.',
+    'm-tengo': 'I have a model',
+    'm-tengo-desc': 'We only accept Revit (.rvt) or SketchUp (.skp) files.',
+    's3-titulo': 'Number of renders',
+    's3-hint': 'Each image is a distinct view or framing of the project.',
+    'label-imagenes': 'image(s)',
+    's4-titulo': 'Add-ons',
+    's4-hint': 'Elevate your presentation and give your delivery more impact.',
+    'e360-nombre': '360° View',
+    'e360-desc': 'Interactive panoramic image. The viewer can rotate and explore the space from a fixed point. Great for immersive presentations.',
+    'e360-precio': '+ $400 MXN / view',
+    'label-vistas': 'view(s)',
+    'erec-nombre': 'Virtual walkthrough',
+    'erec-desc': 'Animated video touring the spaces of the project. Great for marketing or pre-sales. Priced per second of final video.',
+    'erec-precio': '+ $50 MXN / sec',
+    'label-segundos': 'sec',
+    's5-titulo': 'Render quality',
+    's5-hint': 'Quality affects the level of detail and production time.',
+    'q-basico': 'Standard',
+    'q-basico-desc': 'Direct lighting and clean finishes. Ideal for design review and internal presentations with the client.',
+    'q-alta': 'High quality',
+    'q-alta-desc': 'Global illumination, reflections and shadows with greater depth and photorealistic detail. For pre-sales, editorial or premium deliveries.',
+    's6-titulo': 'Deadline',
+    'opcional': '(optional)',
+    's6-hint': 'It helps us organize our schedule and prioritize your project if needed.',
+    's7-titulo': 'Your information',
+    's7-hint': 'We will contact you at this email or number to confirm details and coordinate the start.',
+    'label-nombre': 'Name',
+    'ph-nombre': 'Your name or company',
+    'label-contacto': 'Contact (WhatsApp or email)',
+    'ph-contacto': '55 1234 5678 / email@email.com',
+    'label-desc': 'Project description',
+    'ph-desc': 'Tell us briefly about the space or share references…',
+    'precio-label': 'Estimated price',
+    'd-espacio': 'Space',
+    'd-renders': 'Renders',
+    'd-modelado': 'Modeling',
+    'd-m2': 'm²',
+    'd-recorrido': 'Walkthrough',
+    'd-calidad': 'High quality',
+    'd-total': 'Estimated total',
+    'resumen-default': 'Configure the options above.',
+    'enviar-bloqueado': 'Enter your name and contact to submit the request.',
+    'btn-enviar': 'Submit request →',
+    'enviando': 'Sending…',
+    'nota-divider': "what's next?",
+    'nota-proceso': 'Once we receive your request, we review the details and get in touch to confirm the final price, answer any questions, and coordinate payment and files to get started.',
+    'btn-wa': 'Questions? Write to us',
+    'exito-titulo': 'Request submitted!',
+    'exito-desc': 'We received your information. We will contact you within 24 hours to confirm the details, adjust the price if needed, and coordinate the start of the project.',
+    'exito-paso1': 'We review your request and contact you to confirm the final price and answer any questions.',
+    'exito-paso2': 'We coordinate payment and the delivery of your files (3D model, plans or references).',
+    'exito-paso3': 'We produce the renders and send you a revision before the final delivery.',
+    'exito-contacto': 'Questions:',
+  }
+};
+
+// ══════════════════════════════════════════════════════════
+//  ESTADO
+// ══════════════════════════════════════════════════════════
+const cfg = {
+  espacio: 'interior',
+  modelado: 'existe',
+  renders: 1,
+  m2: 50,
+  vistas360: 0,
+  extra360: false,
+  segundos: 0,
+  extraRec: false,
+  calidad: 'basico',
+};
+
+let currentLang = 'es';
+let currentCurrency = 'MXN';
+const MXN_TO_USD = 18;
+let precioTotalMXN = 0;
+
+// ══════════════════════════════════════════════════════════
+//  IDIOMA
+// ══════════════════════════════════════════════════════════
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('opt-es').classList.toggle('activo', lang === 'es');
+  document.getElementById('opt-en').classList.toggle('activo', lang === 'en');
+  document.documentElement.lang = lang;
+
+  // Actualizar todos los textos
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[lang][key] !== undefined) {
+      // Si tiene HTML (em tags), usar innerHTML
+      if (T[lang][key].includes('<')) el.innerHTML = T[lang][key];
+      else el.textContent = T[lang][key];
+    }
+  });
+
+  // Placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (T[lang][key]) el.placeholder = T[lang][key];
+  });
+
+  // Actualizar notas de moneda
+  actualizarNotaMoneda();
+  calcular();
+}
+
+// ══════════════════════════════════════════════════════════
+//  MONEDA
+// ══════════════════════════════════════════════════════════
+function setCurrency(cur) {
+  currentCurrency = cur;
+  document.getElementById('opt-mxn').classList.toggle('activo', cur === 'MXN');
+  document.getElementById('opt-usd').classList.toggle('activo', cur === 'USD');
+  actualizarNotaMoneda();
+  calcular();
+}
+
+function actualizarNotaMoneda() {
+  const nota = document.getElementById('precio-moneda-nota');
+  if (currentCurrency === 'MXN') {
+    nota.textContent = currentLang === 'es' ? 'MXN · más IVA' : 'MXN · plus VAT';
+  } else {
+    nota.textContent = 'USD';
+  }
+}
+
+function convertir(mxn) {
+  return currentCurrency === 'USD' ? mxn / MXN_TO_USD : mxn;
+}
+
+function fmtMonto(mxn) {
+  const val = convertir(mxn);
+  return Number(val).toLocaleString(currentCurrency === 'MXN' ? 'es-MX' : 'en-US', {
+    minimumFractionDigits: 2, maximumFractionDigits: 2
+  });
+}
+
+function getCurSymbol() { return '$'; }
+
+// ══════════════════════════════════════════════════════════
+//  SELECCIÓN DE OPCIONES
+// ══════════════════════════════════════════════════════════
+function seleccionar(grupo, valor, el) {
+  cfg[grupo] = valor;
+  el.closest('.cards-grid').querySelectorAll('.card-op').forEach(c => c.classList.remove('activa'));
+  el.classList.add('activa');
+  calcular();
+}
+
+function seleccionarModelado(valor, el) {
+  cfg.modelado = valor;
+  document.querySelectorAll('[onclick*="seleccionarModelado"]').forEach(c => c.classList.remove('activa'));
+  el.classList.add('activa');
+  calcular();
+}
+
+function seleccionarCalidad(valor, el) {
+  cfg.calidad = valor;
+  document.querySelectorAll('[onclick*="seleccionarCalidad"]').forEach(c => c.classList.remove('activa'));
+  el.classList.add('activa');
+  calcular();
+}
+
+// ══════════════════════════════════════════════════════════
+//  NUMÉRICOS
+// ══════════════════════════════════════════════════════════
+function cambiarNum(campo, delta) {
+  const el = document.getElementById('val-' + campo);
+  const min = campo === 'segundos' ? 5 : 1;
+  const max = campo === 'renders' ? 99 : campo === 'vistas360' ? 20 : 600;
+  const step = campo === 'segundos' ? Math.abs(delta) : 1;
+  let v = parseInt(el.value) || min;
+  v = Math.max(min, Math.min(max, v + delta));
+  el.value = v; calcular();
+}
+
+function clampNum(campo, min, max) {
+  const el = document.getElementById('val-' + campo);
+  let v = parseInt(el.value) || min;
+  el.value = Math.max(min, Math.min(max, v));
+}
+
+// ── M2 controls ──────────────────────────────────────────
+function onM2Change(val) {
+  const v = parseInt(val);
+  cfg.m2 = v;
+  document.getElementById('val-m2').value = v;
+  calcular();
+}
+
+function syncM2FromInput() {
+  let v = parseInt(document.getElementById('val-m2').value) || 1;
+  v = Math.max(1, v);
+  cfg.m2 = v;
+  calcular();
+}
+
+function cambiarM2(delta) {
+  const el = document.getElementById('val-m2');
+  let v = parseInt(el.value) || 1;
+  v = Math.max(1, v + delta);
+  el.value = v;
+  cfg.m2 = v;
+  calcular();
+}
+
+// ══════════════════════════════════════════════════════════
+//  EXTRAS TOGGLE
+// ══════════════════════════════════════════════════════════
+function toggleExtra(tipo) {
+  if (tipo === '360') {
+    cfg.extra360 = !cfg.extra360;
+    const toggle = document.getElementById('toggle-360');
+    const ctrl   = document.getElementById('ctrl-360');
+    const label  = document.getElementById('label-360-vistas');
+    const row    = document.getElementById('row-360');
+    toggle.classList.toggle('on', cfg.extra360);
+    ctrl.style.display   = cfg.extra360 ? 'flex' : 'none';
+    label.style.display  = cfg.extra360 ? 'inline' : 'none';
+    row.classList.toggle('activo', cfg.extra360);
+  }
+  if (tipo === 'recorrido') {
+    cfg.extraRec = !cfg.extraRec;
+    const toggle = document.getElementById('toggle-recorrido');
+    const ctrl   = document.getElementById('ctrl-recorrido');
+    const row    = document.getElementById('row-recorrido');
+    toggle.classList.toggle('on', cfg.extraRec);
+    ctrl.style.display   = cfg.extraRec ? 'flex' : 'none';
+    row.classList.toggle('activo', cfg.extraRec);
+  }
+  calcular();
+}
+
+// ══════════════════════════════════════════════════════════
+//  CÁLCULO
+// ══════════════════════════════════════════════════════════
+let precioAnterior = Math.round((500 * Math.pow(50, 0.45) + 200) * 100) / 100;
+let animId = null;
+
+function calcular() {
+  const nRenders = parseInt(document.getElementById('val-renders').value) || 1;
+  const nM2      = Math.max(1, parseInt(document.getElementById('val-m2').value) || 50);
+  const n360     = cfg.extra360 ? (parseInt(document.getElementById('val-vistas360').value) || 1) : 0;
+  const nSeg     = cfg.extraRec ? (parseInt(document.getElementById('val-segundos').value)  || 30) : 0;
+
+  cfg.renders   = nRenders;
+  cfg.m2        = nM2;
+  cfg.vistas360 = n360;
+  cfg.segundos  = nSeg;
+
+  const mFactor = cfg.modelado === 'completo' ? 2 : 1;
+  const qFactor = cfg.calidad  === 'alta'     ? 1.3 : 1.0;
+
+  // Fórmula:
+  // base_m2  = precio_base * POTENCIA(m2, 0.45)    donde precio_base = 25
+  // base_m2 se multiplica por mFactor
+  // Renders: se suma +(200 × #renders)  — NO multiplica la base
+  // Extras: +400 × vistas360, +50 × segundos
+  // Todo × qFactor al final
+  const base_m2    = 500 * Math.pow(nM2, 0.45) * mFactor;
+  const extRender  = 200 * nRenders;
+  const ext360     = 400 * n360;
+  const extRec     = 120 * nSeg;
+  const sinCalidad = base_m2 + extRender + ext360 + extRec;
+  const total      = sinCalidad * qFactor;
+  const ajusteQ    = total - sinCalidad;
+
+  precioTotalMXN = Math.round(total / 100) * 100;
+  const anticipo = precioTotalMXN * 0.5;
+
+  // ── Animar precio ──
+  animarPrecio(precioTotalMXN);
+
+  // ── Símbolo moneda ──
+  document.getElementById('precio-cur').textContent = '$';
+
+  // ── Desglose — solo descripción, sin precio por línea ──
+  const lang = currentLang;
+
+  // Espacio + m²
+  const mapaEsp = { interior: lang === 'es' ? 'Interior' : 'Interior', exterior: 'Exterior', mixto: 'Int. + Ext.' };
+  document.getElementById('d-espacio-val').textContent = mapaEsp[cfg.espacio] + ' · ' + nM2 + ' m²';
+
+  // Renders
+  document.getElementById('d-nrender').textContent = nRenders;
+  document.getElementById('d-renders-val').textContent = nRenders > 1 ? (lang === 'es' ? 'incluidos' : 'included') : (lang === 'es' ? 'incluido' : 'included');
+
+  // Modelado
+  document.getElementById('d-modelado-val').textContent = cfg.modelado === 'completo'
+    ? (lang === 'es' ? 'Completo' : 'Full')
+    : (lang === 'es' ? 'Propio' : 'Own');
+
+  // 360
+  document.getElementById('d-360-row').classList.toggle('oculta', n360 === 0);
+  document.getElementById('d-n360').textContent = n360;
+  document.getElementById('d-360-val').textContent = lang === 'es' ? 'incluidas' : 'included';
+
+  // Recorrido
+  document.getElementById('d-rec-row').classList.toggle('oculta', nSeg === 0);
+  document.getElementById('d-nseg').textContent        = nSeg;
+  document.getElementById('d-recorrido-val').textContent = lang === 'es' ? 'incluido' : 'included';
+
+  // Calidad
+  document.getElementById('d-calidad-row').classList.toggle('oculta', ajusteQ < 0.5);
+  document.getElementById('d-calidad-val').textContent = lang === 'es' ? '+30%' : '+30%';
+
+  // Total
+  document.getElementById('d-total').textContent = '$' + fmtMonto(precioTotalMXN);
+
+  actualizarResumen();
+  actualizarEnviar();
+}
+
+// ── Animación de precio ──
+function animarPrecio(destinoMXN) {
+  if (animId) cancelAnimationFrame(animId);
+  const inicioMXN = precioAnterior;
+  const dur = 380;
+  const ts0 = performance.now();
+
+  function step(ts) {
+    const t = Math.min((ts - ts0) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const actual = inicioMXN + (destinoMXN - inicioMXN) * ease;
+    document.getElementById('precio-numero').textContent = fmtMonto(actual);
+    if (t < 1) { animId = requestAnimationFrame(step); }
+    else {
+      document.getElementById('precio-numero').textContent = fmtMonto(destinoMXN);
+      precioAnterior = destinoMXN;
+    }
+  }
+  animId = requestAnimationFrame(step);
+}
+
+// ── Resumen textual ──
+function actualizarResumen() {
+  const nRenders = parseInt(document.getElementById('val-renders').value) || 1;
+  const nM2      = cfg.m2 || 50;
+  const n360     = cfg.extra360 ? (parseInt(document.getElementById('val-vistas360').value) || 1) : 0;
+  const nSeg     = cfg.extraRec ? (parseInt(document.getElementById('val-segundos').value)  || 30) : 0;
+  const lang     = currentLang;
+
+  const mapaEsp = { interior: 'Interior', exterior: 'Exterior', mixto: 'Int. + Ext.' };
+
+  const partes = [];
+  partes.push('<strong>' + mapaEsp[cfg.espacio] + '</strong>');
+  partes.push(nM2 + ' m²');
+  partes.push(lang === 'es'
+    ? 'Renders (' + nRenders + ')'
+    : 'Renders (' + nRenders + ')');
+  partes.push(cfg.modelado === 'completo'
+    ? (lang === 'es' ? 'Modelado completo' : 'Full modeling')
+    : (lang === 'es' ? 'Modelo propio' : 'Own model'));
+  if (n360 > 0) partes.push('360° (' + n360 + ')');
+  if (nSeg > 0) partes.push((lang === 'es' ? 'Recorrido (' : 'Walkthrough (') + nSeg + 's)');
+  partes.push(cfg.calidad === 'alta'
+    ? (lang === 'es' ? 'Alta calidad' : 'High quality')
+    : (lang === 'es' ? 'Calidad estándar' : 'Standard'));
+
+  document.getElementById('resumen-texto').innerHTML = partes.join(' · ');
+}
+
+// ══════════════════════════════════════════════════════════
+//  BOTÓN ENVIAR — habilitar cuando hay nombre y contacto
+// ══════════════════════════════════════════════════════════
+function actualizarEnviar() {
+  const nombre   = document.getElementById('val-nombre').value.trim();
+  const contacto = document.getElementById('val-contacto').value.trim();
+  const listo    = nombre.length > 1 && contacto.length > 3;
+  document.getElementById('enviar-bloqueado').style.display   = listo ? 'none'  : 'flex';
+  document.getElementById('btn-enviar').style.display         = listo ? 'block' : 'none';
+}
+
+function enviarSolicitud() {
+  // ── URL de tu Google Apps Script ──────────────────────────
+  // Busca "APPS_SCRIPT_URL" para encontrarlo fácilmente.
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz98WIwMkJIP9DZCv2Y6TGP6-PRvMIMSZ2MOk9gO3-hiOG3f5fkSRYQ-ite-FHAsD1g/exec'; // ← APPS_SCRIPT_URL
+
+  const nRenders = parseInt(document.getElementById('val-renders').value) || 1;
+  const n360     = cfg.extra360 ? (parseInt(document.getElementById('val-vistas360').value) || 1) : 0;
+  const nSeg     = cfg.extraRec ? (parseInt(document.getElementById('val-segundos').value)  || 30) : 0;
+
+  const folio = 'RENDER-' + Date.now().toString(36).toUpperCase();
+
+  const payload = {
+    tipo:          'render',
+    folio,
+    nombre:        document.getElementById('val-nombre').value.trim(),
+    contacto:      document.getElementById('val-contacto').value.trim(),
+    descripcion:   document.getElementById('val-descripcion').value.trim(),
+    idioma:        currentLang,
+    moneda:        currentCurrency,
+    espacio:       cfg.espacio,
+    m2:            cfg.m2,
+    modelado:      cfg.modelado,
+    renders:       nRenders,
+    vistas360:     n360,
+    segundos:      nSeg,
+    calidad:       cfg.calidad,
+    fecha_entrega: document.getElementById('val-fecha').value,
+    total_estimado_mxn: precioTotalMXN,
+  };
+
+  // UI: mostrar spinner
+  document.getElementById('btn-enviar').style.display      = 'none';
+  document.getElementById('enviar-spinner').style.display  = 'flex';
+
+  const terminar = function() {
+    document.getElementById('main-wrapper').style.display   = 'none';
+    document.getElementById('pantalla-exito').style.display = 'block';
+    document.getElementById('folio-exito').textContent      = 'Folio ' + folio;
+  };
+
+  if (!APPS_SCRIPT_URL) {
+    // Sin URL configurada: igual mostrar éxito (útil en desarrollo)
+    setTimeout(terminar, 600);
+    return;
+  }
+
+  fetch(APPS_SCRIPT_URL, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body:    JSON.stringify(payload),
+  })
+    .then(terminar)
+    .catch(terminar); // mostrar éxito igualmente — el envío es fire-and-forget
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════
+const hoy = new Date().toISOString().split('T')[0];
+document.getElementById('val-fecha').min = hoy;
+cfg.m2 = 50;
+setLang('es');
+calcular();
+actualizarEnviar();
+</script>
+</body>
+</html>
